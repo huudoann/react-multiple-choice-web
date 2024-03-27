@@ -1,0 +1,40 @@
+#navbar-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #dc3545;
+    /* Màu nền của navbar */
+    z-index: 9999;
+    /* Đảm bảo navbar hiển thị trên các phần khác của trang */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    /* Đổ bóng cho navbar */
+    padding: 10px;
+    /* Khoảng cách nội dung từ mép navbar */
+}
+
+.navbar-nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.nav-item {
+    float: left;
+}
+
+.nav-link {
+    display: block;
+    color: white;
+    /* Màu chữ của các liên kết */
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Hover effect */
+.nav-link:hover {
+    background-color: #c82333;
+    /* Màu nền hover */
+    transition: background-color 0.3s ease;
+}

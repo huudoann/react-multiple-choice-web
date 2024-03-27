@@ -1,7 +1,16 @@
-.toggle-password-icon-custom {
+.toggle-password-icon1 {
     color: #586380;
     position: absolute;
-    top: 70%;
+    top: 33%;
+    right: 2rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.toggle-password-icon2 {
+    color: #586380;
+    position: absolute;
+    top: 85%;
     right: 2rem;
     transform: translateY(-50%);
     cursor: pointer;

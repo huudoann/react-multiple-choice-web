@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './LogIn.css';
+import './LogIn.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
@@ -7,20 +7,24 @@ import { useNavigate } from "react-router-dom";
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const LoginForm = ({ switchForm }) => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (!email.trim()) {
-      setError("Your username cannot be blank.");
+    if (!username.trim()) {
+      setError("Nhập tên đăng nhập để tiếp tục!");
+      return;
+    }
+    else if (!password.trim()) {
+      setError("Nhập mật khẩu để tiếp tục!");
       return;
     }
 
     const userData = {
-      email: email,
+      username: username,
       password: password,
     };
 
@@ -36,32 +40,32 @@ const LoginForm = ({ switchForm }) => {
       localStorage.setItem('token', token);
       localStorage.setItem('user_id', user_id);
       localStorage.setItem('user_name', username);
-      navigate('/lastest');
+      navigate('/home');
 
       return response.data;
     } catch (error) {
       console.error('Lỗi khi đăng nhập:', error.message);
-      setError("The login details you entered are incorrect. Try again...");
+      setError("Thông tin đăng nhập không chính xác! Hãy thử lại!");
     }
   };
 
-  const handleInputChange = (e) => {
-    setEmail(e.target.value);
+  const handleInputUsernameChange = (e) => {
+    setUsername(e.target.value);
   };
 
   const handleForgotPassword = () => {
-    console.log('Forgot Password:', email);
+    // console.log('Forgot Password:', email);
   };
 
   return (
     <div className="auth-form">
-      <div className='username-email-container'>
-        <label>Email:</label>
+      <div className='username-container'>
+        <label>Tên đăng nhập:</label>
         <input
           type="text"
-          value={email}
-          onChange={handleInputChange}
-          placeholder='Enter your email'
+          value={username}
+          onChange={handleInputUsernameChange}
+          placeholder='Nhập tên người dùng'
           required />
       </div>
 
@@ -76,7 +80,7 @@ const LoginForm = ({ switchForm }) => {
           type={showPassword ? 'text' : 'password'}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder='Enter your password'
+          placeholder='Nhập mật khẩu'
           required
         />
         <FontAwesomeIcon
@@ -97,7 +101,7 @@ const LoginForm = ({ switchForm }) => {
       </div>
 
       {/* Switch between Login and SignUp Form */}
-      <button className='switch-status-btn' type='button' onClick={() => navigate('/signup')}>
+      <button className='switch-status-btn' type='button' onClick={() => navigate('/')}>
         <span>Chưa có tài khoản? Đăng ký ngay!</span>
       </button>
 

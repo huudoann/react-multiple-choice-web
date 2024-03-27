@@ -34,7 +34,8 @@
 
     .form-box {
         width: 60%;
-        border: 1px solid #ccc;
+        height: 100%;
+        border: 2px solid red;
         background-color: #fff;
         border-radius: 1rem;
     }
@@ -43,7 +44,7 @@
         display: flex;
         align-items: flex-start;
         flex-direction: row;
-        margin-right: 2rem;
+        margin: 0 2rem;
         background-color: inherit;
         border-radius: 1rem;
     }
@@ -56,13 +57,14 @@
         cursor: pointer;
         font-size: 1.5rem;
         color: #586380;
-        border-radius: 1rem;
+        border-radius: .5rem;
 
     }
 
     .auth-tabs button.active {
         color: #000;
         font-weight: bold;
+        border-bottom: 5px solid red;
     }
 
     .auth-form {
