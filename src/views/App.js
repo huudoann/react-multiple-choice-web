@@ -8,6 +8,8 @@ import DashboardAdmin from '../pages/DashboardAdmin/DashboardAdmin';
 import UserManagement from '../pages/DashboardAdmin/UserManagement';
 import Statistics from '../pages/DashboardAdmin/Statistics';
 import CreateAndEditExams from '../pages/CreateAndEditExams/CreateAndEditExams';
+import ExamPage from '../pages/ExamPage/ExamPage';
+import ExamResult from '../pages/ExamResult/ExamResult';
 
 function App() {
   return (
@@ -20,7 +22,10 @@ function App() {
           <Route exact path='/dashboard_admin' element={<DashboardAdmin />} />
           <Route exact path='/user_management' element={<UserManagement />} />
           <Route exact path='/statistics' element={<Statistics />} />
-          <Route exact path='/exam'element={<CreateAndEditExams />} />
+          <Route exact path='/exam2'element={<CreateAndEditExams />} />
+          <Route exact path='/exam' element={<ExamPage />} />
+          <Route exact path='/result' element={<ExamResult />} />
+
         </Routes>
       </div>
     </Router>

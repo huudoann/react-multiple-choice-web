@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 const LoginForm = ({ switchForm }) => {
   const [username, setUsername] = useState('');

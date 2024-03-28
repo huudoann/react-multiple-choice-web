@@ -1,0 +1,116 @@
+.ExamResult {
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    .navigation {
+        position: relative;
+        height: 4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #dc3545;
+    }
+
+    .close-button {
+        position: absolute;
+        right: 0;
+        top: .25rem;
+        margin-right: .5rem;
+        padding: 8px 10px 6px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: inherit;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .close-button:hover {
+        background-color: lighten(#dc3545, 10%);
+    }
+
+    .tests-form {
+        width: 60%;
+        min-height: 70vh;
+        border: 1px solid #2e3856;
+        background-color: #fff;
+        border-radius: 10px;
+        display: flex;
+        cursor: pointer;
+        transition: transform 0.5s ease;
+        flex-direction: column;
+        margin: 0 auto;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 .5rem .75rem rgba(0, 0, 0, 0.1);
+        transition: transform 0.5s ease;
+    }
+
+    .defi-box {
+        height: 50%;
+
+        p {
+            font-size: 1.25rem;
+            color: #000;
+            margin: 1.5rem 0 0 1.5rem;
+        }
+    }
+
+    .term-box {
+        height: 60%;
+
+        p {
+            font-size: 1.25rem;
+            color: #000;
+            margin: 1.5rem 0 0 1.5rem;
+        }
+    }
+
+    .term-box .buttons-answer {
+        margin-top: .5rem;
+        display: flex;
+        flex-wrap: wrap;
+
+        .button-row {
+            flex-basis: 100%;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+
+            button {
+                flex-grow: 1;
+                width: 50%;
+            }
+        }
+    }
+
+    .tests-form .buttons-answer button {
+        margin: .5rem 2rem;
+        padding: 1rem .5rem;
+        font-size: 1.25rem;
+        border: 2px solid #5b6383;
+        border-radius: 10px;
+        background-color: #fff;
+        color: #000;
+        cursor: pointer;
+    }
+
+    .correct {
+        background-color: rgb(86, 193, 86) !important;
+    }
+
+    .incorrect {
+        background-color: #df1126 !important;
+    }
+
+    .results {
+        text-align: center;
+        margin-top: 20px;
+
+        p {
+            font-size: 1.25rem;
+            color: #000;
+        }
+    }
+}
