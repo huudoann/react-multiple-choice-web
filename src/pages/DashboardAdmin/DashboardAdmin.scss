@@ -1,0 +1,39 @@
+.dashboard_admin {
+    .inline-heading {
+        display: inline;
+        margin-right: 20px; /* Khoảng cách giữa các tiêu đề */
+    }
+    
+    .inline-link {
+        display: inline;
+        margin-right: 20px; /* Khoảng cách giữa các liên kết */
+    }
+    
+    .auth-tabs {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-around;
+        flex-direction: row;
+        margin: 0 2rem;
+        background-color: inherit;
+        border-radius: 1rem;
+    }
+
+    .auth-tabs button {
+        padding: 2rem 2rem;
+        margin-bottom: 1rem;
+        background-color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #586380;
+        border-radius: .5rem;
+
+    }
+
+    .auth-tabs button.active {
+        color: #000;
+        font-weight: bold;
+        border-bottom: 5px solid red;
+    }
+}

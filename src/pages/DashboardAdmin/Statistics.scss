@@ -1,0 +1,55 @@
+.Statistics {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.statistics-container {
+    width: 70%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.statistics-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.exam-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.exam-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.exam-statistics {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.participants {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.completion-rate {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.average-score {
+    color: #dc3545;
+    font-weight: bold;
+}

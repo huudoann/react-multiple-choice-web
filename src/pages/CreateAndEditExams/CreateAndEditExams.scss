@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* font-family: Arial, sans-serif; */
+    background-color: #f5f5f5;
+}
+
+h1 {
+    color: #dc3545;
+}
+
+form {
+    width: 400px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input,
+textarea,
+select {
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+input[type="text"] {
+    height: 40px;
+}
+
+textarea {
+    height: 40px;
+}
+
+select {
+    height: 40px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    background-color: #c82333;
+}
+
+
+tbody {
+    background-color: #f8f9fa;
+}
+
+tbody tr {
+    border-bottom: 1px solid #dee2e6;
+}
+
+tbody td {
+    padding: 10px;
+}
+
+tbody td[data-v^="Test cau hoi 1"],
+tbody td[data-v^="Test cau hoi 2"],
+tbody td[data-v^="Test cau hoi 3"] {
+    font-weight: bold;
+}
+
+tbody td[data-v="Test dap an A"],
+tbody td[data-v="Test dap an B"],
+tbody td[data-v="Test dap an C"],
+tbody td[data-v="Test dap an D"] {
+    margin-left: 20px;
+    border: #dc3545;
+}
+
+.answerDiv {
+    display: flex;
+    align-items: center;
+}
+
+.answerDiv input[type="radio"] {
+    width: 20px;
+    /* Đặt width cho checkbox */
+    margin-right: 10px;
+}
+
+.answerDiv input[type="text"] {
+    flex: 1;
+    /* Input đáp án sẽ lấp đầy không gian còn lại */
+}
+
+.content-container {
+    margin-top: 100px;
+}
