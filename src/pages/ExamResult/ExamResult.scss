@@ -1,10 +1,11 @@
-.Tests {
+.ExamResult {
     height: 100vh;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
 
     .navigation {
+        position: relative;
         height: 4rem;
         display: flex;
         justify-content: space-between;
@@ -13,6 +14,9 @@
     }
 
     .close-button {
+        position: absolute;
+        right: 0;
+        top: .25rem;
         margin-right: .5rem;
         padding: 8px 10px 6px 10px;
         border: 1px solid #ccc;
@@ -37,7 +41,8 @@
         transition: transform 0.5s ease;
         flex-direction: column;
         margin: 0 auto;
-        margin-top: 20px;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
         box-shadow: 0 .5rem .75rem rgba(0, 0, 0, 0.1);
         transition: transform 0.5s ease;
     }
@@ -68,11 +73,13 @@
         flex-wrap: wrap;
 
         .button-row {
+            flex-basis: 100%;
             display: flex;
             justify-content: space-around;
             margin-top: 10px;
 
             button {
+                flex-grow: 1;
                 width: 50%;
             }
         }
@@ -87,52 +94,23 @@
         background-color: #fff;
         color: #000;
         cursor: pointer;
-
-        &.clicked {
-            background-color: #87CEFA;
-        }
     }
 
-    .tests-form .buttons-answer button:hover {
-        border: 2px solid #4454fc;
+    .correct {
+        background-color: rgb(86, 193, 86) !important;
     }
 
-    .tests-form .buttons-answer div {
-        display: flex;
-        justify-content: center;
-        width: 100%;
+    .incorrect {
+        background-color: #df1126 !important;
     }
 
-    .submit-button {
-        background-color: #4255ff;
-        align-self: center;
-        margin-top: 20px;
-        font-size: 20px;
-        font-weight: bold;
-
-        &:hover {
-            background-color: #423ed8;
-        }
-    }
-
-    .confirm-submit-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .results {
         text-align: center;
+        margin-top: 20px;
 
-        .confirm-submit {
-            padding: 1rem 2rem;
-            border: 1px solid #dc3545;
-            border-radius: .75rem;
-            background-color: #fff;
+        p {
+            font-size: 1.25rem;
+            color: #000;
         }
     }
 }

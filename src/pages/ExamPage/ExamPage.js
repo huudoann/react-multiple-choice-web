@@ -3,46 +3,20 @@ import './ExamPage.scss';
 import { Close } from '@mui/icons-material';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import DropDownMenu from './ExamPageDropDown';
-// import getCardsDataFromSet from '../../utils/getCardsDataFromSet';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Tests = () => {
+const ExamPage = () => {
     const [flashcards, setFlashcards] = useState([]);
     const [answers, setAnswers] = useState([]);
-    const [mounted, setMounted] = useState(false);
-    const navigate = useNavigate();
-    const location = useLocation();
     const [selectedAnswers, setSelectedAnswers] = useState(Array(20).fill(null));
-    const [correctAnswersCount, setCorrectAnswersCount] = useState(0); // Biến đếm số lượng câu trả lời đúng
-    const [submitted, setSubmitted] = useState(false); // Kiểm tra xem người dùng đã nộp bài thi chưa
-    const [totalQuestions, setTotalQuestions] = useState(0); // Lưu tổng số câu hỏi
+    const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+    const [submitted, setSubmitted] = useState(false);
+    const [totalQuestions, setTotalQuestions] = useState(0);
     const [openDialog, setOpenDialog] = useState(false);
     const [confirmSubmit, setConfirmSubmit] = useState(false);
-
-    // useEffect(() => {
-    //     if (!mounted) {
-    //         setMounted(true);
-    //         return;
-    //     }
-
-    //     const fetchData = async () => {
-    //         try {
-    //             const set_id = new URLSearchParams(location.search).get('set_id');
-    //             const flashcardsData = await getCardsDataFromSet(set_id);
-    //             const data = flashcardsData.content;
-    //             if (data && data.length > 0) {
-    //                 const shuffledFlashcards = shuffleArray(data).slice(0, 20);
-    //                 setFlashcards(shuffledFlashcards);
-    //                 console.log("Lấy dữ liệu thành công", data);
-    //             }
-    //         } catch (error) {
-    //             console.error('Lỗi lấy cards:', error);
-    //         }
-    //     };
-
-    //     fetchData();
-
-    // }, [location.search, mounted]);
+    const [showResult, setShowResult] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         // Dữ liệu flashcards giả định
@@ -75,7 +49,7 @@ const Tests = () => {
     };
 
     const handleCloseButtonClick = () => {
-        navigate(`/flashcard${location.search}`);
+        navigate(`/home`);
     };
 
     const generateAnswers = (flashcard, index) => {
@@ -90,7 +64,6 @@ const Tests = () => {
             return updatedAnswers;
         });
 
-        // console.log('Câu trả lời đúng:', correctAnswer);
         setCorrectAnswersCount(prevCount => prevCount + 1);
     };
 
@@ -118,6 +91,16 @@ const Tests = () => {
         });
         setCorrectAnswersCount(correctCount);
         setOpenDialog(true);
+        setShowResult(true);
+        navigate('/result', {
+            state: {
+                flashcards,
+                answers,
+                selectedAnswers,
+                correctAnswersCount,
+                totalQuestions
+            }
+        });
     };
 
     const handleConfirmSubmit = () => {
@@ -127,6 +110,16 @@ const Tests = () => {
     const handleDialogClose = () => {
         setConfirmSubmit(false);
         setOpenDialog(false);
+        setShowResult(true);
+        navigate('/result', {
+            state: {
+                flashcards,
+                answers,
+                selectedAnswers,
+                correctAnswersCount,
+                totalQuestions
+            }
+        });
     };
 
     const handleCancelSubmit = () => {
@@ -138,7 +131,7 @@ const Tests = () => {
     };
 
     return (
-        <div className="Tests">
+        <div className="ExamPage">
             <div className="navigation">
                 <DropDownMenu />
                 <button className="close-button" onClick={handleCloseButtonClick}><Close /></button>
@@ -195,24 +188,14 @@ const Tests = () => {
                 </DialogActions>
             </Dialog>
 
-            {!submitted && !confirmSubmit && (
-                <Button variant="contained" onClick={handleConfirmSubmit} className="submit-button">
+            {/* Button "Gửi bài kiểm tra" */}
+            {!submitted && !confirmSubmit && !showResult && (
+                <Button variant="contained" onClick={handleSubmitButtonClick} className="submit-button">
                     Gửi bài kiểm tra
                 </Button>
             )}
 
-            {/* {confirmSubmit && (
-                <div className="confirm-submit">
-                    <p>Bạn có chắc chắn muốn nộp bài không?</p>
-                    <Button onClick={handleSubmitButtonClick} color="primary">
-                        Đồng ý
-                    </Button>
-                    <Button onClick={handleCancelSubmit} color="primary">
-                        Hủy
-                    </Button>
-                </div>
-            )} */}
-
+            {/* Xác nhận nộp bài */}
             {confirmSubmit && (
                 <div className="confirm-submit-overlay">
                     <div className="confirm-submit">
@@ -230,4 +213,4 @@ const Tests = () => {
     );
 };
 
-export default Tests;
+export default ExamPage;
