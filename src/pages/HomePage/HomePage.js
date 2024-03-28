@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import './HomePage.scss';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../../components/NavBar/NavBar';
+import { Search } from '@mui/icons-material';
 
 const examSubjects = {
     "Luyện tập": [
@@ -106,8 +107,8 @@ const MainPage = () => {
 
     const showAllExams = () => {
         const examInfoDiv = document.getElementById('examInfoList');
-        examInfoDiv.innerHTML = ''; // Xóa nội dung cũ
-        let count = 1; // Counter for numbering subjects
+        examInfoDiv.innerHTML = '';
+        let count = 1;
 
         Object.keys(examSubjects).forEach((examType) => {
             const examSubjectsList = examSubjects[examType];
@@ -163,6 +164,7 @@ const MainPage = () => {
     return (
         <div className="home-container">
             <header>
+                <NavBar />
                 <h1>Hệ Thống Thi Trắc Nghiệm Trực Tuyến</h1>
             </header>
             <div id="examList">
@@ -170,7 +172,10 @@ const MainPage = () => {
                 <button className="exam-item" onClick={() => showExams('Luyện tập')}>Luyện tập</button>
                 <button className="exam-item" onClick={() => showExams('Giữa kỳ')}>Giữa kỳ</button>
                 <button className="exam-item" onClick={() => showExams('Cuối kỳ')}>Cuối kỳ</button>
-                <input type="text" id="searchInput" onKeyUp={() => searchExam()} placeholder="Tìm kiếm theo tên kỳ thi..." />
+                <div style={{ position: 'relative', width: '71%' }}>
+                    <input type="text" id="searchInput" onKeyUp={() => searchExam()} placeholder="Tìm kiếm theo tên kỳ thi..." style={{ width: '100%', paddingLeft: '2rem' }} />
+                    <Search style={{ position: 'absolute', top: '50%', left: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
+                </div>
             </div>
 
             <div id="examInfoList"></div>

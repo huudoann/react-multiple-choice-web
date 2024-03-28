@@ -1,0 +1,138 @@
+.Tests {
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    .navigation {
+        height: 4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #dc3545;
+    }
+
+    .close-button {
+        margin-right: .5rem;
+        padding: 8px 10px 6px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: inherit;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .close-button:hover {
+        background-color: lighten(#dc3545, 10%);
+    }
+
+    .tests-form {
+        width: 60%;
+        min-height: 70vh;
+        border: 1px solid #2e3856;
+        background-color: #fff;
+        border-radius: 10px;
+        display: flex;
+        cursor: pointer;
+        transition: transform 0.5s ease;
+        flex-direction: column;
+        margin: 0 auto;
+        margin-top: 20px;
+        box-shadow: 0 .5rem .75rem rgba(0, 0, 0, 0.1);
+        transition: transform 0.5s ease;
+    }
+
+    .defi-box {
+        height: 50%;
+
+        p {
+            font-size: 1.25rem;
+            color: #000;
+            margin: 1.5rem 0 0 1.5rem;
+        }
+    }
+
+    .term-box {
+        height: 60%;
+
+        p {
+            font-size: 1.25rem;
+            color: #000;
+            margin: 1.5rem 0 0 1.5rem;
+        }
+    }
+
+    .term-box .buttons-answer {
+        margin-top: .5rem;
+        display: flex;
+        flex-wrap: wrap;
+
+        .button-row {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+
+            button {
+                width: 50%;
+            }
+        }
+    }
+
+    .tests-form .buttons-answer button {
+        margin: .5rem 2rem;
+        padding: 1rem .5rem;
+        font-size: 1.25rem;
+        border: 2px solid #5b6383;
+        border-radius: 10px;
+        background-color: #fff;
+        color: #000;
+        cursor: pointer;
+
+        &.clicked {
+            background-color: #87CEFA;
+        }
+    }
+
+    .tests-form .buttons-answer button:hover {
+        border: 2px solid #4454fc;
+    }
+
+    .tests-form .buttons-answer div {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .submit-button {
+        background-color: #4255ff;
+        align-self: center;
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+
+        &:hover {
+            background-color: #423ed8;
+        }
+    }
+
+    .confirm-submit-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        .confirm-submit {
+            padding: 1rem 2rem;
+            border: 1px solid #dc3545;
+            border-radius: .75rem;
+            background-color: #fff;
+        }
+    }
+}

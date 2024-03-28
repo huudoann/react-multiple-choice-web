@@ -4,6 +4,7 @@ import './App.scss';
 import SignUpForm from '../pages/AuthForm/SignUpForm';
 import LoginForm from '../pages/AuthForm/LoginForm';
 import HomePage from '../pages/HomePage/HomePage';
+import ExamPage from '../pages/ExamPage/ExamPage';
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
           <Route exact path='/' element={<SignUpForm />} />
           <Route exact path='/login' element={<LoginForm />} />
           <Route exact path='/home' element={<HomePage />} />
+          <Route exact path='/exam' element={<ExamPage />} />
+
         </Routes>
       </div>
     </Router>
