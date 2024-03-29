@@ -4,9 +4,10 @@ import { Close } from '@mui/icons-material';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import DropDownMenu from './ExamPageDropDown';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const ExamPage = () => {
-    const [flashcards, setFlashcards] = useState([]);
+    const [questions, setQuestions] = useState([]);
     const [answers, setAnswers] = useState([]);
     const [selectedAnswers, setSelectedAnswers] = useState(Array(20).fill(null));
     const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
@@ -17,27 +18,54 @@ const ExamPage = () => {
     const [showResult, setShowResult] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const answerOptions = ['A.', 'B.', 'C.', 'D.'];
+
+
+    // useEffect(() => {
+    //     // Dữ liệu questions giả định
+    //     const mockFlashcards = [
+    //         { front_text: "Front tezzxt 1 132 1231 13 123 1323 1233 4456", back_text: "Back text 1`````````````````````````````````````````````````" },
+    //         { front_text: "Front text 2", back_text: "Back text 2" },
+    //         { front_text: "Front text 3", back_text: "Back text 3" },
+    //         { front_text: "Front text 4", back_text: "Back text 4" },
+    //         // Thêm dữ liệu questions khác nếu cần
+    //     ];
+
+    //     setQuestions(mockFlashcards);
+    // }, []);
 
     useEffect(() => {
-        // Dữ liệu flashcards giả định
-        const mockFlashcards = [
-            { front_text: "Front tezzxt 1 132 1231 13 123 1323 1233 4456", back_text: "Back text 1`````````````````````````````````````````````````" },
-            { front_text: "Front text 2", back_text: "Back text 2" },
-            { front_text: "Front text 3", back_text: "Back text 3" },
-            { front_text: "Front text 4", back_text: "Back text 4" },
-            // Thêm dữ liệu flashcards khác nếu cần
-        ];
+        const fetchData = async () => {
+            const token = localStorage.getItem("token");
+            const examId = localStorage.getItem("examId");
 
-        setFlashcards(mockFlashcards);
+            try {
+                // Thực hiện gọi API để lấy dữ liệu đáp án từ backend
+                const response = await axios.get(`http://localhost:8080/api/question/get-all-questions/${examId}`);
+
+                // Lấy dữ liệu đáp án từ response
+                const apiData = response.data;
+
+                // Cập nhật dữ liệu đáp án vào state
+                setQuestions(apiData);
+
+                // Hiển thị kết quả
+                console.log('Dữ liệu đáp án:', apiData);
+            } catch (error) {
+                console.error('Lỗi khi lấy dữ liệu câu hỏi:', error.message);
+            }
+        };
+
+        fetchData();
     }, []);
 
     useEffect(() => {
-        if (flashcards.length > 0) {
-            flashcards.forEach((flashcard, index) => {
-                generateAnswers(flashcard, index);
+        if (questions.length > 0) {
+            questions.forEach((question, index) => {
+                generateAnswers(question, index);
             });
         }
-    }, [flashcards]);
+    }, [questions]);
 
     const shuffleArray = (array) => {
         const newArray = [...array];
@@ -52,10 +80,10 @@ const ExamPage = () => {
         navigate(`/home`);
     };
 
-    const generateAnswers = (flashcard, index) => {
+    const generateAnswers = (question, index) => {
         const correctAnswerIndex = Math.floor(Math.random() * 4);
-        const correctAnswer = flashcard.front_text;
-        const randomAnswers = flashcards.map(flashcard => flashcard.front_text).filter(text => text !== correctAnswer);
+        const correctAnswer = question.front_text;
+        const randomAnswers = questions.map(question => question.front_text).filter(text => text !== correctAnswer);
         const shuffledAnswers = shuffleArray(randomAnswers).slice(0, 3);
         shuffledAnswers.splice(correctAnswerIndex, 0, correctAnswer);
         setAnswers(prevAnswers => {
@@ -73,19 +101,19 @@ const ExamPage = () => {
         setSelectedAnswers(newSelectedAnswers);
 
         const selectedAnswer = answers[index * 4 + answerIndex];
-        if (selectedAnswer === flashcards[index].front_text) {
+        if (selectedAnswer === questions[index].front_text) {
             setCorrectAnswersCount(prevCount => prevCount + 1);
         }
     };
 
     const handleSubmitButtonClick = () => {
         setSubmitted(true);
-        const totalQuestionsCount = flashcards.length;
+        const totalQuestionsCount = questions.length;
         setTotalQuestions(totalQuestionsCount);
 
         let correctCount = 0;
         selectedAnswers.forEach((selectedAnswerIndex, index) => {
-            if (selectedAnswerIndex !== null && answers[index * 4 + selectedAnswerIndex] === flashcards[index].front_text) {
+            if (selectedAnswerIndex !== null && answers[index * 4 + selectedAnswerIndex] === questions[index].front_text) {
                 correctCount++;
             }
         });
@@ -94,7 +122,7 @@ const ExamPage = () => {
         setShowResult(true);
         navigate('/result', {
             state: {
-                flashcards,
+                questions,
                 answers,
                 selectedAnswers,
                 correctAnswersCount,
@@ -113,7 +141,7 @@ const ExamPage = () => {
         setShowResult(true);
         navigate('/result', {
             state: {
-                flashcards,
+                questions,
                 answers,
                 selectedAnswers,
                 correctAnswersCount,
@@ -133,38 +161,26 @@ const ExamPage = () => {
     return (
         <div className="ExamPage">
             <div className="navigation">
-                <DropDownMenu />
                 <button className="close-button" onClick={handleCloseButtonClick}><Close /></button>
             </div>
-
-            {flashcards.map((flashcard, index) => (
+            {/* Phần hiển thị questions */}
+            {questions.map((question, index) => (
                 <div className="tests-form" key={index}>
                     <div className='defi-box'>
                         <p>Câu {index + 1}:</p>
-                        <p className="back-text">{flashcard.back_text}</p>
+                        <p className="back-text">{question.questionText}</p>
                     </div>
                     <div className='term-box'>
                         <p className='select-term'>Chọn đáp án đúng</p>
                         <div className="buttons-answer">
                             <div className="button-row">
-                                {answers.slice(index * 4, index * 4 + 2).map((answer, answerIndex) => (
+                                {answerOptions.map((option, optionIndex) => (
                                     <button
-                                        key={answerIndex}
-                                        className={selectedAnswers[index] === answerIndex ? 'clicked' : ''}
-                                        onClick={() => handleAnswerSelection(index, answerIndex)}
+                                        key={optionIndex}
+                                        className={selectedAnswers[index] === optionIndex ? 'clicked' : ''}
+                                        onClick={() => handleAnswerSelection(index, optionIndex)}
                                     >
-                                        {answer}
-                                    </button>
-                                ))}
-                            </div>
-                            <div className="button-row">
-                                {answers.slice(index * 4 + 2, index * 4 + 4).map((answer, answerIndex) => (
-                                    <button
-                                        key={answerIndex + 2}
-                                        className={selectedAnswers[index] === answerIndex + 2 ? 'clicked' : ''}
-                                        onClick={() => handleAnswerSelection(index, answerIndex + 2)}
-                                    >
-                                        {answer}
+                                        {option} {question[`question${optionIndex + 1}`]}
                                     </button>
                                 ))}
                             </div>

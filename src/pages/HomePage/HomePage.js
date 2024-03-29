@@ -3,23 +3,11 @@ import './HomePage.scss';
 import NavBar from '../../components/NavBar/NavBar';
 import { Search } from '@mui/icons-material';
 import axios from 'axios';
-
-const examSubjects = {
-    "Luyện tập": [
-        { name: "Tin học cơ sở", status: "free" },
-        { name: "Lập trình Web", status: "free" }
-    ],
-    "Giữa kỳ": [
-        { name: "Lý thuyết thông tin", status: "20/4/2024" },
-        { name: "Trắc nghiệm Toán rời rạc", status: "25/4/2024" },
-    ],
-    "Cuối kỳ": [
-        { name: "Đại số", status: "30/4/2024" }
-    ]
-};
+import { useNavigate } from 'react-router-dom';
 
 const MainPage = () => {
     const [sets, setSets] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,8 +24,26 @@ const MainPage = () => {
                             'Authorization': `Bearer ${token}`
                         }
                     });
-                    setSets(response.data);
-                    console.log('Lấy dữ liệu bài ktra thành công');
+
+                    // Dữ liệu từ API
+                    const apiData = response.data;
+
+                    // Cập nhật dữ liệu vào examSubjects
+                    const updatedExamSubjects = {};
+                    Object.keys(apiData).forEach(examType => {
+                        updatedExamSubjects[examType] = apiData[examType].map(exam => ({
+                            name: exam.examName,
+                            status: {
+                                beginDate: exam.beginDate,
+                                endDate: exam.endDate
+                            }
+                        }));
+                    });
+
+                    setSets(updatedExamSubjects);
+                    console.log('Lấy dữ liệu bài kiểm tra thành công', response.data);
+
+                    displayAllSubjects();
                 } catch (error) {
                     console.error('Lỗi khi lấy danh sách các bài kiểm tra:', error.message);
                 }
@@ -47,12 +53,9 @@ const MainPage = () => {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        displayAllSubjects();
-    }, []);
-
-    const startExam = (examName) => {
-        window.location.href = "exam";
+    const startExam = (examName, examId) => {
+        localStorage.setItem('examId', examId);
+        navigate(`/exam`);
     };
 
     const displayAllSubjects = () => {
@@ -60,10 +63,10 @@ const MainPage = () => {
         examInfoDiv.innerHTML = '';
         let count = 1;
 
-        Object.keys(examSubjects).forEach((examType) => {
-            const examSubjectsList = examSubjects[examType];
+        Object.keys(sets).forEach(examType => {
+            const examSubjectsList = sets[examType];
             if (examSubjectsList) {
-                examSubjectsList.forEach((exam) => {
+                examSubjectsList.forEach(exam => {
                     const subjectDiv = document.createElement('div');
                     subjectDiv.classList.add('exam-info');
 
@@ -81,9 +84,9 @@ const MainPage = () => {
                     subjectDiv.appendChild(modeSpan);
 
                     const statusSpan = document.createElement('span');
-                    statusSpan.textContent = exam.status === 'free' ? 'Tự do' : exam.status;
+                    statusSpan.textContent = exam.status.beginDate === 'free' ? 'Tự do' : exam.status.beginDate;
                     statusSpan.classList.add('exam-status');
-                    if (exam.status === 'free') {
+                    if (exam.status.beginDate === 'free') {
                         statusSpan.classList.add('exam-status-free');
                     } else {
                         statusSpan.classList.add('exam-status-timed');
@@ -102,7 +105,7 @@ const MainPage = () => {
         examInfoDiv.innerHTML = '';
         let count = 1;
 
-        const examSubjectsList = examSubjects[examType];
+        const examSubjectsList = sets[examType];
         if (examSubjectsList) {
             examSubjectsList.forEach((exam) => {
                 const subjectDiv = document.createElement('div');
@@ -119,9 +122,9 @@ const MainPage = () => {
                 subjectDiv.appendChild(modeSpan);
 
                 const statusSpan = document.createElement('span');
-                statusSpan.textContent = exam.status === 'free' ? 'Tự do' : exam.status;
+                statusSpan.textContent = exam.status.beginDate === 'free' ? 'Tự do' : exam.status.beginDate;
                 statusSpan.classList.add('exam-status');
-                if (exam.status === 'free') {
+                if (exam.status.beginDate === 'free') {
                     statusSpan.classList.add('exam-status-free');
                 } else {
                     statusSpan.classList.add('exam-status-timed');
@@ -139,8 +142,8 @@ const MainPage = () => {
         examInfoDiv.innerHTML = '';
         let count = 1;
 
-        Object.keys(examSubjects).forEach((examType) => {
-            const examSubjectsList = examSubjects[examType];
+        Object.keys(sets).forEach((examType) => {
+            const examSubjectsList = sets[examType];
             if (examSubjectsList) {
                 examSubjectsList.forEach((exam) => {
                     const subjectDiv = document.createElement('div');
@@ -157,9 +160,9 @@ const MainPage = () => {
                     subjectDiv.appendChild(modeSpan);
 
                     const statusSpan = document.createElement('span');
-                    statusSpan.textContent = exam.status === 'free' ? 'Tự do' : exam.status;
+                    statusSpan.textContent = exam.status.beginDate === 'free' ? 'Tự do' : exam.status.beginDate;
                     statusSpan.classList.add('exam-status');
-                    if (exam.status === 'free') {
+                    if (exam.status.beginDate === 'free') {
                         statusSpan.classList.add('exam-status-free');
                     } else {
                         statusSpan.classList.add('exam-status-timed');
