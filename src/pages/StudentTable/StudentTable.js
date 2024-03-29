@@ -6,7 +6,7 @@ function StudentTable() {
 
   useEffect(() => {
     // Gửi request đến backend để lấy dữ liệu sinh viên
-    fetch("https://jsonplaceholder.typicode.com/users")
+    fetch("http://localhost:3001/students")
       .then((response) => response.json())
       .then((data) => setStudents(data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -15,7 +15,7 @@ function StudentTable() {
   return (
     <>
       <h1>Student Table</h1>
-      <table>
+      <table className="table-container">
         <thead>
           <tr>
             <th>STT</th>
@@ -39,6 +39,6 @@ function StudentTable() {
       </table>
     </>
   );
-}
+} 
 
 export default StudentTable;

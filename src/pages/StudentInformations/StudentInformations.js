@@ -2,31 +2,37 @@ import React, { useState } from "react";
 import "./StudentInformations.scss";
 
 function SearchSection() {
-  const [studentData, setStudentData] = useState(null);
-  const [studentId, setStudentId] = useState("");
+  const [students, setStudents] = useState([]);
+  const [searchStudentId, setSearchStudentId] = useState("");
+  const [foundStudent, setFoundStudent] = useState(null);
+  const [inputStudentId, setInputStudentId] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
       // Gọi API để lấy dữ liệu sinh viên dựa trên mã sinh viên
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/users`
-      );
+      const response = await fetch(`http://localhost:3001/students`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch student data");
       }
 
       const data = await response.json();
-      setStudentData(data);
+      setStudents(data);
     } catch (error) {
       console.error("Error fetching student data:", error);
     }
   };
 
   const handleChange = (event) => {
-    setStudentId(event.target.value);
+    setInputStudentId(event.target.value);
+  };
+
+  const searchStudent = () => {
+    const found = students.find((student) => student.id === searchStudentId);
+    setFoundStudent(found);
+    console.log(found);
   };
 
   return (
@@ -40,47 +46,56 @@ function SearchSection() {
             id="student-id"
             name="student-id"
             required
-            value={studentId}
+            value={inputStudentId}
             onChange={handleChange}
           />
-          <button className="search-btn" type="submit">
-            Tra cứu
+          <button
+            onClick={() => {
+              setSearchStudentId(inputStudentId);
+              searchStudent();
+            }}
+          >
+            Tìm kiếm
           </button>
         </form>
         <div id="result">
-          {studentData && (
+          {foundStudent && (
             <div>
-              <h2>Thông tin sinh viên</h2>
-              <p>Mã sinh viên: {studentData.id}</p>
-              <p>Tên sinh viên: {studentData.name}</p>
+              <div className="student-info">
+                <h2>Thông tin sinh viên</h2>
+                <p>Mã sinh viên: {foundStudent.id}</p>
+                <p>Tên sinh viên: {foundStudent.name}</p>
+              </div>
               <table>
                 <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Môn học</th>
-                        <th>Điểm</th>
-                    </tr>
+                  <tr>
+                    <th>STT</th>
+                    <th>Môn học</th>
+                    <th>Thời gian tham gia</th>
+                    <th>Điểm</th>
+                    <th></th>
+                  </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Toán</td>
-                        <td>9.5</td>
+                  {foundStudent.subject.map((item, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.name}</td>
+                      <td>{item.time}</td>
+                      <td>{item.score}</td>
+                      <td>
+                        <button>Xem chi tiết</button>
+                      </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Lý</td>
-                        <td>8.5</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Hóa</td>
-                        <td>7.5</td>
-                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
           )}
+          {foundStudent === undefined && searchStudentId !== "" && (
+            <p className="notFound">Không tìm thấy sinh viên!!!</p>
+          )}
+          
         </div>
       </div>
     </>

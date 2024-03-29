@@ -1,6 +1,18 @@
 /* StudentTable.css */
 
 body {
-    font-family: Arial, sans-serif;
-  }
-  
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: black;
+  margin: 30px;
+}
+
+table {
+  width: 70%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 60px auto; // Center the table horizontally  
+}
