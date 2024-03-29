@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './HomePage.scss';
 import NavBar from '../../components/NavBar/NavBar';
 import { Search } from '@mui/icons-material';
+import axios from 'axios';
 
 const examSubjects = {
     "Luyện tập": [
@@ -18,12 +19,40 @@ const examSubjects = {
 };
 
 const MainPage = () => {
+    const [sets, setSets] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            let token = localStorage.getItem('token');
+
+            // Kiểm tra xem token có tồn tại không
+            if (!token) {
+                throw new Error('Token không tồn tại trong localStorage');
+            } else {
+                try {
+                    // Thực hiện gọi API ở đây
+                    const response = await axios.get(`http://localhost:8080/api/exam/get-all-exams`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    setSets(response.data);
+                    console.log('Lấy dữ liệu bài ktra thành công');
+                } catch (error) {
+                    console.error('Lỗi khi lấy danh sách các bài kiểm tra:', error.message);
+                }
+            }
+        };
+
+        fetchData();
+    }, []);
+
     useEffect(() => {
         displayAllSubjects();
     }, []);
 
     const startExam = (examName) => {
-        window.location.href = "baiThi.html";
+        window.location.href = "exam";
     };
 
     const displayAllSubjects = () => {

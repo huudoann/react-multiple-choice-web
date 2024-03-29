@@ -49,11 +49,6 @@ const SignUpForm = ({ switchForm }) => {
             return;
         }
 
-        const termsChecked = document.getElementById('squaredcheck').checked;
-        if (!termsChecked) {
-            setError("Vui lòng đồng ý với các điều khoản và dịch vụ!");
-            return;
-        }
 
         const userData = {
             username: username,
@@ -146,13 +141,6 @@ const SignUpForm = ({ switchForm }) => {
                     />
                 </div>
 
-            </div>
-
-            <div className='squaredcheck'>
-                <label htmlFor="squaredcheck">
-                    <input type="checkbox" value="None" id="squaredcheck" className="checkbox" name="check" />
-                    <span>Tôi đồng ý với các điều khoản sử dụng.</span>
-                </label>
             </div>
 
             <div className='error-box'>

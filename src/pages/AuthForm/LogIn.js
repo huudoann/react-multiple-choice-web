@@ -34,11 +34,11 @@ const LoginForm = ({ switchForm }) => {
       const response = await axios.post(apiUrl, userData);
       console.log('Đăng nhập thành công:', response.data);
       const token = response.data.token;
-      const user_id = response.data.user_id;
+      const userId = response.data.userId;
       const username = response.data.username;
       console.log(token);
       localStorage.setItem('token', token);
-      localStorage.setItem('user_id', user_id);
+      localStorage.setItem('userId', userId);
       localStorage.setItem('user_name', username);
       navigate('/home');
 
