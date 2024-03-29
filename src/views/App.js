@@ -10,6 +10,8 @@ import Statistics from '../pages/DashboardAdmin/Statistics';
 import CreateAndEditExams from '../pages/CreateAndEditExams/CreateAndEditExams';
 import ExamPage from '../pages/ExamPage/ExamPage';
 import ExamResult from '../pages/ExamResult/ExamResult';
+import StudentInfomations from '../pages/StudentInformations/StudentInformations';
+import StudentTable from '../pages/StudentTable/StudentTable';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           <Route exact path='/exam2'element={<CreateAndEditExams />} />
           <Route exact path='/exam' element={<ExamPage />} />
           <Route exact path='/result' element={<ExamResult />} />
+          <Route exact path='/student_infomations' element={<StudentInfomations />} />
+          <Route exact path='/student_table' element={<StudentTable />} />
 
         </Routes>
       </div>
