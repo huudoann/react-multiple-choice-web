@@ -43,7 +43,7 @@
     }
 
     .defi-box {
-        height: 50%;
+        height: 30%;
 
         p {
             font-size: 1.25rem;
@@ -53,7 +53,7 @@
     }
 
     .term-box {
-        height: 60%;
+        height: 70%;
 
         p {
             font-size: 1.25rem;
@@ -69,17 +69,21 @@
 
         .button-row {
             display: flex;
+            flex-direction: column;
+            flex-grow: 1;
             justify-content: space-around;
             margin-top: 10px;
 
             button {
-                width: 50%;
+                width: 95%;
+                text-align: left;
+                padding: 1rem;
             }
         }
     }
 
     .tests-form .buttons-answer button {
-        margin: .5rem 2rem;
+        margin: .5rem 1rem;
         padding: 1rem .5rem;
         font-size: 1.25rem;
         border: 2px solid #5b6383;

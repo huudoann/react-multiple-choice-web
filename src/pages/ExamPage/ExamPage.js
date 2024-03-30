@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './ExamPage.scss';
 import { Close } from '@mui/icons-material';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import DropDownMenu from './ExamPageDropDown';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -14,25 +13,10 @@ const ExamPage = () => {
     const [submitted, setSubmitted] = useState(false);
     const [totalQuestions, setTotalQuestions] = useState(0);
     const [openDialog, setOpenDialog] = useState(false);
-    const [confirmSubmit, setConfirmSubmit] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const answerOptions = ['A.', 'B.', 'C.', 'D.'];
-
-
-    // useEffect(() => {
-    //     // Dữ liệu questions giả định
-    //     const mockFlashcards = [
-    //         { front_text: "Front tezzxt 1 132 1231 13 123 1323 1233 4456", back_text: "Back text 1`````````````````````````````````````````````````" },
-    //         { front_text: "Front text 2", back_text: "Back text 2" },
-    //         { front_text: "Front text 3", back_text: "Back text 3" },
-    //         { front_text: "Front text 4", back_text: "Back text 4" },
-    //         // Thêm dữ liệu questions khác nếu cần
-    //     ];
-
-    //     setQuestions(mockFlashcards);
-    // }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,17 +24,9 @@ const ExamPage = () => {
             const examId = localStorage.getItem("examId");
 
             try {
-                // Thực hiện gọi API để lấy dữ liệu đáp án từ backend
                 const response = await axios.get(`http://localhost:8080/api/question/get-all-questions/${examId}`);
-
-                // Lấy dữ liệu đáp án từ response
                 const apiData = response.data;
-
-                // Cập nhật dữ liệu đáp án vào state
                 setQuestions(apiData);
-
-                // Hiển thị kết quả
-                console.log('Dữ liệu đáp án:', apiData);
             } catch (error) {
                 console.error('Lỗi khi lấy dữ liệu câu hỏi:', error.message);
             }
@@ -99,7 +75,6 @@ const ExamPage = () => {
         const newSelectedAnswers = [...selectedAnswers];
         newSelectedAnswers[index] = answerIndex;
         setSelectedAnswers(newSelectedAnswers);
-
         const selectedAnswer = answers[index * 4 + answerIndex];
         if (selectedAnswer === questions[index].front_text) {
             setCorrectAnswersCount(prevCount => prevCount + 1);
@@ -107,6 +82,11 @@ const ExamPage = () => {
     };
 
     const handleSubmitButtonClick = () => {
+        setOpenDialog(true);
+    };
+
+    const handleConfirmSubmit = () => {
+        setOpenDialog(false);
         setSubmitted(true);
         const totalQuestionsCount = questions.length;
         setTotalQuestions(totalQuestionsCount);
@@ -118,7 +98,6 @@ const ExamPage = () => {
             }
         });
         setCorrectAnswersCount(correctCount);
-        setOpenDialog(true);
         setShowResult(true);
         navigate('/result', {
             state: {
@@ -129,33 +108,10 @@ const ExamPage = () => {
                 totalQuestions
             }
         });
-    };
-
-    const handleConfirmSubmit = () => {
-        setConfirmSubmit(true);
     };
 
     const handleDialogClose = () => {
-        setConfirmSubmit(false);
         setOpenDialog(false);
-        setShowResult(true);
-        navigate('/result', {
-            state: {
-                questions,
-                answers,
-                selectedAnswers,
-                correctAnswersCount,
-                totalQuestions
-            }
-        });
-    };
-
-    const handleCancelSubmit = () => {
-        setConfirmSubmit(false);
-    };
-
-    const contentStyle = {
-        display: submitted ? 'none' : 'block'
     };
 
     return (
@@ -163,7 +119,7 @@ const ExamPage = () => {
             <div className="navigation">
                 <button className="close-button" onClick={handleCloseButtonClick}><Close /></button>
             </div>
-            {/* Phần hiển thị questions */}
+            {/* Phần hiển thị đáp án */}
             {questions.map((question, index) => (
                 <div className="tests-form" key={index}>
                     <div className='defi-box'>
@@ -180,7 +136,7 @@ const ExamPage = () => {
                                         className={selectedAnswers[index] === optionIndex ? 'clicked' : ''}
                                         onClick={() => handleAnswerSelection(index, optionIndex)}
                                     >
-                                        {option} {question[`question${optionIndex + 1}`]}
+                                        {option} {question[`answerOption${String.fromCharCode(65 + optionIndex)}`]}
                                     </button>
                                 ))}
                             </div>
@@ -191,39 +147,25 @@ const ExamPage = () => {
 
             {/* Dialog */}
             <Dialog open={openDialog} onClose={handleDialogClose}>
-                <DialogTitle>Kết quả bài kiểm tra</DialogTitle>
+                <DialogTitle>Xác nhận nộp bài</DialogTitle>
                 <DialogContent>
-                    <div className="results">
-                        <p>Số câu trả lời đúng: {correctAnswersCount} / {totalQuestions}</p>
-                    </div>
+                    <p>Bạn có chắc chắn muốn nộp bài không?</p>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleDialogClose} color="primary">
-                        Đóng
+                        Hủy
+                    </Button>
+                    <Button onClick={handleConfirmSubmit} color="primary" autoFocus>
+                        Đồng ý
                     </Button>
                 </DialogActions>
             </Dialog>
 
             {/* Button "Gửi bài kiểm tra" */}
-            {!submitted && !confirmSubmit && !showResult && (
+            {!submitted && (
                 <Button variant="contained" onClick={handleSubmitButtonClick} className="submit-button">
                     Gửi bài kiểm tra
                 </Button>
-            )}
-
-            {/* Xác nhận nộp bài */}
-            {confirmSubmit && (
-                <div className="confirm-submit-overlay">
-                    <div className="confirm-submit">
-                        <p>Bạn có chắc chắn muốn nộp bài không?</p>
-                        <Button onClick={handleSubmitButtonClick} color="primary">
-                            Đồng ý
-                        </Button>
-                        <Button onClick={handleCancelSubmit} color="primary">
-                            Hủy
-                        </Button>
-                    </div>
-                </div>
             )}
         </div>
     );
