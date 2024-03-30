@@ -55,8 +55,8 @@ function SearchSection() {
           />
           <button
             onClick={() => {
-              setSearchStudentId(inputStudentId);
-              searchStudent();
+              setSearchStudentId(inputStudentId); // Cập nhật giá trị của searchStudentId
+              searchStudent(); // Gọi hàm searchStudent sau khi đã cập nhật giá trị
             }}
           >
             Tìm kiếm
@@ -99,11 +99,12 @@ function SearchSection() {
           {foundStudent === undefined && searchStudentId !== "" && (
             <p className="notFound">Không tìm thấy sinh viên!!!</p>
           )}
-          
         </div>
       </div>
       <div className="getPDF">
-        <button onClick={handleDownloadPDF}>Tải xuống báo cáo dưới dạng pdf</button>
+        <button onClick={handleDownloadPDF}>
+          Tải xuống báo cáo dưới dạng pdf
+        </button>
       </div>
     </>
   );

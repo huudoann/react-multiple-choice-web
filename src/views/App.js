@@ -12,6 +12,7 @@ import ExamPage from '../pages/ExamPage/ExamPage';
 import ExamResult from '../pages/ExamResult/ExamResult';
 import StudentTable from '../pages/StudentTable/StudentTable';
 import SearchSection from '../pages/SearchStudentInformations/SearchStudentInformations';
+import StudentExamResult from '../pages/StudentExamResult/StudentExamResult';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route exact path='/result' element={<ExamResult />} />
           <Route exact path='/student_table' element={<StudentTable />} />
           <Route exact path='/search_student_informations' element={<SearchSection />} />
+          <Route exact path='/student_exam_result' element={<StudentExamResult />} />
         </Routes>
       </div>
     </Router>
