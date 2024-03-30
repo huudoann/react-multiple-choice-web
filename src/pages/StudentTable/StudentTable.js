@@ -12,6 +12,10 @@ function StudentTable() {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
+  const handleDownloadPDF = () => {
+    window.print(); // In cả trang khi người dùng nhấn vào nút
+  };
+
   return (
     <>
       <h1>Student Table</h1>
@@ -37,6 +41,9 @@ function StudentTable() {
           ))}
         </tbody>
       </table>
+      <div className="getPDF">
+        <button onClick={handleDownloadPDF}>Tải xuống báo cáo dưới dạng pdf</button>
+      </div>
     </>
   );
 } 

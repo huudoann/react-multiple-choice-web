@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./StudentInformations.scss";
+import "./SearchStudentInformations.scss";
 
 function SearchSection() {
   const [students, setStudents] = useState([]);
@@ -23,6 +23,10 @@ function SearchSection() {
     } catch (error) {
       console.error("Error fetching student data:", error);
     }
+  };
+
+  const handleDownloadPDF = () => {
+    window.print(); // In cả trang khi người dùng nhấn vào nút
   };
 
   const handleChange = (event) => {
@@ -84,7 +88,7 @@ function SearchSection() {
                       <td>{item.time}</td>
                       <td>{item.score}</td>
                       <td>
-                        <button>Xem chi tiết</button>
+                        <button className="button">Xem chi tiết</button>
                       </td>
                     </tr>
                   ))}
@@ -97,6 +101,9 @@ function SearchSection() {
           )}
           
         </div>
+      </div>
+      <div className="getPDF">
+        <button onClick={handleDownloadPDF}>Tải xuống báo cáo dưới dạng pdf</button>
       </div>
     </>
   );
