@@ -5,6 +5,8 @@ import SignUp from './SignUp.js';
 import './Auth.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faBell, faUser, faStickyNote, faFolder, faUsers, faTimes, } from '@fortawesome/free-solid-svg-icons';
+import { endPoint } from '../../util/api/endPoint.js';
+import { Request } from '../../util/axios.js';
 
 const AuthPage = () => {
   const [currentForm, setCurrentForm] = useState('login');
@@ -13,6 +15,8 @@ const AuthPage = () => {
 
 
   const switchForm = (formType) => {
+    // a viết mẫu 5 phương thức r m tự viết tiếp nhé
+    // đầu tiên do cái gọi api là bất đồng bộ nên hàm nào m gọi pahri có async await ví dụ một hàm ntn nhé
     setCurrentForm(formType);
   };
 

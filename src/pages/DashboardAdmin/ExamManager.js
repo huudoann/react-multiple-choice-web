@@ -1,30 +1,62 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./ExamManager.scss";
+import { Request } from '../../util/axios';
+import { endPoint } from '../../util/api/endPoint';
 
 const ExamManager = () => {
     const [exams, setExams] = useState([]);
     const [deletingIndex, setDeletingIndex] = useState(null);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-    const addExam = () => {
-        const examName = document.getElementById('exam_name').value;
-        const examMode = document.getElementById('exam_mode').value;
-        let examDate = document.getElementById('exam_date').value;
-
-        if (examName.trim() !== '') {
-            if (examMode === 'Luyện tập') {
-                examDate = '';
-            } else {
-                if (examDate.trim() === '') {
-                    alert('Vui lòng chọn ngày/tháng cho kỳ thi.');
-                    return;
-                }
-            }
-
-            const newExam = { name: examName, mode: examMode, date: examDate };
-            setExams([...exams, newExam]);
-            updateExamList([...exams, newExam]);
+    useEffect(() => {
+        const getListExam = async () => {
+            const response = await Request.Server.get(endPoint.getAllExams());
+            console.log(response);
+            // xem dử liệu trả về r set vào state bên trên để hiển thị ra danh sách exam nhé
         }
+        // viết hàm xong nhớ gọi hàm ra đấy ko viết mỗi như trên àm k gọi ra là ko chạy đâu
+
+        getListExam(); // viết hàm getListExam thì bên dưới gọi ra nhé run cái be kia đc r thì có bug gì nhắn a sửa cho ocee a thế nghỉ nhé
+    }, [])
+
+
+    const addExam = async () => {
+        // mấy cái api này nên try catch nhé tránh lỗi
+        try {
+            const examName = document.getElementById('exam_name').value;
+            const examMode = document.getElementById('exam_mode').value;
+            let examDate = document.getElementById('exam_date').value;
+
+            if (examName.trim() !== '') {
+                if (examMode === 'Luyện tập') {
+                    examDate = '';
+                } else {
+                    if (examDate.trim() === '') {
+                        alert('Vui lòng chọn ngày/tháng cho kỳ thi.');
+                        return;
+                    }
+                }
+                // sao api này có 5 trường dữ liệu mà web a thấy có 3 thôi v 
+                // tùy vào backend nếu be mà validate thì gửi lên sẽ lỗi 
+                // thế thì mấy cái ko có thì a tạm truyền data giống postman nhé
+                // xong xem cái response trả về r set lại vào cái dữ liệu ban đầu là xong 
+
+                const response = await Request.Server.post(endPoint.createNewExam(), {
+                    examName,
+                    examType: examMode,
+                    startTime: examDate,
+                    endTime: "15/12/2024 10:00:00",
+                    description: "test desc 5",
+                })
+                console.log(response);
+                // const newExam = { name: examName, mode: examMode, date: examDate };
+                // setExams([...exams, newExam]);
+                // updateExamList([...exams, newExam]);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+
     }
 
     const updateExamList = (updatedExams) => {
@@ -92,6 +124,7 @@ const ExamManager = () => {
     }
 
     const deleteExam = () => {
+        // chạy thử web a test luôn cho trang em làm đấy
         const updatedExams = [...exams];
         updatedExams.splice(deletingIndex, 1);
         setExams(updatedExams);

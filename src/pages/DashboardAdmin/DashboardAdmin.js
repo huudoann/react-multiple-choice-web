@@ -5,13 +5,14 @@ import UserManagement from './UserManagement';
 import Statistics from './Statistics';
 import { Link } from 'react-router-dom';
 
+
 const DashboardAdmin = () => {
     const [currentPage, setCurrentPage] = useState('exam');
 
     const navigate = (page) => {
         setCurrentPage(page);
     };
-
+// em làm ở folder này oke
     return (
         <div className='dashboard_admin'>
             <div className='auth-tabs'>
