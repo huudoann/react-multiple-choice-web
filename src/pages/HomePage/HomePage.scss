@@ -27,6 +27,7 @@
         align-items: center;
         justify-content: center;
         overflow: hidden;
+        font-size: larger;
     }
 
     header h1 {
@@ -52,7 +53,6 @@
         border-radius: 5px;
         display: flex;
         align-items: center;
-
     }
 
     .exam-list {
@@ -66,13 +66,15 @@
         border: none;
         color: white;
         margin-left: .25rem;
-        padding: 10px 20px;
+        padding: 1rem 2rem;
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 16px;
+        font-size: 1.25rem;
         cursor: pointer;
-        border-radius: 15px;
+        border-radius: 1rem;
+        white-space: nowrap;
+        /* Ngăn text xuống dòng */
     }
 
     .exam-item:hover {
@@ -96,7 +98,7 @@
         display: flex;
         flex-direction: column;
         border: 1px solid #ccc;
-        border-radius: 5px;
+        border-radius: .5rem;
         background-color: #fff;
     }
 
@@ -157,5 +159,40 @@
     .exam-status-timed {
         background-color: #f44336;
         color: white;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    th:first-child,
+    td:first-child {
+        border-top-left-radius: .5rem;
+    }
+
+    th:last-child,
+    td:last-child {
+        border-top-right-radius: .5rem;
+    }
+
+    th {
+        background-color: #dc3545;
+        text-align: center;
+        font-size: larger;
+        border-radius: .1rem;
+    }
+
+    .exam-name {
+        cursor: pointer;
+        text-decoration: none;
+        text-align: left;
     }
 }
