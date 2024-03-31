@@ -7,11 +7,11 @@ const Statistics = () => {
     // Hàm cập nhật thống kê
     const updateStatistics = () => {
         setExamParticipants([
-            { examName: 'Đại Số', participants: 100, completionRate: 80, averageScore: 7.5 },
-            { examName: 'Toán rời rạc', participants: 150, completionRate: 75, averageScore: 8.0 },
-            { examName: 'Lí thuyết thông tin', participants: 80, completionRate: 90, averageScore: 8.5 },
-            { examName: 'Tin học cơ sở', participants: 120, completionRate: 85, averageScore: 7.8 },
-            { examName: 'Triết học', participants: 200, completionRate: 70, averageScore: 7.0 }
+            { examResultId: 2, score: 2, status: "completed", userId: 100, examId: 2 },
+            // { examName: 'Toán rời rạc', participants: 150, completionRate: 75, averageScore: 8.0 },
+            // { examName: 'Lí thuyết thông tin', participants: 80, completionRate: 90, averageScore: 8.5 },
+            // { examName: 'Tin học cơ sở', participants: 120, completionRate: 85, averageScore: 7.8 },
+            // { examName: 'Triết học', participants: 200, completionRate: 70, averageScore: 7.0 }
         ]);
     };
 
@@ -26,10 +26,10 @@ const Statistics = () => {
                 {/* Hiển thị thông tin thống kê */}
                 {examParticipants.map((exam, index) => (
                     <div key={index}>
-                        <p>Kỳ thi: {exam.examName}</p>
-                        <p>Số lượng người dùng tham gia: {exam.participants}</p>
-                        <p>Tỷ lệ hoàn thành: {exam.completionRate}%</p>
-                        <p>Điểm trung bình: {exam.averageScore}</p>
+                        <p>Kỳ thi: {exam.examId}</p>
+                        <p>Số lượng người dùng tham gia: {exam.userId}</p>
+                        <p>Trạng thái: {exam.status}</p>
+                        <p>Điểm trung bình: {exam.examResultId}</p>
                         <hr />
                     </div>
                 ))}

@@ -12,7 +12,7 @@ const DashboardAdmin = () => {
     const navigate = (page) => {
         setCurrentPage(page);
     };
-// em làm ở folder này oke
+    
     return (
         <div className='dashboard_admin'>
             <div className='auth-tabs'>

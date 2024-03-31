@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { read, utils } from 'xlsx';
-import './CreateAndEditExams.scss'; 
+import './CreateAndEditExams.scss';
 
 const CreateAndEditExams = () => {
     useEffect(() => {
@@ -8,6 +8,9 @@ const CreateAndEditExams = () => {
         const questionList = document.getElementById("questionList");
         const addQuestionButton = document.getElementById("addQuestion");
         const excelInput = document.getElementById("excelInput");
+
+        // Khai báo một mảng để lưu các đáp án đúng
+        const correctAnswers = [];
 
         addQuestionButton.addEventListener("click", function () {
             const div = document.createElement("div");
@@ -27,14 +30,14 @@ const CreateAndEditExams = () => {
                 // Tạo input radio đại diện cho đáp án đúng
                 const correctAnswerRadio = document.createElement("input");
                 correctAnswerRadio.type = "radio";
-                correctAnswerRadio.name = "correctAnswer";
+                correctAnswerRadio.name = `correctAnswer_${questionList.childElementCount}`;
                 correctAnswerRadio.value = i;
                 answerDiv.appendChild(correctAnswerRadio);
 
                 // Tạo input cho đáp án
                 const answerInput = document.createElement("input");
                 answerInput.type = "text";
-                answerInput.name = `answers[${i}]`;
+                answerInput.name = `answers[${questionList.childElementCount}][${i}]`;
                 answerInput.placeholder = `Nhập đáp án ${String.fromCharCode(65 + i)}`;
                 answerDiv.appendChild(answerInput);
 
@@ -51,7 +54,11 @@ const CreateAndEditExams = () => {
             div.appendChild(deleteButton);
 
             questionList.appendChild(div);
+
+            // Lưu đáp án đúng vào mảng correctAnswers
+            correctAnswers.push(questionList.childElementCount);
         });
+
 
         examForm.addEventListener("submit", function (event) {
             event.preventDefault();

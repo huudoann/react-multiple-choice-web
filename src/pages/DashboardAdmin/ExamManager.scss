@@ -47,6 +47,7 @@ li {
 
 .del,
 .edit {
+    display: inline;
     padding: 5px 10px;
     margin-left: 5px;
     background-color: #f44336;
@@ -142,5 +143,5 @@ th, td {
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #ff4d4f;
 }

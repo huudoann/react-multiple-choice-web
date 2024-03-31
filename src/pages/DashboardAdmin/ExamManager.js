@@ -67,7 +67,9 @@ const ExamManager = () => {
                         <th>STT</th>
                         <th>Tên kì thi</th>
                         <th>Loại kì thi</th>
-                        <th>Ngày thi</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Miêu tả</th>
                         <th>Chỉnh sửa</th>
                     </tr>
                 </thead>
@@ -75,9 +77,11 @@ const ExamManager = () => {
                     {updatedExams.map((exam, index) => (
                         <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{exam.name}</td>
-                            <td>{exam.mode}</td>
-                            <td>{exam.date}</td>
+                            <td>{exam.examName}</td>
+                            <td>{exam.examType}</td>
+                            <td>{exam.startTime}</td>
+                            <td>{exam.endTime}</td>
+                            <td>{exam.description}</td>
                             <td>
                                 <div className="edit-delete-buttons">
                                     <button className="edit" onClick={() => editExam(index)}>Sửa</button>
@@ -141,12 +145,15 @@ const ExamManager = () => {
             <div className="create-container">
                 <div className="input-container">
                     <input type="text" id="exam_name" placeholder="Tên kì thi" />
+                    <input type="text" id="description" placeholder="Miêu tả" />
                     <select id="exam_mode">
-                        <option value="Luyện tập">Luyện tập</option>
-                        <option value="Thi thật">Thi thật</option>
+                        <option value="Giữa kỳ">Giữa kỳ</option>
                         <option value="Cuối kỳ">Cuối kỳ</option>
                     </select>
-                    <input type="date" id="exam_date" />
+                    <label htmlFor="startTime">Ngày bắt đầu:</label>
+                    <input type="date" id="startTime" />
+                    <label htmlFor="endTime">Ngày kết thúc:</label>
+                    <input type="date" id="endTime" />
                 </div>
                 <div className="button-container">
                     <button onClick={addExam}>Tạo kỳ thi</button>
