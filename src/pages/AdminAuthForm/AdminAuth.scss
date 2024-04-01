@@ -1,0 +1,160 @@
+.auth-page-container {
+    display: flex;
+    height: 100vh;
+
+    body,
+    html {
+        height: 100%;
+        margin: 0;
+    }
+
+    *,
+    :after,
+    :before {
+        box-sizing: inherit;
+    }
+
+    @media (max-width: 64rem) {
+        .auth-image-container {
+            display: none;
+        }
+    }
+
+    .auth-form-container {
+        display: flex;
+        width: 100%;
+        padding: 1rem;
+        justify-content: center;
+        align-items: center;
+        background-image: url(https://xettuyen.ptit.edu.vn/static/PTIT_Cover2.e8620eb0.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .form-box {
+        width: 60%;
+        height: 100%;
+        border: 2px solid red;
+        background-color: #fff;
+        border-radius: 1rem;
+    }
+
+    .auth-tabs {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: row;
+        margin: 0 2rem;
+        background-color: inherit;
+        border-radius: 1rem;
+    }
+
+    .auth-tabs button {
+        padding: 2rem 2rem;
+        margin-bottom: 1rem;
+        background-color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #586380;
+        border-radius: .5rem;
+
+    }
+
+    .auth-tabs button.active {
+        color: #000;
+        font-weight: bold;
+        border-bottom: 5px solid red;
+    }
+
+    .auth-form {
+        max-width: 100%;
+        margin: 2rem;
+        padding: 1rem;
+    }
+
+    .auth-form label {
+        width: 100%;
+        font-size: 1rem;
+        text-align: left;
+        display: flex;
+        margin: .5rem;
+        letter-spacing: normal;
+        line-height: 1.5;
+        font-weight: 600;
+        color: #586380;
+    }
+
+    .auth-form input[type=email],
+    input[type=text],
+    input[type=password] {
+        background-color: #f6f7fb;
+        width: 95%;
+        height: 3rem;
+        padding: .25rem 1rem;
+        border-radius: .5rem;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        justify-content: center;
+        color: #586380;
+        line-height: 1.5;
+        overflow: hidden;
+        border: none;
+        font-size: 1rem;
+        letter-spacing: normal;
+        line-height: 1.5;
+    }
+
+    .password-container {
+        position: relative;
+    }
+
+
+    .auth-form button {
+        font-weight: bold;
+        width: 95%;
+        background-color: #4255ff;
+        color: #fff;
+        padding: 1rem 1rem;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .auth-form button:hover {
+        background-color: #423ed8;
+    }
+
+    .switch-status-btn {
+        width: 95% !important;
+        background-color: #fff !important;
+        color: #586380 !important;
+        margin-top: 10px !important;
+        border: 1px solid #ccc !important;
+    }
+
+    .auth-form p {
+        padding: .25rem 1rem;
+        background: #0000;
+        color: #586380;
+        text-align: center;
+    }
+
+    .close-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        color: #000;
+        transition: color 0.3s ease;
+        padding: 0 .25rem;
+        margin: .25rem 0;
+
+        &:hover {
+            color: #fff;
+            background-color: red;
+        }
+    }
+}

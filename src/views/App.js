@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.scss';
+import AdminLogInForm from '../pages/AdminAuthForm/AdminLoginForm';
+import AdminSignUpForm from '../pages/AdminAuthForm/AdminSignUpForm';
 import SignUpForm from '../pages/AuthForm/SignUpForm';
 import LoginForm from '../pages/AuthForm/LoginForm';
 import HomePage from '../pages/HomePage/HomePage';
@@ -20,6 +22,8 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
+          <Route exact path='/admin-register' element={<AdminSignUpForm />} />
+          <Route exact path='/admin-login' element={<AdminLogInForm />} />
           <Route exact path='/' element={<SignUpForm />} />
           <Route exact path='/login' element={<LoginForm />} />
           <Route exact path='/home' element={<HomePage />} />
