@@ -77,9 +77,9 @@ const ExamManager = () => {
                     description,
                 })
                 console.log(response);
-                // const newExam = { name: examName, mode: examMode, date: examDate };
-                // setExams([...exams, newExam]);
-                // updateExamList([...exams, newExam]);
+                const newExam = { examName: examName, examType: examType, startTime: formattedStartTime, endTime: formattedEndTime, description: description };
+                setExams([...exams, newExam]);
+                updateExamList([...exams, newExam]);
             }
         } catch (e) {
             console.log(e);
@@ -225,6 +225,7 @@ const ExamManager = () => {
                     <input type="text" id="exam_name" placeholder="Tên kì thi" />
                     <input type="text" id="description" placeholder="Miêu tả" />
                     <select id="exam_mode">
+                        <option value="Luyện tập">Luyện tập</option>
                         <option value="Giữa kỳ">Giữa kỳ</option>
                         <option value="Cuối kỳ">Cuối kỳ</option>
                     </select>
