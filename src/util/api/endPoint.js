@@ -25,7 +25,7 @@ export const endPoint = {
     deleteUser: (id) => `${baseUrl}/user/delete-user/${id}`,
 
     //question
-    
+    createNewExam: (examId) => `${baseUrl}/question/create-question/${examId}`,
     // ví dụ cái api get exam by id
     // baseUrl là cái khai báo bên trên chỉ thêm đoạn sau chữ api thôi
     // truyền id vào đây

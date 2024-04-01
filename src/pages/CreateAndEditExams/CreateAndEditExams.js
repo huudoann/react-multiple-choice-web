@@ -2,15 +2,20 @@ import React, { useEffect } from 'react';
 import { read, utils } from 'xlsx';
 import './CreateAndEditExams.scss';
 import { useParams } from 'react-router-dom';
+import { endPoint } from '../../util/api/endPoint';
 
 
 const CreateAndEditExams = () => {
     let { examId } = useParams();
 
-    // Di chuyển event listener ra ngoài useEffect
     useEffect(() => {
         const addQuestionButton = document.getElementById("addQuestion");
         addQuestionButton.addEventListener("click", handleAddQuestionClick);
+
+        const createExamForm = async () => {
+            const response = await Request.Server.put(endPoint.createNewExam());
+            console.log(response);
+        }
 
         // Hủy đăng ký event listener khi component unmount
         return () => {
@@ -60,6 +65,15 @@ const CreateAndEditExams = () => {
             div.remove();
         });
         div.appendChild(deleteButton);
+
+        // Tạo nút chỉnh sửa câu hỏi
+        const editButton = document.createElement("button");
+        editButton.textContent = "Chỉnh sửa";
+        editButton.type = "button";
+        editButton.addEventListener("click", function () {
+            // sửa câu hỏi ở đay
+        });
+        div.appendChild(editButton);
 
         questionList.appendChild(div);
     };
