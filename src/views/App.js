@@ -13,7 +13,7 @@ import ExamResult from '../pages/ExamResult/ExamResult';
 import StudentTable from '../pages/StudentTable/StudentTable';
 import SearchSection from '../pages/SearchStudentInformations/SearchStudentInformations';
 import StudentExamResult from '../pages/StudentExamResult/StudentExamResult';
-import ExamStatistic from '../pages/ExamStatistic/ExamStatistic';
+// import ExamStatistic from '../pages/ExamStatistic/ExamStatistic';
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
           <Route exact path='/student_table' element={<StudentTable />} />
           <Route exact path='/search_student_informations' element={<SearchSection />} />
           <Route exact path='/student_exam_result' element={<StudentExamResult />} />
-          <Route exact path='/exam_statistic' element={<ExamStatistic />} />
+          {/* <Route exact path='/exam_statistic' element={<ExamStatistic />} /> */}
         </Routes>
       </div>
     </Router>

@@ -14,6 +14,7 @@ const ExamPage = () => {
     const [submitted, setSubmitted] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(false);
+    const [userScore, setUserScore] = useState(0);
     const navigate = useNavigate();
     const location = useLocation();
     const answerOptions = ['A.', 'B.', 'C.', 'D.'];
@@ -108,6 +109,47 @@ const ExamPage = () => {
         setCorrectAnswersCount(prevCount => prevCount + 1);
     };
 
+    const calculateScore = async () => {
+        let score = 0;
+        for (let i = 0; i < questions.length; i++) {
+            const correctAnswer = questions[i].correctAnswer; // Loại bỏ dấu chấm ở cuối
+            const selectedOption = document.querySelector(`.tests-form:nth-child(${i + 2}) .clicked`);
+            const userAnswer = selectedOption ? selectedOption.textContent.trim().charAt(0) : null;
+            if (userAnswer == correctAnswer) {
+                score += 1;
+            }
+            console.log(correctAnswer, userAnswer, score, questions.length);
+        }
+        const roundedScore = Math.round((score / questions.length) * 10);
+        setUserScore(roundedScore);
+
+        const token = localStorage.getItem("token");
+        const examId = localStorage.getItem("examId");
+        const userId = localStorage.getItem("userId");
+
+        if (!token) {
+            throw new Error("Không có token trong Localstorage!");
+        }
+
+        try {
+
+            const postData = {
+                userId: userId,
+                examId: examId,
+                status: "completed",
+                score: roundedScore,
+            };
+            const response = await axios.post('http://localhost:8080/api/exam-result/create-exam-result', postData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log('Gửi exam result thành công:', response);
+        } catch (error) {
+            console.error('Lỗi khi gửi exam result:', error.message);
+        }
+    };
+
     const handleAnswerSelection = (index, answerIndex) => {
         const selectedAnswer = String.fromCharCode(65 + answerIndex); // Chuyển đổi index sang ký tự tương ứng: A, B, C, D
         const newSelectedAnswers = [...selectedAnswers];
@@ -117,6 +159,7 @@ const ExamPage = () => {
             setCorrectAnswersCount(prevCount => prevCount + 1);
         }
     };
+
     const handleSubmitButtonClick = () => {
         setOpenDialog(true);
     };
@@ -125,6 +168,7 @@ const ExamPage = () => {
         setOpenDialog(false);
         setSubmitted(true);
         setShowSubmitConfirmation(true);
+        calculateScore();
         const token = localStorage.getItem("token");
         const examId = localStorage.getItem("examId");
         const userId = localStorage.getItem("userId");
