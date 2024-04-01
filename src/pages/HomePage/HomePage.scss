@@ -195,4 +195,16 @@
         text-decoration: none;
         text-align: left;
     }
+
+    .note-class {
+        p {
+            cursor: pointer;
+            border: 1px solid #dc3545;
+            background-color: #dc3545;
+            color: #fff;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            border-radius: .5rem;
+        }
+    }
 }

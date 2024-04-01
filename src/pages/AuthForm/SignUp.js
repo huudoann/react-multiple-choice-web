@@ -125,7 +125,7 @@ const SignUpForm = ({ switchForm }) => {
                 </div>
 
 
-                <div className='confirm-password'>
+                <div className='confirm-password' style={{ marginBottom: '.5rem' }}>
                     <label>Xác nhận mật khẩu:</label>
                     <input
                         type={showConfirmPassword ? 'text' : 'password'}

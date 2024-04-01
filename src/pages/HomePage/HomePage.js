@@ -5,7 +5,7 @@ import { Search } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const ExamTable = ({ exams, startExam }) => {
+const ExamTable = ({ exams, startExam, goToSubmit }) => {
     return (
         <table>
             <thead>
@@ -15,6 +15,8 @@ const ExamTable = ({ exams, startExam }) => {
                     <th>Exam Type</th>
                     <th>Start Time</th>
                     <th>End Time</th>
+                    <th>Trạng Thái</th>
+                    <th>Ghi chú</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +27,14 @@ const ExamTable = ({ exams, startExam }) => {
                         <td>{exam.examType}</td>
                         <td>{exam.startTime}</td>
                         <td>{exam.endTime}</td>
+                        <td>{exam.status}</td>
+                        <td className='note-class'>
+                            {exam.status === 'Đã hoàn thành' && (
+                                <p onClick={() => goToSubmit(exam.examId)} >
+                                    Xem kết quả
+                                </p>
+                            )}
+                        </td>
                     </tr>
                 ))}
             </tbody>
@@ -34,6 +44,7 @@ const ExamTable = ({ exams, startExam }) => {
 
 const MainPage = () => {
     const [exams, setExams] = useState([]);
+    const [examResults, setExamResults] = useState([]);
     const [filteredExams, setFilteredExams] = useState([]);
     const navigate = useNavigate();
 
@@ -43,23 +54,39 @@ const MainPage = () => {
 
     const fetchData = async () => {
         let token = localStorage.getItem('token');
+        const userId = localStorage.getItem("userId");
 
         if (!token) {
             throw new Error('Token không tồn tại trong localStorage');
         } else {
             try {
-                const response = await axios.get(`http://localhost:8080/api/exam/get-all-exams`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                const [examsResponse, examResultsResponse] = await Promise.all([
+                    axios.get(`http://localhost:8080/api/exam/get-all-exams`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }),
+                    axios.get(`http://localhost:8080/api/exam-result/user/${userId}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                ]);
+
+                const examsData = examsResponse.data;
+                const examResultsData = examResultsResponse.data;
+
+                const updatedExams = examsData.map(exam => {
+                    const result = examResultsData.find(result => result.examId === exam.examId);
+                    const status = result && result.status === 'completed' ? 'Đã hoàn thành' : 'Chưa hoàn thành';
+                    return { ...exam, status };
                 });
 
-                const apiData = response.data;
-                setExams(apiData);
-                setFilteredExams(apiData);
-                console.log("Lấy dữ liệu bài ktra thành công", apiData);
+                setExams(updatedExams);
+                setFilteredExams(updatedExams);
+                console.log("Lấy dữ liệu thành công", updatedExams);
             } catch (error) {
-                console.error('Lỗi khi lấy danh sách các bài kiểm tra:', error.message);
+                console.error('Lỗi khi lấy dữ liệu:', error.message);
             }
         }
     };
@@ -178,6 +205,11 @@ const MainPage = () => {
         }
     };
 
+    const goToSubmit = (examId) => {
+        localStorage.setItem("examId", examId);
+        navigate('/result');
+    };
+
     return (
         <div className="home-container">
             <header>
@@ -196,7 +228,7 @@ const MainPage = () => {
             </div>
 
             <div id="examInfoList">
-                <ExamTable exams={filteredExams} startExam={startExam} />
+                <ExamTable exams={filteredExams} startExam={startExam} goToSubmit={goToSubmit} />
             </div>
         </div>
     );
