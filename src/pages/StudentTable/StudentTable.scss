@@ -1,12 +1,8 @@
 /* StudentTable.css */
 .studentTable {
-  .navigation {
-    background-color: #dc3545;
-    min-height: 2.5rem;
 
-    button {
-      justify-content: center;
-    }
+  .navigation {
+    min-height: 2.5rem;
   }
 
   body {
@@ -40,18 +36,20 @@
     text-decoration: none;
     display: inline-block;
     margin-left: 73%;
+
+    button {
+      font-weight: 600;
+      background-color: #cf443a;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      font-size: small;
+    }
   }
 
-  button {
-    font-weight: 600;
-    background-color: #cf443a;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-size: small;
-  }
+
 
   .searchBar {
     display: flex;

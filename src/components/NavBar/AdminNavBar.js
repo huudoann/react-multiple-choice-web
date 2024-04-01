@@ -16,10 +16,6 @@ const NavBar = () => {
         navigate('/dashboard_admin');
     }
 
-    const handleCreateExamPage = () => {
-        navigate('/exam/:examId');
-    }
-
     const handleStudentTable = () => {
         navigate('/student_table');
     }
@@ -38,15 +34,6 @@ const NavBar = () => {
                 >
                     <Home style={{ marginRight: '.25rem' }} />
                     Trang chủ
-                </Button>
-
-                <Button
-                    className="nav-btn"
-                    onClick={handleCreateExamPage}
-                    style={{ backgroundColor: '#dc3545', color: '#fff', margin: '0 .25rem', borderRadius: '1rem', border: 'none', padding: '.25rem .5rem' }}
-                >
-                    <Add style={{ marginRight: '.25rem' }} />
-                    Tạo kỳ thi mới
                 </Button>
 
                 <Button
