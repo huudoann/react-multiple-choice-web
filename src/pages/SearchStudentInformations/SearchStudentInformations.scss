@@ -18,83 +18,38 @@ $background-color_5: #cf443a;
 		font-size: 14px;
 	}
 
-	// #header {
-	// 	height: 5vh;
-	// 	background-color: $background-color_1;
-	// 	display: flex;
-	// 	justify-content: space-between;
-	// 	padding: 0 5vw;
-	// 	align-items: center;
-
-	// 	a {
-	// 		font-size: 1.2rem;
-	// 		color: $color_1;
-	// 		font-weight: bold;
-	// 		text-decoration: none;
-	// 	}
-
-	// 	.logo {
-	// 		background-color: $background-color_2;
-	// 		width: 6vh;
-	// 		height: 6vh;
-	// 		display: flex;
-	// 		justify-content: center;
-	// 		align-items: center;
-	// 		border-radius: 50%;
-	// 		cursor: pointer;
-
-	// 		img {
-	// 			width: 70%;
-	// 			height: 70%;
-	// 		}
-	// 	}
-	// }
-
-	// #navbar {
-	// 	li {
-	// 		list-style-type: none;
-	// 		display: flex;
-	// 		column-gap: 1.2rem;
-	// 	}
-	// }
-
-	// body {
-	// 	font-family: $font-family_1;
-	// 	margin: 0;
-	// 	padding: 0;
-	// 	background-color: $background-color_3;
-	// }
-
 	.container {
-		max-width: calc(100vw - 48px);
-		width: 1170px;
+		display: flex;
+		flex-direction: column;
+		min-width: 60%;
+		width: 80%;
 		margin: 50px auto;
-		padding: 100px;
+		padding: 50px;
 		background-color: $background-color_2;
 		border-radius: 8px;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	}
 
 	h1 {
+		margin: 0 0 2rem 0;
 		text-align: center;
 	}
 
-	form {
+	#search-form {
+		width: 100%;
 		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 20px;
+		flex-direction: column;
+		flex-grow: 1;
+		// margin-bottom: 1rem;
 
 		button {
 			background-color: $background-color_4;
 			color: $color_2;
-			padding: 10px 20px;
+			padding: .5rem 1.25rem;
 			border: none;
-			border-radius: 4px;
+			border-radius: .25rem;
 			cursor: pointer;
-			display: block;
-			margin-left: 10px;
+			margin-left: 1rem;
 
 			&:hover {
 				background-color: $background-color_5;
@@ -108,7 +63,7 @@ $background-color_5: #cf443a;
 	}
 
 	input[type="text"] {
-		width: 100%;
+		width: 66%;
 		padding: 8px;
 		margin-top: 5px;
 		margin-bottom: 10px;
@@ -149,6 +104,20 @@ $background-color_5: #cf443a;
 		&:nth-child(3) {
 			text-align: center;
 		}
+
+		button {
+			background-color: $background-color_4;
+			color: $color_2;
+			padding: .5rem 1rem;
+			border: none;
+			border-radius: .25rem;
+			cursor: pointer;
+			margin-left: 1rem;
+
+			&:hover {
+				background-color: $background-color_5;
+			}
+		}
 	}
 
 	.to-csv {
@@ -175,14 +144,6 @@ $background-color_5: #cf443a;
 		font-size: 1.5rem;
 		text-align: center;
 		font-weight: bold;
-	}
-
-
-	#search-form {
-		width: 100%;
-		max-width: 500px;
-		margin-left: auto;
-		margin-right: auto;
 	}
 
 	.getPDF {

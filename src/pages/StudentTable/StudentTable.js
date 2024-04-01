@@ -34,7 +34,7 @@ const StudentTable = () => {
 
   useEffect(() => {
     if (userDataFetched) {
-      const fetchExamAttempts = async () => {
+      const fetchData = async () => {
         const token = localStorage.getItem("token");
 
         if (!token) {
@@ -45,19 +45,28 @@ const StudentTable = () => {
           const userIds = users.map(user => user.userId);
 
           const userPromises = userIds.map(async userId => {
-            const response = await axios.get(`http://localhost:8080/api/exam-attempt/user/${userId}`);
-            return { userId, examAttempts: response.data };
+            const [examAttemptsResponse, examResultsResponse] = await Promise.all([
+              axios.get(`http://localhost:8080/api/exam-attempt/user/${userId}`),
+              axios.get(`http://localhost:8080/api/exam-result/user/${userId}`)
+            ]);
+
+            return {
+              userId,
+              examAttempts: examAttemptsResponse.data,
+              examResults: examResultsResponse.data
+            };
           });
 
           const usersData = await Promise.all(userPromises);
           console.log("Dữ liệu users:", usersData);
 
-          // Cập nhật mảng users với examAttempts
+          // Cập nhật mảng users với examAttempts và examResults
           const updatedUsers = users.map(user => {
             const userData = usersData.find(data => data.userId === user.userId);
             return {
               ...user,
               examAttempts: userData ? userData.examAttempts : [],
+              examResults: userData ? userData.examResults : [],
             };
           });
 
@@ -67,7 +76,7 @@ const StudentTable = () => {
         }
       };
 
-      fetchExamAttempts();
+      fetchData();
     }
   }, [userDataFetched]);
 

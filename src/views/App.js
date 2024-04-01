@@ -12,6 +12,7 @@ import Statistics from '../pages/DashboardAdmin/Statistics';
 import CreateAndEditExams from '../pages/CreateAndEditExams/CreateAndEditExams';
 import ExamPage from '../pages/ExamPage/ExamPage';
 import ExamResult from '../pages/ExamResult/ExamResult';
+import ExamResultAdmin from '../pages/ExamResult/ExamResultAdmin';
 import StudentTable from '../pages/StudentTable/StudentTable';
 import SearchSection from '../pages/SearchStudentInformations/SearchStudentInformations';
 import StudentExamResult from '../pages/StudentExamResult/StudentExamResult';
@@ -30,6 +31,7 @@ function App() {
           <Route exact path='/home' element={<HomePage />} />
           <Route exact path='/exam' element={<ExamPage />} />
           <Route exact path='/result' element={<ExamResult />} />
+          <Route exact path='/result-admin' element={<ExamResultAdmin />} />
           <Route exact path='/dashboard_admin' element={<DashboardAdmin />} />
           <Route exact path='/user_management' element={<UserManagement />} />
           <Route exact path='/statistics' element={<Statistics />} />
