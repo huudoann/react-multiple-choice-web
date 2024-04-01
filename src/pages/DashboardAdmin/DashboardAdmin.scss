@@ -1,14 +1,26 @@
 .dashboard_admin {
+
+    .navigation {
+        background-color: #dc3545;
+        min-height: 2.5rem;
+
+        button {
+            justify-content: center;
+        }
+    }
+
     .inline-heading {
         display: inline;
-        margin-right: 20px; /* Khoảng cách giữa các tiêu đề */
+        margin-right: 20px;
+        /* Khoảng cách giữa các tiêu đề */
     }
-    
+
     .inline-link {
         display: inline;
-        margin-right: 20px; /* Khoảng cách giữa các liên kết */
+        margin-right: 20px;
+        /* Khoảng cách giữa các liên kết */
     }
-    
+
     .auth-tabs {
         display: flex;
         align-items: flex-start;

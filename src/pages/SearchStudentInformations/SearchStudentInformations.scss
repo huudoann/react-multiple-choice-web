@@ -8,6 +8,16 @@ $background-color_4: #AD171C;
 $background-color_5: #cf443a;
 
 .SearchStudentInformations {
+
+	.navigation {
+		background-color: #dc3545;
+		min-height: 2.5rem;
+
+		button {
+			justify-content: center;
+		}
+	}
+
 	#header {
 		height: 10vh;
 		background-color: $background-color_1;
@@ -15,12 +25,14 @@ $background-color_5: #cf443a;
 		justify-content: space-between;
 		padding: 0 5vw;
 		align-items: center;
+
 		a {
 			font-size: 1.2rem;
 			color: $color_1;
 			font-weight: bold;
 			text-decoration: none;
 		}
+
 		.logo {
 			background-color: $background-color_2;
 			width: 6vh;
@@ -30,12 +42,14 @@ $background-color_5: #cf443a;
 			align-items: center;
 			border-radius: 50%;
 			cursor: pointer;
+
 			img {
 				width: 70%;
 				height: 70%;
 			}
 		}
 	}
+
 	#navbar {
 		li {
 			list-style-type: none;
@@ -43,12 +57,14 @@ $background-color_5: #cf443a;
 			column-gap: 1.2rem;
 		}
 	}
+
 	body {
 		font-family: $font-family_1;
 		margin: 0;
 		padding: 0;
 		background-color: $background-color_3;
 	}
+
 	.container {
 		max-width: calc(100vw - 48px);
 		width: 1170px;
@@ -58,9 +74,11 @@ $background-color_5: #cf443a;
 		border-radius: 8px;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	}
+
 	h1 {
 		text-align: center;
 	}
+
 	form {
 		display: flex;
 		flex-direction: row;
@@ -68,10 +86,12 @@ $background-color_5: #cf443a;
 		justify-content: space-between;
 		margin-bottom: 20px;
 	}
+
 	label {
 		font-weight: bold;
 		margin-right: 10px;
 	}
+
 	input[type="text"] {
 		width: 100%;
 		padding: 8px;
@@ -82,6 +102,7 @@ $background-color_5: #cf443a;
 		box-sizing: border-box;
 		flex: 1;
 	}
+
 	button {
 		background-color: $background-color_4;
 		color: $color_2;
@@ -91,10 +112,12 @@ $background-color_5: #cf443a;
 		cursor: pointer;
 		display: block;
 		margin-left: 10px;
+
 		&:hover {
 			background-color: $background-color_5;
 		}
 	}
+
 	table {
 		width: 100%;
 		border-collapse: collapse;
@@ -102,6 +125,7 @@ $background-color_5: #cf443a;
 		padding: 8px;
 		text-align: center;
 	}
+
 	th {
 		border: 1px solid #ddd;
 		padding: 8px;
@@ -110,22 +134,27 @@ $background-color_5: #cf443a;
 		color: $color_1 !important;
 		text-align: center;
 	}
+
 	td {
 		border: 1px solid #ddd;
 		padding: 8px;
 		text-align: center;
+
 		&:nth-child(1) {
 			text-align: center;
 		}
+
 		&:nth-child(3) {
 			text-align: center;
 		}
 	}
+
 	.to-csv {
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
 		margin-top: 10px;
+
 		>label {
 			padding: 5px;
 		}
@@ -156,6 +185,7 @@ $background-color_5: #cf443a;
 		margin-left: auto;
 		margin-right: auto;
 	}
+
 	.getPDF {
 		margin-top: 20px;
 	}

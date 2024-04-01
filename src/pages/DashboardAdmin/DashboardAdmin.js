@@ -4,6 +4,7 @@ import ExamManager from './ExamManager';
 import UserManagement from './UserManagement';
 import Statistics from './Statistics';
 import { Link } from 'react-router-dom';
+import AdminNavBar from '../../components/NavBar/AdminNavBar';
 
 
 const DashboardAdmin = () => {
@@ -12,9 +13,12 @@ const DashboardAdmin = () => {
     const navigate = (page) => {
         setCurrentPage(page);
     };
-    
+
     return (
         <div className='dashboard_admin'>
+            <div className='navigation'>
+                <AdminNavBar />
+            </div>
             <div className='auth-tabs'>
                 <button className={`inline-heading ${currentPage === 'exam' ? 'active' : ''}`} onClick={() => navigate('exam')}>Quản lý danh sách kỳ thi</button>
                 <button className={`inline-heading ${currentPage === 'user_management' ? 'active' : ''}`} onClick={() => navigate('user_management')}>Quản lý người dùng</button>

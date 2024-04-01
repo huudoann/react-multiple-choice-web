@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./SearchStudentInformations.scss";
+import AdminNavBar from '../../components/NavBar/AdminNavBar';
 
 function SearchSection() {
   const [students, setStudents] = useState([]);
@@ -85,7 +86,9 @@ function SearchSection() {
 
   return (
     <div className="SearchStudentInformations">
-
+      <div className="navigation">
+        <AdminNavBar />
+      </div>
       <div className="container">
         <h1>Tra cứu điểm sinh viên</h1>
         <form id="search-form" onSubmit={handleSubmit}>
@@ -131,12 +134,12 @@ function SearchSection() {
                       <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{item.examId}</td>
-                        <td>{}</td>
+                        <td>{ }</td>
                         <td>{item.status}</td>
                         <td>{item.score}</td>
                         <td>
-                          <button className="button" onClick={() => {NavigateToStudentExamResult(item.examId)}}>Xem chi tiết</button>
-                        </td> 
+                          <button className="button" onClick={() => { NavigateToStudentExamResult(item.examId) }}>Xem chi tiết</button>
+                        </td>
                       </tr>
                     ))}
                 </tbody>

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { read, utils } from 'xlsx';
 import './CreateAndEditExams.scss';
 import { useParams } from 'react-router-dom';
+import AdminNavBar from '../../components/NavBar/AdminNavBar';
 
 
 const CreateAndEditExams = () => {
@@ -90,6 +91,9 @@ const CreateAndEditExams = () => {
 
     return (
         <div className="content-container">
+            <div className="navigation">
+                <AdminNavBar />
+            </div>
             <form id="examForm">
                 <label htmlFor="examName">Tên kỳ thi:</label>
                 <input type="text" id="examName" name="examName" required /><br />
