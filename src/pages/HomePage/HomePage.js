@@ -16,22 +16,26 @@ const ExamTable = ({ exams, startExam, goToSubmit }) => {
                     <th>Thời gian bắt đầu</th>
                     <th>Thời gian kết thúc</th>
                     <th>Trạng Thái</th>
-                    <th>Ghi chú</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 {exams.map((exam, index) => (
                     <tr key={exam.examId}>
                         <td>{index + 1}</td>
-                        <td className="exam-name" onClick={() => startExam(exam.examId)}>{exam.examName}</td>
+                        <td className="exam-name">{exam.examName}</td>
                         <td>{exam.examType}</td>
                         <td>{exam.startTime}</td>
                         <td>{exam.endTime}</td>
                         <td>{exam.status}</td>
                         <td className='note-class'>
-                            {exam.status === 'Đã hoàn thành' && (
-                                <p onClick={() => goToSubmit(exam.examId)} >
+                            {exam.status === 'Đã hoàn thành' ? (
+                                <p className='done' onClick={() => goToSubmit(exam.examId)} >
                                     Xem kết quả
+                                </p>
+                            ) : (
+                                <p onClick={() => startExam(exam.examId)}>
+                                    Làm bài
                                 </p>
                             )}
                         </td>

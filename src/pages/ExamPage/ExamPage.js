@@ -118,7 +118,7 @@ const ExamPage = () => {
             if (userAnswer == correctAnswer) {
                 score += 1;
             }
-            console.log(correctAnswer, userAnswer, score, questions.length);
+            // console.log(correctAnswer, userAnswer, score, questions.length);
         }
         const roundedScore = Math.round((score / questions.length) * 10);
         setUserScore(roundedScore);

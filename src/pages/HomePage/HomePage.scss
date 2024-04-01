@@ -188,10 +188,10 @@
         text-align: center;
         font-size: larger;
         border-radius: .1rem;
+        color: #fff;
     }
 
     .exam-name {
-        cursor: pointer;
         text-decoration: none;
         text-align: left;
     }
@@ -201,6 +201,16 @@
             cursor: pointer;
             border: 1px solid #dc3545;
             background-color: #dc3545;
+            color: #fff;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            border-radius: .5rem;
+        }
+
+        p.done {
+            cursor: pointer;
+            border: 1px solid green;
+            background-color: green;
             color: #fff;
             font-size: 1rem;
             padding: 0.5rem 0;

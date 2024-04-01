@@ -94,10 +94,10 @@ export default function CustomizedMenus() {
                     <PersonOutline />
                     Tài khoản
                 </MenuItem>
-                <MenuItem onClick={handleClose} disableRipple>
+                {/* <MenuItem onClick={handleClose} disableRipple>
                     <SyncLock />
                     Đổi mật khẩu
-                </MenuItem>
+                </MenuItem> */}
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem onClick={handleLogout} disableRipple>
                     <Logout />

@@ -21,15 +21,15 @@
         top: .25rem;
         margin-right: .5rem;
         padding: 8px 10px 6px 10px;
-        border: 1px solid #ccc;
+        border: 1px solid #000;
         border-radius: 4px;
-        background-color: inherit;
-        color: #fff;
+        background-color: #fff;
+        color: #000;
         cursor: pointer;
     }
 
     .close-button:hover {
-        background-color: lighten(#dc3545, 10%);
+        background-color: red;
     }
 
     .tests-form {

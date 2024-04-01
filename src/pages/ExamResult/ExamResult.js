@@ -134,11 +134,6 @@ const ExamResult = () => {
                     </div>
                 </div>
             ))}
-
-            {/* Button "Trở về" */}
-            <Button variant="contained" onClick={handleCloseButtonClick} className="submit-button">
-                Trở về
-            </Button>
         </div>
     );
 };
