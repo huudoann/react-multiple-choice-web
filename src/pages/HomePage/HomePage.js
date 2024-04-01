@@ -57,6 +57,7 @@ const MainPage = () => {
                 const apiData = response.data;
                 setExams(apiData);
                 setFilteredExams(apiData);
+                console.log("Lấy dữ liệu bài ktra thành công", apiData);
             } catch (error) {
                 console.error('Lỗi khi lấy danh sách các bài kiểm tra:', error.message);
             }

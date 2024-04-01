@@ -11,6 +11,8 @@
         justify-content: space-between;
         align-items: center;
         background-color: #dc3545;
+
+
     }
 
     .close-button {
@@ -48,7 +50,7 @@
     }
 
     .defi-box {
-        height: 50%;
+        height: 30%;
 
         p {
             font-size: 1.25rem;
@@ -58,7 +60,7 @@
     }
 
     .term-box {
-        height: 60%;
+        height: 70%;
 
         p {
             font-size: 1.25rem;
@@ -75,13 +77,16 @@
         .button-row {
             flex-basis: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: space-around;
             margin-top: 10px;
 
             button {
                 flex-grow: 1;
-                width: 50%;
+                width: 90%;
             }
+
+
         }
     }
 

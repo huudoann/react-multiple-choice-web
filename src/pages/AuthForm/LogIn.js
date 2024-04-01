@@ -72,7 +72,6 @@ const LoginForm = ({ switchForm }) => {
       <div className="password-container">
         <div className="header-of-password">
           <label>Mật khẩu:</label>
-          <span className="forgot-password" onClick={handleForgotPassword}>Quên mật khẩu?</span>
         </div>
 
 

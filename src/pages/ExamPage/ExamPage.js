@@ -6,27 +6,58 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const ExamPage = () => {
+    const [elapsedTime, setElapsedTime] = useState(3600);
     const [questions, setQuestions] = useState([]);
+    const [selectedAnswers, setSelectedAnswers] = useState([]);
     const [answers, setAnswers] = useState([]);
-    const [selectedAnswers, setSelectedAnswers] = useState(Array(20).fill(null));
     const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
     const [submitted, setSubmitted] = useState(false);
-    const [totalQuestions, setTotalQuestions] = useState(0);
     const [openDialog, setOpenDialog] = useState(false);
-    const [showResult, setShowResult] = useState(false);
+    const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const answerOptions = ['A.', 'B.', 'C.', 'D.'];
+
+    useEffect(() => {
+        const timerId = setInterval(() => {
+            setElapsedTime(prevTime => {
+                if (prevTime > 0) {
+                    return prevTime - 1;
+                } else {
+                    clearInterval(timerId);
+                    setOpenDialog(true);
+                    return 0;
+                }
+            });
+        }, 1000); // Mỗi giây
+
+        return () => {
+            clearInterval(timerId);
+        };
+    }, []);
+    const formatTime = (timeInSeconds) => {
+        const hours = Math.floor(timeInSeconds / 3600);
+        const minutes = Math.floor((timeInSeconds % 3600) / 60);
+        const seconds = timeInSeconds % 60;
+
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    };
+
 
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem("token");
             const examId = localStorage.getItem("examId");
 
+            if (!token) {
+                throw new Error("Không tìm thấy token trong Localstorage!");
+            }
+
             try {
                 const response = await axios.get(`http://localhost:8080/api/question/get-all-questions/${examId}`);
                 const apiData = response.data;
                 setQuestions(apiData);
+                console.log("Lấy dữ liệu câu hỏi thành công", apiData);
             } catch (error) {
                 console.error('Lỗi khi lấy dữ liệu câu hỏi:', error.message);
             }
@@ -37,9 +68,15 @@ const ExamPage = () => {
 
     useEffect(() => {
         if (questions.length > 0) {
+            const initialSelectedAnswers = Array(questions.length).fill(null);
+            const initialAnswers = [];
+
             questions.forEach((question, index) => {
                 generateAnswers(question, index);
             });
+
+            setSelectedAnswers(initialSelectedAnswers);
+            setAnswers(initialAnswers);
         }
     }, [questions]);
 
@@ -72,53 +109,75 @@ const ExamPage = () => {
     };
 
     const handleAnswerSelection = (index, answerIndex) => {
+        const selectedAnswer = String.fromCharCode(65 + answerIndex); // Chuyển đổi index sang ký tự tương ứng: A, B, C, D
         const newSelectedAnswers = [...selectedAnswers];
-        newSelectedAnswers[index] = answerIndex;
+        newSelectedAnswers[index] = selectedAnswer;
         setSelectedAnswers(newSelectedAnswers);
-        const selectedAnswer = answers[index * 4 + answerIndex];
         if (selectedAnswer === questions[index].front_text) {
             setCorrectAnswersCount(prevCount => prevCount + 1);
         }
     };
-
     const handleSubmitButtonClick = () => {
         setOpenDialog(true);
     };
 
-    const handleConfirmSubmit = () => {
+    const handleConfirmSubmit = async () => {
         setOpenDialog(false);
         setSubmitted(true);
-        const totalQuestionsCount = questions.length;
-        setTotalQuestions(totalQuestionsCount);
+        setShowSubmitConfirmation(true);
+        const token = localStorage.getItem("token");
+        const examId = localStorage.getItem("examId");
+        const userId = localStorage.getItem("userId");
 
-        let correctCount = 0;
-        selectedAnswers.forEach((selectedAnswerIndex, index) => {
-            if (selectedAnswerIndex !== null && answers[index * 4 + selectedAnswerIndex] === questions[index].front_text) {
-                correctCount++;
+        if (!token) {
+            throw new Error("Không có token trong Localstorage!");
+        }
+
+        try {
+            for (let i = 0; i < selectedAnswers.length; i++) {
+                const userAnswer = selectedAnswers[i];
+                let selectedAnswer = 'F'; // Giá trị mặc định là 'F'
+                let questionId;
+                if (userAnswer !== null && userAnswer !== undefined) {
+                    selectedAnswer = userAnswer;
+                    questionId = questions[i].questionId;
+                }
+                const postData = {
+                    userId: userId,
+                    examId: examId,
+                    questionId: questionId,
+                    selectedAnswer: selectedAnswer,
+                };
+                const response = await axios.post('http://localhost:8080/api/user-answer/create-user-answer', postData, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                console.log('Dữ liệu đã được gửi thành công:', response);
             }
-        });
-        setCorrectAnswersCount(correctCount);
-        setShowResult(true);
-        navigate('/result', {
-            state: {
-                questions,
-                answers,
-                selectedAnswers,
-                correctAnswersCount,
-                totalQuestions
-            }
-        });
+        } catch (error) {
+            console.error('Lỗi khi gửi dữ liệu:', error.message);
+        }
     };
 
     const handleDialogClose = () => {
         setOpenDialog(false);
     };
 
+    const handleViewResultButtonClick = () => {
+        navigate(`/result`);
+    };
+
     return (
         <div className="ExamPage">
             <div className="navigation">
+                {/* Hiển thị thời gian */}
+                <div className="elapsed-time">
+                    <p>Thời gian còn lại: {formatTime(elapsedTime)}</p>
+                </div>
                 <button className="close-button" onClick={handleCloseButtonClick}><Close /></button>
             </div>
+
             {/* Phần hiển thị đáp án */}
             {questions.map((question, index) => (
                 <div className="tests-form" key={index}>
@@ -133,7 +192,7 @@ const ExamPage = () => {
                                 {answerOptions.map((option, optionIndex) => (
                                     <button
                                         key={optionIndex}
-                                        className={selectedAnswers[index] === optionIndex ? 'clicked' : ''}
+                                        className={selectedAnswers[index] === String.fromCharCode(65 + optionIndex) ? 'clicked' : ''}
                                         onClick={() => handleAnswerSelection(index, optionIndex)}
                                     >
                                         {option} {question[`answerOption${String.fromCharCode(65 + optionIndex)}`]}
@@ -157,6 +216,19 @@ const ExamPage = () => {
                     </Button>
                     <Button onClick={handleConfirmSubmit} color="primary" autoFocus>
                         Đồng ý
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Dialog "Bạn đã nộp bài" */}
+            <Dialog open={showSubmitConfirmation}>
+                <DialogTitle>Bạn đã nộp bài</DialogTitle>
+                <DialogContent>
+                    <p>Bạn đã hoàn thành bài kiểm tra.</p>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleViewResultButtonClick} color="primary" autoFocus>
+                        Xem kết quả
                     </Button>
                 </DialogActions>
             </Dialog>
