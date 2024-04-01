@@ -23,6 +23,7 @@ export const endPoint = {
     getAllUsers: () => `${baseUrl}/user/all-users`,
     createUser: () => `${baseUrl}/auth/signup`,
     deleteUser: (id) => `${baseUrl}/user/delete-user/${id}`,
+    editUser: (id) => `${baseUrl}/user/edit/${id}`,
 
     //question
     createNewExam: (examId) => `${baseUrl}/question/create-question/${examId}`,

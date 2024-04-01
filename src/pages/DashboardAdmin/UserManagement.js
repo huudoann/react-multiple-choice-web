@@ -7,6 +7,7 @@ const UserManagement = () => {
     const [users, setUsers] = useState([]);
     const [deleteIndex, setDeleteIndex] = useState(null);
     const [deleteUserId, setDeleteUserId] = useState(null);
+    const [editUserId, setEditUserId] = useState(null);
 
     useEffect(() => {
         const getListUser = async () => {
@@ -37,17 +38,28 @@ const UserManagement = () => {
     }
 
     //chua viet api cho sua username phia be
-    const editUser = (index) => {
+    const editUser = async (userId, index) => {
+        setEditUserId(userId)
         let updatedUsers = [...users];
         let user = updatedUsers[index];
-        let fullName = prompt('Nhập tên mới:', user.name);
+        let newUsername = prompt('Nhập tên mới:', user.username);
         // let birthDate = prompt('Nhập ngày sinh mới (YYYY-MM-DD):', user.birth);
         // let studentId = prompt('Nhập mã sinh viên mới:', user.id);
         // let userClass = prompt('Nhập lớp mới:', user.class);
 
-        if (fullName !== null) {
-            updatedUsers[index] = { name: fullName };
+        if (newUsername !== null) {
+            updatedUsers[index] = { username: newUsername };
             setUsers(updatedUsers);
+            // Gọi API edit người dùng với userId
+            try {
+                console.log(userId)
+                await Request.Server.put(endPoint.editUser(userId), newUsername);
+                setUsers(prevUsers => prevUsers.filter(user => user.editUserId !== editUserId));
+            } catch (error) {
+                console.error('Error edit user:', error);
+            } finally {
+                setEditUserId(null); // Ẩn form xác nhận xóa sau khi xác nhận
+            }
         }
     }
 
@@ -106,7 +118,7 @@ const UserManagement = () => {
                             <td>{user.id}</td>
                             <td>{user.class}</td> */}
                             <td>
-                                <button className="edit" onClick={() => editUser(index)}>Sửa</button>
+                                <button className="edit" onClick={() => editUser(user.userId, index)}>Sửa</button>
                                 <button className="del" onClick={() => deleteUser(user.userId, index)}>Xóa</button>
                             </td>
                         </tr>
