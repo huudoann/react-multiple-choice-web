@@ -7,145 +7,156 @@ $background-color_3: #f2f2f2;
 $background-color_4: #AD171C;
 $background-color_5: #cf443a;
 
-#header {
-	height: 10vh;
-	background-color: $background-color_1;
-	display: flex;
-	justify-content: space-between;
-	padding: 0 5vw;
-	align-items: center;
-	a {
-		font-size: 1.2rem;
-		color: $color_1;
-		font-weight: bold;
-		text-decoration: none;
-	}
-	.logo {
-		background-color: $background-color_2;
-		width: 6vh;
-		height: 6vh;
+.SearchStudentInformations {
+	#header {
+		height: 10vh;
+		background-color: $background-color_1;
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
+		padding: 0 5vw;
 		align-items: center;
-		border-radius: 50%;
-		cursor: pointer;
-		img {
-			width: 70%;
-			height: 70%;
+		a {
+			font-size: 1.2rem;
+			color: $color_1;
+			font-weight: bold;
+			text-decoration: none;
+		}
+		.logo {
+			background-color: $background-color_2;
+			width: 6vh;
+			height: 6vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-radius: 50%;
+			cursor: pointer;
+			img {
+				width: 70%;
+				height: 70%;
+			}
 		}
 	}
-}
-#navbar {
-	li {
-		list-style-type: none;
+	#navbar {
+		li {
+			list-style-type: none;
+			display: flex;
+			column-gap: 1.2rem;
+		}
+	}
+	body {
+		font-family: $font-family_1;
+		margin: 0;
+		padding: 0;
+		background-color: $background-color_3;
+	}
+	.container {
+		max-width: calc(100vw - 48px);
+		width: 1170px;
+		margin: 50px auto;
+		padding: 100px;
+		background-color: $background-color_2;
+		border-radius: 8px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}
+	h1 {
+		text-align: center;
+	}
+	form {
 		display: flex;
-		column-gap: 1.2rem;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 20px;
 	}
-}
-body {
-	font-family: $font-family_1;
-	margin: 0;
-	padding: 0;
-	background-color: $background-color_3;
-}
-.container {
-	max-width: calc(100vw - 48px);
-	width: 2000px;
-	height: 100vh;
-	margin: 50px auto;
-	padding: 100px;
-	background-color: $background-color_2;
-	border-radius: 8px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-h1 {
-	text-align: center;
-}
-form {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 20px;
-}
-label {
-	font-weight: bold;
-	margin-right: 10px;
-}
-input[type="text"] {
-	width: 100%;
-	padding: 8px;
-	margin-top: 5px;
-	margin-bottom: 10px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	box-sizing: border-box;
-	flex: 1;
-}
-button {
-	background-color: $background-color_4;
-	color: $color_2;
-	padding: 10px 20px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	display: block;
-	margin-left: 10px;
-	&:hover {
-		background-color: $background-color_5;
+	label {
+		font-weight: bold;
+		margin-right: 10px;
 	}
-}
-table {
-	width: 100%;
-	border-collapse: collapse;
-	border: 1px solid #ddd;
-	padding: 8px;
-	text-align: center;
-}
-th {
-	border: 1px solid #ddd;
-	padding: 8px;
-	text-align: center;
-	background-color: $background-color_5;
-	color: $color_1;
-	text-align: center;
-}
-td {
-	border: 1px solid #ddd;
-	padding: 8px;
-	text-align: center;
-	&:nth-child(1) {
+	input[type="text"] {
+		width: 100%;
+		padding: 8px;
+		margin-top: 5px;
+		margin-bottom: 10px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+		flex: 1;
+	}
+	button {
+		background-color: $background-color_4;
+		color: $color_2;
+		padding: 10px 20px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		display: block;
+		margin-left: 10px;
+		&:hover {
+			background-color: $background-color_5;
+		}
+	}
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		border: 1px solid #ddd;
+		padding: 8px;
 		text-align: center;
 	}
-	&:nth-child(3) {
+	th {
+		border: 1px solid #ddd;
+		padding: 8px;
+		text-align: center;
+		background-color: $background-color_5 !important;
+		color: $color_1 !important;
 		text-align: center;
 	}
-}
-.to-csv {
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	margin-top: 10px;
-	>label {
-		padding: 5px;
+	td {
+		border: 1px solid #ddd;
+		padding: 8px;
+		text-align: center;
+		&:nth-child(1) {
+			text-align: center;
+		}
+		&:nth-child(3) {
+			text-align: center;
+		}
 	}
-}
+	.to-csv {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		margin-top: 10px;
+		>label {
+			padding: 5px;
+		}
+	}
 
-.student-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 20px;
-}
+	.student-info {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		margin: 20px;
+	}
 
-.notFound {
-    color: black;
-    font-size: 1.5rem;
-    text-align: center;
-    font-weight: bold;
-}
+	.notFound {
+		color: black;
+		font-size: 1.5rem;
+		text-align: center;
+		font-weight: bold;
+	}
 
-.button {
-	margin: auto;
+	.button {
+		margin: auto;
+	}
+
+	#search-form {
+		width: 100%;
+		max-width: 500px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.getPDF {
+		margin-top: 20px;
+	}
 }
