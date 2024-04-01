@@ -7,6 +7,7 @@ import { endPoint } from '../../util/api/endPoint';
 
 const CreateAndEditExams = () => {
     let { examId } = useParams();
+    console.log(examId);
 
     useEffect(() => {
         const addQuestionButton = document.getElementById("addQuestion");
@@ -81,8 +82,6 @@ const CreateAndEditExams = () => {
     return (
         <div className="content-container">
             <form id="examForm">
-                <label htmlFor="examName">Tên kỳ thi:</label>
-                <input type="text" id="examName" name="examName" required /><br />
                 <label htmlFor="question">Danh sách câu hỏi:</label>
                 <div id="questionList"></div>
                 <button type="button" id="addQuestion">Thêm câu hỏi</button>

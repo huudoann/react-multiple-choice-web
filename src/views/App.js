@@ -17,6 +17,7 @@ import SearchSection from '../pages/SearchStudentInformations/SearchStudentInfor
 import StudentExamResult from '../pages/StudentExamResult/StudentExamResult';
 // import ExamStatistic from '../pages/ExamStatistic/ExamStatistic';
 
+
 function App() {
   return (
     <Router>
