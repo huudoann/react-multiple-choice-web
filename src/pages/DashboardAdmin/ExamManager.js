@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./ExamManager.scss";
 import { Request } from '../../util/axios';
 import { endPoint } from '../../util/api/endPoint';
+import { Link } from 'react-router-dom';
 
 const ExamManager = () => {
     const [exams, setExams] = useState([]);
@@ -10,6 +11,7 @@ const ExamManager = () => {
     const [deleteExamId, setDeleteExamId] = useState(null);
     const [editExamId, setEditExamId] = useState(null);
     console.log(exams)
+
 
     useEffect(() => {
         const getListExam = async () => {
@@ -110,6 +112,9 @@ const ExamManager = () => {
                             <td>{exam.description}</td>
                             <td>
                                 <div className="edit-delete-buttons">
+                                    <Link to={`/exam/${exam.examId}`} style={{ color: 'inherit', textDecoration: 'inherit' }} >
+                                        <button className="del" onClick={() => showDeleteForm(exam.examId, index)}>Thêm câu hỏi</button>
+                                    </Link>
                                     <button className="edit" onClick={() => editExam(exam.examId, index)}>Sửa</button>
                                     <button className="del" onClick={() => showDeleteForm(exam.examId, index)}>Xóa</button>
                                 </div>
