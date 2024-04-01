@@ -15,10 +15,17 @@ const ExamPage = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(false);
     const [userScore, setUserScore] = useState(0);
+    const [startTime, setStartTime] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
     const answerOptions = ['A.', 'B.', 'C.', 'D.'];
 
+    //lấy thời gian ngay khi vào làm bài
+    useEffect(() => {
+        setStartTime(new Date().toLocaleString());
+    }, []);
+
+    //bộ đếm ngược
     useEffect(() => {
         const timerId = setInterval(() => {
             setElapsedTime(prevTime => {
@@ -36,6 +43,8 @@ const ExamPage = () => {
             clearInterval(timerId);
         };
     }, []);
+
+    //format thời gian
     const formatTime = (timeInSeconds) => {
         const hours = Math.floor(timeInSeconds / 3600);
         const minutes = Math.floor((timeInSeconds % 3600) / 60);
@@ -44,7 +53,7 @@ const ExamPage = () => {
         return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
 
-
+    //lấy các câu hỏi
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem("token");
@@ -67,6 +76,7 @@ const ExamPage = () => {
         fetchData();
     }, []);
 
+    //sinh câu hỏi và đáp án
     useEffect(() => {
         if (questions.length > 0) {
             const initialSelectedAnswers = Array(questions.length).fill(null);
@@ -164,6 +174,20 @@ const ExamPage = () => {
         setOpenDialog(true);
     };
 
+    const convertDateTimeFormat = (dateTimeInput) => {
+        const dateTime = new Date(dateTimeInput);
+        const day = dateTime.getDate();
+        const month = dateTime.getMonth() + 1;
+        const year = dateTime.getFullYear();
+        const hours = dateTime.getHours();
+        const minutes = dateTime.getMinutes();
+        const seconds = dateTime.getSeconds();
+
+        // Đảm bảo hiển thị 2 chữ số cho ngày, tháng, giờ, phút, giây
+        const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}0`;
+        return formattedDateTime;
+    };
+
     const handleConfirmSubmit = async () => {
         setOpenDialog(false);
         setSubmitted(true);
@@ -201,6 +225,27 @@ const ExamPage = () => {
             }
         } catch (error) {
             console.error('Lỗi khi gửi dữ liệu:', error.message);
+        }
+
+        try {
+            const endTime = new Date().toLocaleString(); // Thời gian kết thúc
+            let formattedStartTime = convertDateTimeFormat(startTime)
+            let formattedEndTime = convertDateTimeFormat(endTime)
+
+            const postData = {
+                userId: userId,
+                examId: examId,
+                startTime: formattedStartTime,
+                endTime: formattedEndTime,
+            };
+            const response = await axios.post('http://localhost:8080/api/exam-attempt/create-exam-attempt', postData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log('Gửi exam attempt thành công:', response);
+        } catch (error) {
+            console.error('Lỗi khi gửi exam attempt:', error.message);
         }
     };
 

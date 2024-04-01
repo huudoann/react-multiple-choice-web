@@ -19,6 +19,9 @@ export const endPoint = {
     getExamById: (id) => `${baseUrl}/exams/${id}`,
     getAllExams: () => `${baseUrl}/exam/get-all-exams`,
 
+    //exam-attempt
+    getExamAttemptByUserId: (id) => `${baseUrl}/user/${id}`,
+
     //user
     getAllUsers: () => `${baseUrl}/user/all-users`,
     createUser: () => `${baseUrl}/auth/signup`,

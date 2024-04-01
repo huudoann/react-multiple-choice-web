@@ -1,25 +1,76 @@
 import React, { useState, useEffect } from "react";
 import "./StudentTable.scss"; // Import CSS file
 import AdminNavBar from '../../components/NavBar/AdminNavBar';
+import { endPoint } from '../../util/api/endPoint';
+import { Request } from '../../util/axios';
+import axios from 'axios'
 
-
-function StudentTable() {
-  const [students, setStudents] = useState([]);
+const StudentTable = () => {
+  const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("");
+  const [userDataFetched, setUserDataFetched] = useState(false);
 
   useEffect(() => {
-    // Gửi request đến backend để lấy dữ liệu sinh viên
-    fetch("http://localhost:8080/api/user/all-users", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setStudents(data))
-      .catch((error) => console.error("Error fetching data:", error));
-      console.log(students);
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("Không tìm thấy token trong Localstorage!");
+      }
+
+      try {
+        const response = await Request.Server.get(endPoint.getAllUsers());
+        console.log(response);
+        setUsers(response);
+        setUserDataFetched(true);
+
+      } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu users:', error.message);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    if (userDataFetched) {
+      const fetchExamAttempts = async () => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          throw new Error("Không tìm thấy token trong Localstorage!");
+        }
+
+        try {
+          const userIds = users.map(user => user.userId);
+
+          const userPromises = userIds.map(async userId => {
+            const response = await axios.get(`http://localhost:8080/api/exam-attempt/user/${userId}`);
+            return { userId, examAttempts: response.data };
+          });
+
+          const usersData = await Promise.all(userPromises);
+          console.log("Dữ liệu users:", usersData);
+
+          // Cập nhật mảng users với examAttempts
+          const updatedUsers = users.map(user => {
+            const userData = usersData.find(data => data.userId === user.userId);
+            return {
+              ...user,
+              examAttempts: userData ? userData.examAttempts : [],
+            };
+          });
+
+          setUsers(updatedUsers);
+        } catch (error) {
+          console.error('Lỗi khi lấy dữ liệu users:', error.message);
+        }
+      };
+
+      fetchExamAttempts();
+    }
+  }, [userDataFetched]);
+
 
   const handleDownloadPDF = () => {
     window.print(); // In cả trang khi người dùng nhấn vào nút
@@ -36,7 +87,7 @@ function StudentTable() {
     return 0;
   };
 
-  const filteredStudents = students.filter((student) =>
+  const filteredStudents = users.filter((student) =>
     student.username.toLowerCase().includes(filter.toLowerCase())
   );
 
@@ -67,7 +118,7 @@ function StudentTable() {
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{student.username}</td>
-                <td>{student.examAttempts ? student.examAttempts.length : 0}</td>
+                <td>{student.examAttempts && student.examAttempts.length > 0 ? student.examAttempts.length : 0}</td>
                 <td>{getAvgScore(student) ? getAvgScore(student) : 0}</td>
               </tr>
             ))}
