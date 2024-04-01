@@ -17,7 +17,13 @@ export const endPoint = {
     deleteExamById: (id) => `${baseUrl}/exam/delete-exam/${id}`,
     editExamById: (id) => `${baseUrl}/exam/edit/${id}`,
     getExamById: (id) => `${baseUrl}/exams/${id}`,
-    getAllExams: () => `${baseUrl}/exam/get-all-exams`
+    getAllExams: () => `${baseUrl}/exam/get-all-exams`,
+
+    //user
+    getAllUsers: () => `${baseUrl}/user/all-users`,
+    createUser: () => `${baseUrl}/auth/signup`,
+    deleteUser: (id) => `${baseUrl}/user/delete-user/${id}`
+
     // ví dụ cái api get exam by id
     // baseUrl là cái khai báo bên trên chỉ thêm đoạn sau chữ api thôi
     // truyền id vào đây
