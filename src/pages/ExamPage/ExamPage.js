@@ -324,8 +324,8 @@ const ExamPage = () => {
 
             {/* Button "Gửi bài kiểm tra" */}
             {!submitted && (
-                <Button variant="contained" onClick={handleSubmitButtonClick} className="submit-button">
-                    Gửi bài kiểm tra
+                <Button variant="contained" onClick={handleSubmitButtonClick} className="submit-button" style={{ backgroundColor: '#dc3545' }}>
+                    Nộp bài
                 </Button>
             )}
         </div>

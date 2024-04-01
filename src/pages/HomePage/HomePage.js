@@ -50,6 +50,8 @@ const MainPage = () => {
     const [exams, setExams] = useState([]);
     const [examResults, setExamResults] = useState([]);
     const [filteredExams, setFilteredExams] = useState([]);
+    const [showModal, setShowModal] = useState(false); // State để kiểm soát việc hiển thị modal
+    const [examIdToStart, setExamIdToStart] = useState(null); // State để lưu ID của bài thi muốn bắt đầu
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -96,8 +98,20 @@ const MainPage = () => {
     };
 
     const startExam = (examId) => {
-        localStorage.setItem('examId', examId);
+        const confirmMessage = "Bạn chắc chắn muốn bắt đầu bài kiểm tra không?\n\nLưu ý: Thời gian sẽ tính khi bấm nút 'Bắt đầu'";
+        // Xác nhận hiển thị modal khi nhấn nút "Làm bài"
+        setExamIdToStart(examId);
+        setShowModal(true);
+    };
+
+    const onCancel = () => {
+        setShowModal(false);
+    };
+
+    const onConfirm = () => {
+        localStorage.setItem('examId', examIdToStart);
         navigate(`/exam`);
+        setShowModal(false);
     };
 
     const filterExams = (examType) => {
@@ -106,89 +120,6 @@ const MainPage = () => {
         } else {
             const filtered = exams.filter(exam => exam.examType === examType);
             setFilteredExams(filtered);
-        }
-    };
-
-    const showExams = (examType) => {
-        const examInfoDiv = document.getElementById('examInfoList');
-        examInfoDiv.innerHTML = '';
-        let count = 1;
-
-        const examSubjectsList = exams.filter(exam => exam.examType === examType);
-        if (examSubjectsList.length > 0) {
-            examSubjectsList.forEach((exam) => {
-                const subjectDiv = document.createElement('div');
-                subjectDiv.classList.add('exam-info');
-
-                const subjectNameSpan = document.createElement('span');
-                subjectNameSpan.classList.add('exam-name');
-                subjectNameSpan.textContent = count + ". " + exam.examName;
-                subjectNameSpan.onclick = () => {
-                    startExam(exam.examName, exam.examId);
-                };
-                subjectDiv.appendChild(subjectNameSpan);
-
-                const modeSpan = document.createElement('span');
-                modeSpan.classList.add('exam-type');
-                modeSpan.textContent = exam.examType;
-                subjectDiv.appendChild(modeSpan);
-
-                const statusSpan = document.createElement('span');
-                statusSpan.textContent = exam.startTime === 'free' ? 'Tự do' : exam.startTime;
-                statusSpan.classList.add('exam-status');
-                if (exam.startTime === 'free') {
-                    statusSpan.classList.add('exam-status-free');
-                } else {
-                    statusSpan.classList.add('exam-status-timed');
-                }
-                subjectDiv.appendChild(statusSpan);
-
-                examInfoDiv.appendChild(subjectDiv);
-                count++;
-            });
-        } else {
-            examInfoDiv.textContent = 'Không có kỳ thi nào trong danh mục này.';
-        }
-    };
-
-    const showAllExams = () => {
-        const examInfoDiv = document.getElementById('examInfoList');
-        examInfoDiv.innerHTML = '';
-        let count = 1;
-
-        if (exams.length > 0) {
-            exams.forEach((exam) => {
-                const subjectDiv = document.createElement('div');
-                subjectDiv.classList.add('exam-info');
-
-                const subjectNameSpan = document.createElement('span');
-                subjectNameSpan.classList.add('exam-name');
-                subjectNameSpan.textContent = count + ". " + exam.examName;
-                subjectNameSpan.onclick = () => {
-                    startExam(exam.examName, exam.examId);
-                };
-                subjectDiv.appendChild(subjectNameSpan);
-
-                const modeSpan = document.createElement('span');
-                modeSpan.classList.add('exam-type');
-                modeSpan.textContent = exam.examType;
-                subjectDiv.appendChild(modeSpan);
-
-                const statusSpan = document.createElement('span');
-                statusSpan.textContent = exam.startTime === 'free' ? 'Tự do' : exam.startTime;
-                statusSpan.classList.add('exam-status');
-                if (exam.startTime === 'free') {
-                    statusSpan.classList.add('exam-status-free');
-                } else {
-                    statusSpan.classList.add('exam-status-timed');
-                }
-                subjectDiv.appendChild(statusSpan);
-
-                examInfoDiv.appendChild(subjectDiv);
-                count++;
-            });
-        } else {
-            examInfoDiv.textContent = 'Không có kỳ thi nào.';
         }
     };
 
@@ -238,6 +169,19 @@ const MainPage = () => {
             <div id="examInfoList">
                 <ExamTable exams={filteredExams} startExam={startExam} goToSubmit={goToSubmit} />
             </div>
+
+            {showModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <p>Bạn chắc chắn muốn bắt đầu bài kiểm tra không?</p>
+                        <p>Lưu ý: Thời gian sẽ tính khi bấm nút 'Bắt đầu'</p>
+                        <div className="button-container">
+                            <button onClick={onCancel}>Hủy</button>
+                            <button onClick={onConfirm}>Bắt đầu</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
