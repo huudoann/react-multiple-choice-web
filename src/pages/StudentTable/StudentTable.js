@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./StudentTable.scss"; // Import CSS file
+import AdminNavBar from '../../components/NavBar/AdminNavBar';
+
 
 function StudentTable() {
   const [students, setStudents] = useState([]);
@@ -34,6 +36,9 @@ function StudentTable() {
 
   return (
     <div className="studentTable">
+      <div className="navigation">
+        <AdminNavBar />
+      </div>
       <div className="container">
         <h1>Bảng thống kê sinh viên</h1>
         <input className="filterBar"

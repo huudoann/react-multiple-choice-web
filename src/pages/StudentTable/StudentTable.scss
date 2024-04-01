@@ -1,5 +1,14 @@
 /* StudentTable.css */
-.studentTable{
+.studentTable {
+  .navigation {
+    background-color: #dc3545;
+    min-height: 2.5rem;
+
+    button {
+      justify-content: center;
+    }
+  }
+
   body {
     font-family: Arial, sans-serif;
   }
@@ -56,17 +65,20 @@
     outline: none;
     margin-left: 70%;
   }
-  .filterBar:hover, .filterBar:focus {
+
+  .filterBar:hover,
+  .filterBar:focus {
     border: 1px solid #cf443a;
     transition: 0.3s;
   }
+
   .container {
-		max-width: calc(100vw - 48px);
-		width: 1170px;
-		margin: 50px auto;
-		padding: 100px;
-		background-color: #ffff;
-		border-radius: 8px;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	}
+    max-width: calc(100vw - 48px);
+    width: 1170px;
+    margin: 50px auto;
+    padding: 100px;
+    background-color: #ffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
 }

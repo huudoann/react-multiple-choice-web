@@ -28,12 +28,12 @@ function App() {
           <Route exact path='/' element={<SignUpForm />} />
           <Route exact path='/login' element={<LoginForm />} />
           <Route exact path='/home' element={<HomePage />} />
+          <Route exact path='/exam' element={<ExamPage />} />
+          <Route exact path='/result' element={<ExamResult />} />
           <Route exact path='/dashboard_admin' element={<DashboardAdmin />} />
           <Route exact path='/user_management' element={<UserManagement />} />
           <Route exact path='/statistics' element={<Statistics />} />
           <Route exact path='/exam/:examId' element={<CreateAndEditExams />} />
-          <Route exact path='/exam' element={<ExamPage />} />
-          <Route exact path='/result' element={<ExamResult />} />
           <Route exact path='/student_table' element={<StudentTable />} />
           <Route exact path='/search_student_informations' element={<SearchSection />} />
           <Route exact path='/student_exam_result' element={<StudentExamResult />} />

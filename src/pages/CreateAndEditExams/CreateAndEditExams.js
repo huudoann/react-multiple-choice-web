@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { read, utils } from 'xlsx';
 import './CreateAndEditExams.scss';
 import { useParams } from 'react-router-dom';
+import AdminNavBar from '../../components/NavBar/AdminNavBar';
 import { endPoint } from '../../util/api/endPoint';
 
 
@@ -81,6 +82,9 @@ const CreateAndEditExams = () => {
 
     return (
         <div className="content-container">
+            <div className="navigation">
+                <AdminNavBar />
+            </div>
             <form id="examForm">
                 <label htmlFor="question">Danh sách câu hỏi:</label>
                 <div id="questionList"></div>
