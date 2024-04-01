@@ -10,60 +10,60 @@ $background-color_5: #cf443a;
 .SearchStudentInformations {
 
 	.navigation {
-		background-color: #dc3545;
-		min-height: 2.5rem;
-
-		button {
-			justify-content: center;
-		}
+		height: 2.5rem;
 	}
 
-	#header {
-		height: 10vh;
-		background-color: $background-color_1;
-		display: flex;
-		justify-content: space-between;
-		padding: 0 5vw;
-		align-items: center;
-
-		a {
-			font-size: 1.2rem;
-			color: $color_1;
-			font-weight: bold;
-			text-decoration: none;
-		}
-
-		.logo {
-			background-color: $background-color_2;
-			width: 6vh;
-			height: 6vh;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			border-radius: 50%;
-			cursor: pointer;
-
-			img {
-				width: 70%;
-				height: 70%;
-			}
-		}
+	.navigation button {
+		padding: .25rem .5rem;
+		font-size: 14px;
 	}
 
-	#navbar {
-		li {
-			list-style-type: none;
-			display: flex;
-			column-gap: 1.2rem;
-		}
-	}
+	// #header {
+	// 	height: 5vh;
+	// 	background-color: $background-color_1;
+	// 	display: flex;
+	// 	justify-content: space-between;
+	// 	padding: 0 5vw;
+	// 	align-items: center;
 
-	body {
-		font-family: $font-family_1;
-		margin: 0;
-		padding: 0;
-		background-color: $background-color_3;
-	}
+	// 	a {
+	// 		font-size: 1.2rem;
+	// 		color: $color_1;
+	// 		font-weight: bold;
+	// 		text-decoration: none;
+	// 	}
+
+	// 	.logo {
+	// 		background-color: $background-color_2;
+	// 		width: 6vh;
+	// 		height: 6vh;
+	// 		display: flex;
+	// 		justify-content: center;
+	// 		align-items: center;
+	// 		border-radius: 50%;
+	// 		cursor: pointer;
+
+	// 		img {
+	// 			width: 70%;
+	// 			height: 70%;
+	// 		}
+	// 	}
+	// }
+
+	// #navbar {
+	// 	li {
+	// 		list-style-type: none;
+	// 		display: flex;
+	// 		column-gap: 1.2rem;
+	// 	}
+	// }
+
+	// body {
+	// 	font-family: $font-family_1;
+	// 	margin: 0;
+	// 	padding: 0;
+	// 	background-color: $background-color_3;
+	// }
 
 	.container {
 		max-width: calc(100vw - 48px);
@@ -85,6 +85,21 @@ $background-color_5: #cf443a;
 		align-items: center;
 		justify-content: space-between;
 		margin-bottom: 20px;
+
+		button {
+			background-color: $background-color_4;
+			color: $color_2;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			display: block;
+			margin-left: 10px;
+
+			&:hover {
+				background-color: $background-color_5;
+			}
+		}
 	}
 
 	label {
@@ -103,20 +118,7 @@ $background-color_5: #cf443a;
 		flex: 1;
 	}
 
-	button {
-		background-color: $background-color_4;
-		color: $color_2;
-		padding: 10px 20px;
-		border: none;
-		border-radius: 4px;
-		cursor: pointer;
-		display: block;
-		margin-left: 10px;
 
-		&:hover {
-			background-color: $background-color_5;
-		}
-	}
 
 	table {
 		width: 100%;
@@ -175,9 +177,6 @@ $background-color_5: #cf443a;
 		font-weight: bold;
 	}
 
-	.button {
-		margin: auto;
-	}
 
 	#search-form {
 		width: 100%;
@@ -188,5 +187,20 @@ $background-color_5: #cf443a;
 
 	.getPDF {
 		margin-top: 20px;
+
+		button {
+			background-color: $background-color_4;
+			color: $color_2;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			display: block;
+			margin-left: 10px;
+
+			&:hover {
+				background-color: $background-color_5;
+			}
+		}
 	}
 }

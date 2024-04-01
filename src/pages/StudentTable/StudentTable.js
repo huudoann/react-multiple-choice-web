@@ -9,10 +9,16 @@ function StudentTable() {
 
   useEffect(() => {
     // Gửi request đến backend để lấy dữ liệu sinh viên
-    fetch("http://localhost:8080/api/user/all-users")
+    fetch("http://localhost:8080/api/user/all-users", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => setStudents(data))
       .catch((error) => console.error("Error fetching data:", error));
+      console.log(students);
   }, []);
 
   const handleDownloadPDF = () => {

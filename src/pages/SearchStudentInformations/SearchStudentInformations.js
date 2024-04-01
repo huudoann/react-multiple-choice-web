@@ -26,9 +26,11 @@ function SearchSection() {
     // }
   };
 
-  const NavigateToStudentExamResult = (examId) => {
+  const NavigateToStudentExamResult = (examId,) => {
+    localStorage.setItem("examId", examId);
+    localStorage.setItem("userId", foundStudent.userId);
     // Navigate to StudentExamResult page
-    window.location.href = `/student_exam_result?studentId=${searchStudentId}&examId=${examId}`;
+    window.location.href = `/result`;
 
   }
   const handleDownloadPDF = () => {
@@ -61,9 +63,13 @@ function SearchSection() {
     const fetchData = async () => {
       try {
         // Gọi API để lấy dữ liệu sinh viên dựa trên mã sinh viên
-        const response = await fetch(
-          `http://localhost:8080/api/user/all-users`
-        );
+        const response = await fetch(`http://localhost:8080/api/user/all-users`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch student data");
@@ -92,7 +98,7 @@ function SearchSection() {
       <div className="container">
         <h1>Tra cứu điểm sinh viên</h1>
         <form id="search-form" onSubmit={handleSubmit}>
-          <label htmlFor="student-id">Nhập mã sinh viên:</label>
+          <label htmlFor="student-id">Nhập mã sinh viên hoặc tên sinh viên:</label>
           <input
             type="text"
             id="student-id"
