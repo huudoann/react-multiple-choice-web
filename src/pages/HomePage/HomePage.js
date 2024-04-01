@@ -11,10 +11,10 @@ const ExamTable = ({ exams, startExam, goToSubmit }) => {
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Exam Name</th>
-                    <th>Exam Type</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
+                    <th>Tên bài thi</th>
+                    <th>Hình thức thi</th>
+                    <th>Thời gian bắt đầu</th>
+                    <th>Thời gian kết thúc</th>
                     <th>Trạng Thái</th>
                     <th>Ghi chú</th>
                 </tr>
@@ -193,16 +193,20 @@ const MainPage = () => {
         input = document.getElementById('searchInput');
         filter = input.value.toUpperCase();
         examInfoDiv = document.getElementById('examInfoList');
-        examDiv = examInfoDiv.getElementsByClassName('exam-info');
+        examDiv = examInfoDiv.getElementsByClassName('exam-name'); // Chỉ lấy các thẻ có class là "exam-name"
 
         for (let i = 0; i < examDiv.length; i++) {
             txtValue = examDiv[i].textContent || examDiv[i].innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                examDiv[i].style.display = '';
+                examDiv[i].parentNode.style.display = ''; // Hiển thị phần tử cha của thẻ có class là "exam-name"
             } else {
-                examDiv[i].style.display = 'none';
+                examDiv[i].parentNode.style.display = 'none'; // Ẩn phần tử cha của thẻ có class là "exam-name"
             }
         }
+    };
+
+    const handleInputChange = (event) => {
+        searchExam();
     };
 
     const goToSubmit = (examId) => {
@@ -222,7 +226,7 @@ const MainPage = () => {
                 <button className="exam-item" onClick={() => filterExams('Giữa kỳ')}>Giữa kỳ</button>
                 <button className="exam-item" onClick={() => filterExams('Cuối kỳ')}>Cuối kỳ</button>
                 <div style={{ position: 'relative', width: '70%' }}>
-                    <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên kỳ thi..." style={{ width: '97%', paddingLeft: '2rem' }} />
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên kỳ thi..." style={{ width: '97%', paddingLeft: '2rem' }} onChange={handleInputChange} />
                     <Search style={{ position: 'absolute', top: '50%', left: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
                 </div>
             </div>
