@@ -30,7 +30,7 @@ function App() {
           <Route exact path='/dashboard_admin' element={<DashboardAdmin />} />
           <Route exact path='/user_management' element={<UserManagement />} />
           <Route exact path='/statistics' element={<Statistics />} />
-          <Route exact path='/exam2' element={<CreateAndEditExams />} />
+          <Route exact path='/exam/:examId' element={<CreateAndEditExams />} />
           <Route exact path='/exam' element={<ExamPage />} />
           <Route exact path='/result' element={<ExamResult />} />
           <Route exact path='/student_table' element={<StudentTable />} />
