@@ -1,8 +1,14 @@
 import React, { useEffect } from 'react';
 import { read, utils } from 'xlsx';
 import './CreateAndEditExams.scss';
+import { useParams } from 'react-router-dom';
+
 
 const CreateAndEditExams = () => {
+
+    let { examId } = useParams();
+
+    console.log(examId);
     useEffect(() => {
         const examForm = document.getElementById("examForm");
         const questionList = document.getElementById("questionList");
@@ -87,13 +93,13 @@ const CreateAndEditExams = () => {
             <form id="examForm">
                 <label htmlFor="examName">Tên kỳ thi:</label>
                 <input type="text" id="examName" name="examName" required /><br />
-                <label htmlFor="description">Mô tả:</label>
+                {/* <label htmlFor="description">Mô tả:</label>
                 <textarea id="description" name="description"></textarea><br />
                 <label htmlFor="examType">Loại kỳ thi:</label>
                 <select id="examType" name="examType">
                     <option value="free">Tự do</option>
                     <option value="timed">Thời gian cụ thể</option>
-                </select><br />
+                </select><br /> */}
                 <label htmlFor="question">Danh sách câu hỏi:</label>
                 <div id="questionList"></div>
                 <button type="button" id="addQuestion">Thêm câu hỏi</button>
