@@ -1,83 +1,68 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { read, utils } from 'xlsx';
 import './CreateAndEditExams.scss';
 import { useParams } from 'react-router-dom';
 import AdminNavBar from '../../components/NavBar/AdminNavBar';
 import { endPoint } from '../../util/api/endPoint';
 
-
 const CreateAndEditExams = () => {
-    let { examId } = useParams();
-    console.log(examId);
+    const [examData, setExamData] = useState({
+        questions: [],
+        excelFile: null
+    });
 
-    useEffect(() => {
-        const addQuestionButton = document.getElementById("addQuestion");
-        addQuestionButton.addEventListener("click", handleAddQuestionClick);
+    const { examId } = useParams();
 
-        const createExamForm = async () => {
-            const response = await Request.Server.put(endPoint.createNewExam());
-            console.log(response);
-        }
+    const handleInputChange = (event, index) => {
+        const { name, value } = event.target;
+        const updatedQuestions = [...examData.questions];
+        updatedQuestions[index][name] = value;
+        setExamData({
+            ...examData,
+            questions: updatedQuestions
+        });
+    };
 
-        // Hủy đăng ký event listener khi component unmount
-        return () => {
-            addQuestionButton.removeEventListener("click", handleAddQuestionClick);
-        };
-    }, []); // [] để useEffect chỉ chạy một lần sau khi component được render
+    const handleFileInputChange = (event) => {
+        setExamData({
+            ...examData,
+            excelFile: event.target.files[0]
+        });
+    };
 
-    // Xử lý khi nhấn nút "Thêm câu hỏi"
     const handleAddQuestionClick = () => {
-        const questionList = document.getElementById("questionList");
-        const div = document.createElement("div");
+        const newQuestion = {
+            questionText: '',
+            answerOptionA: '',
+            answerOptionB: '',
+            answerOptionC: '',
+            answerOptionD: '',
+            correctAnswer: ''
+        };
+        setExamData({
+            ...examData,
+            questions: [...examData.questions, newQuestion]
+        });
+    };
 
-        // Tạo input cho câu hỏi
-        const questionInput = document.createElement("input");
-        questionInput.type = "text";
-        questionInput.name = "questions[]";
-        questionInput.placeholder = "Nhập câu hỏi";
-        div.appendChild(questionInput);
+    const handleRemoveQuestionClick = (index) => {
+        const updatedQuestions = [...examData.questions];
+        updatedQuestions.splice(index, 1);
+        setExamData({
+            ...examData,
+            questions: updatedQuestions
+        });
+    };
 
-        // Tạo input và label cho các đáp án và input radio đại diện cho đáp án đúng
-        for (let i = 0; i < 4; i++) {
-            const answerDiv = document.createElement("div");
-            answerDiv.classList.add("answerDiv");
-
-            // Tạo input radio đại diện cho đáp án đúng
-            const correctAnswerRadio = document.createElement("input");
-            correctAnswerRadio.type = "radio";
-            correctAnswerRadio.name = `correctAnswer_${questionList.childElementCount}`;
-            correctAnswerRadio.value = i;
-            answerDiv.appendChild(correctAnswerRadio);
-
-            // Tạo input cho đáp án
-            const answerInput = document.createElement("input");
-            answerInput.type = "text";
-            answerInput.name = `answers[${questionList.childElementCount}][${i}]`;
-            answerInput.placeholder = `Nhập đáp án ${String.fromCharCode(65 + i)}`;
-            answerDiv.appendChild(answerInput);
-
-            div.appendChild(answerDiv);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await Request.Server.put(endPoint.createNewExam(), examData);
+            console.log(response);
+            // Xử lý response từ API (nếu cần)
+        } catch (error) {
+            console.error('Error creating exam:', error);
         }
-
-        // Tạo nút xóa câu hỏi
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Xóa";
-        deleteButton.type = "button";
-        deleteButton.addEventListener("click", function () {
-            div.remove();
-        });
-        div.appendChild(deleteButton);
-
-        // Tạo nút chỉnh sửa câu hỏi
-        const editButton = document.createElement("button");
-        editButton.textContent = "Chỉnh sửa";
-        editButton.type = "button";
-        editButton.addEventListener("click", function () {
-            // sửa câu hỏi ở đay
-        });
-        div.appendChild(editButton);
-
-        questionList.appendChild(div);
     };
 
     return (
@@ -85,12 +70,32 @@ const CreateAndEditExams = () => {
             <div className="navigation">
                 <AdminNavBar />
             </div>
-            <form id="examForm">
-                <label htmlFor="question">Danh sách câu hỏi:</label>
-                <div id="questionList"></div>
-                <button type="button" id="addQuestion">Thêm câu hỏi</button>
+            <form id="examForm" onSubmit={handleSubmit}>
+                {examData.questions.map((question, index) => (
+                    <div key={index} className="question-container">
+                        <label htmlFor={`questionText${index}`}>Câu hỏi {index + 1}:</label>
+                        <input type="text" name="questionText" id={`questionText${index}`} value={question.questionText} onChange={(event) => handleInputChange(event, index)} />
+                        <label htmlFor={`answerOptionA${index}`}>Đáp án A:</label>
+                        <input type="text" name="answerOptionA" id={`answerOptionA${index}`} value={question.answerOptionA} onChange={(event) => handleInputChange(event, index)} />
+                        <label htmlFor={`answerOptionB${index}`}>Đáp án B:</label>
+                        <input type="text" name="answerOptionB" id={`answerOptionB${index}`} value={question.answerOptionB} onChange={(event) => handleInputChange(event, index)} />
+                        <label htmlFor={`answerOptionC${index}`}>Đáp án C:</label>
+                        <input type="text" name="answerOptionC" id={`answerOptionC${index}`} value={question.answerOptionC} onChange={(event) => handleInputChange(event, index)} />
+                        <label htmlFor={`answerOptionD${index}`}>Đáp án D:</label>
+                        <input type="text" name="answerOptionD" id={`answerOptionD${index}`} value={question.answerOptionD} onChange={(event) => handleInputChange(event, index)} />
+                        <label htmlFor={`correctAnswer${index}`}>Đáp án đúng:</label>
+                        <select name="correctAnswer" id={`correctAnswer${index}`} value={question.correctAnswer} onChange={(event) => handleInputChange(event, index)}>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                        <button type="button" onClick={() => handleRemoveQuestionClick(index)}>Xóa câu hỏi</button>
+                    </div>
+                ))}
+                <button type="button" onClick={handleAddQuestionClick}>Thêm câu hỏi</button>
                 <label htmlFor="excelInput" className="file-input-button">Lấy câu hỏi từ Excel
-                    <input type="file" id="excelInput" />
+                    <input type="file" id="excelInput" onChange={handleFileInputChange} />
                 </label>
                 <button type="submit">Lưu kỳ thi</button>
             </form>
