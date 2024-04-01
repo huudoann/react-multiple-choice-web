@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SearchStudentInformations.scss";
 
 function SearchSection() {
@@ -10,21 +10,26 @@ function SearchSection() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    try {
-      // Gọi API để lấy dữ liệu sinh viên dựa trên mã sinh viên
-      const response = await fetch(`http://localhost:3001/students`);
+    // try {
+    //   // Gọi API để lấy dữ liệu sinh viên dựa trên mã sinh viên
+    //   const response = await fetch(`http://localhost:8080/api/user/all-users`);
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch student data");
-      }
+    //   if (!response.ok) {
+    //     throw new Error("Failed to fetch student data");
+    //   }
 
-      const data = await response.json();
-      setStudents(data);
-    } catch (error) {
-      console.error("Error fetching student data:", error);
-    }
+    //   const data = await response.json();
+    //   setStudents(data);
+    // } catch (error) {
+    //   console.error("Error fetching student data:", error);
+    // }
   };
 
+  const NavigateToStudentExamResult = (examId) => {
+    // Navigate to StudentExamResult page
+    window.location.href = `/student_exam_result?studentId=${searchStudentId}&examId=${examId}`;
+
+  }
   const handleDownloadPDF = () => {
     window.print(); // In cả trang khi người dùng nhấn vào nút
   };
@@ -34,13 +39,53 @@ function SearchSection() {
   };
 
   const searchStudent = () => {
-    const found = students.find((student) => student.id === searchStudentId);
-    setFoundStudent(found);
+    console.log(students);
+    const foundById = students.find(
+      (student) => student.userId === parseInt(searchStudentId)
+    );
+    const foundByName = students.find(
+      (student) => student.username === searchStudentId
+    );
+    const found = foundById || foundByName;
     console.log(found);
+    setFoundStudent(found);
   };
 
+  // const getExamName = (examId) => {
+  //   const exam = exams.find((exam) => exam.examId === examId);
+  //   return exam ? exam.examName : "";
+  // };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Gọi API để lấy dữ liệu sinh viên dựa trên mã sinh viên
+        const response = await fetch(
+          `http://localhost:8080/api/user/all-users`
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch student data");
+        }
+
+        const studentData = await response.json();
+        setStudents(studentData);
+
+      } catch (error) {
+        console.error("Error fetching student data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    searchStudent();
+  }, [searchStudentId]);
+
   return (
-    <>
+    <div className="SearchStudentInformations">
+
       <div className="container">
         <h1>Tra cứu điểm sinh viên</h1>
         <form id="search-form" onSubmit={handleSubmit}>
@@ -56,7 +101,7 @@ function SearchSection() {
           <button
             onClick={() => {
               setSearchStudentId(inputStudentId); // Cập nhật giá trị của searchStudentId
-              searchStudent(); // Gọi hàm searchStudent sau khi đã cập nhật giá trị
+              // searchStudent(); // Gọi hàm searchStudent sau khi đã cập nhật giá trị
             }}
           >
             Tìm kiếm
@@ -67,31 +112,33 @@ function SearchSection() {
             <div>
               <div className="student-info">
                 <h2>Thông tin sinh viên</h2>
-                <p>Mã sinh viên: {foundStudent.id}</p>
-                <p>Tên sinh viên: {foundStudent.name}</p>
+                <p>Tên: {foundStudent.username} - MSV: {foundStudent.userId}</p>
               </div>
               <table>
                 <thead>
                   <tr>
                     <th>STT</th>
-                    <th>Môn học</th>
+                    <th>Bài thi</th>
                     <th>Thời gian tham gia</th>
+                    <th>Trạng thái</th>
                     <th>Điểm</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {foundStudent.subject.map((item, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{item.name}</td>
-                      <td>{item.time}</td>
-                      <td>{item.score}</td>
-                      <td>
-                        <button className="button">Xem chi tiết</button>
-                      </td>
-                    </tr>
-                  ))}
+                  {foundStudent &&
+                    foundStudent.examResults.map((item, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{item.examId}</td>
+                        <td>{}</td>
+                        <td>{item.status}</td>
+                        <td>{item.score}</td>
+                        <td>
+                          <button className="button" onClick={() => {NavigateToStudentExamResult(item.examId)}}>Xem chi tiết</button>
+                        </td> 
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
@@ -100,13 +147,13 @@ function SearchSection() {
             <p className="notFound">Không tìm thấy sinh viên!!!</p>
           )}
         </div>
+        <div className="getPDF">
+          <button onClick={handleDownloadPDF}>
+            Tải xuống báo cáo dưới dạng pdf
+          </button>
+        </div>
       </div>
-      <div className="getPDF">
-        <button onClick={handleDownloadPDF}>
-          Tải xuống báo cáo dưới dạng pdf
-        </button>
-      </div>
-    </>
+    </div>
   );
 }
 
