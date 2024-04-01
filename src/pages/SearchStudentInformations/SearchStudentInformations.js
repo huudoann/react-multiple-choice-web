@@ -26,9 +26,11 @@ function SearchSection() {
     // }
   };
 
-  const NavigateToStudentExamResult = (examId) => {
+  const NavigateToStudentExamResult = (examId,) => {
+    localStorage.setItem("examId", examId);
+    localStorage.setItem("userId", foundStudent.userId);
     // Navigate to StudentExamResult page
-    window.location.href = `/student_exam_result?studentId=${searchStudentId}&examId=${examId}`;
+    window.location.href = `/result`;
 
   }
   const handleDownloadPDF = () => {
