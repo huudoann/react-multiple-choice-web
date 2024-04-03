@@ -97,6 +97,32 @@ const CreateAndEditExams = () => {
                 <label htmlFor="excelInput" className="file-input-button">Lấy câu hỏi từ Excel
                     <input type="file" id="excelInput" onChange={handleFileInputChange} />
                 </label>
+                {/* 
+                lấy ra data của từng câu hỏi một theo dạng
+                {
+                    "quesionText": ...,
+                    "answerOptionA": ...,
+                    "answerOptionB": ...,
+                    "answerOptionC": ...,
+                    "answerOptionD": ...,
+                    "correctAnswer": ...
+                    "examId": id của kỳ thi,
+                }
+                10 câu hỏi thì loop qua 10 câu rồi gửi từng câu về server, có thể lưu vào array
+                arr_questions = [{data câu 1}, {data câu 2}, ...]
+                xong loop qua từng câu
+                arr_questions.forEach(async (question) => {
+                    try {
+                        viết thêm cái api endpoint trong util/api/endPoint.js không thì k gọi được cái
+                        createQuestion() kia đâu
+                        const response = await Request.Server.post(endPoint.createQuestion(), question);
+                        console.log(response);
+                        // Xử lý response từ API (nếu cần)
+                    } catch (error) {
+                        console.error('Error creating question:', error);
+                    }
+                })
+                */}
                 <button type="submit">Lưu kỳ thi</button>
             </form>
         </div>
