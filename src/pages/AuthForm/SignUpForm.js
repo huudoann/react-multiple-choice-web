@@ -35,8 +35,8 @@ const AuthPage = () => {
 
         <div className='form-box'>
           <div className="auth-tabs">
-            <button className={currentForm === '/' ? 'active' : ''} onClick={() => navigate('/')}>Sign Up</button>
-            <button className={currentForm === 'login' ? 'active' : ''} onClick={() => navigate('/login')}>Log In</button>
+            <button className={currentForm === '/' ? 'active' : ''} onClick={() => navigate('/')}>Đăng ký</button>
+            <button className={currentForm === 'login' ? 'active' : ''} onClick={() => navigate('/login')}>Đăng nhập</button>
             {/* <button className="close-icon" onClick={toggleCloseButton}><FontAwesomeIcon icon={faTimes} /></button> */}
           </div>
 

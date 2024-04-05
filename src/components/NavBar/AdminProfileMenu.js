@@ -62,8 +62,12 @@ export default function CustomizedMenus() {
     // Xóa dữ liệu và điều hướng về trang đăng nhập/ đăng ký khi click logout
     const handleLogout = () => {
         localStorage.clear();
-        navigate('/admin-login');
+        navigate('/login');
     };
+
+    const handleCreateNewAdmin = () => {
+        navigate('/admin-register');
+    }
 
     return (
         <div>
@@ -90,9 +94,9 @@ export default function CustomizedMenus() {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose} disableRipple>
+                <MenuItem onClick={handleCreateNewAdmin} disableRipple>
                     <PersonOutline />
-                    Tài khoản
+                    Tạo tài khoản admin mới
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem onClick={handleLogout} disableRipple>

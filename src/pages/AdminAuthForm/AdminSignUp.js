@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import './AdminSignUp.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
+import { TextField, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
@@ -11,8 +9,6 @@ const SignUpForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
@@ -33,7 +29,7 @@ const SignUpForm = () => {
             return;
         }
         else if (!password.trim()) {
-            setError("Nhập mật khẩu đểu tiếp tục!");
+            setError("Nhập mật khẩu để tiếp tục!");
             return;
         }
         else if (!passwordRegex.test(password.trim())) {
@@ -61,11 +57,7 @@ const SignUpForm = () => {
         try {
             const response = await axios.post(apiUrl, userData);
             console.log('Đăng ký thành công:', response.data);
-
-            const token = response.data.token;
-            console.log(token)
-            localStorage.setItem('token', token);
-            navigate('/admin-login');
+            navigate('/dashboard_admin');
 
             return response.data;
         } catch (error) {
@@ -86,74 +78,61 @@ const SignUpForm = () => {
 
     return (
         <div className="auth-form">
-            <div className='username-container'>
-                <label>Tên đăng nhập:</label>
-                <input
-                    type="text"
+            <Box
+                component="form"
+                sx={{
+                    '& .MuiTextField-root': { marginBottom: '1rem', width: '100%' },
+                }}
+                noValidate
+                autoComplete="off"
+            >
+                <TextField
+                    required
+                    id="outlined-required"
+                    label="Tên đăng nhập"
                     value={username}
                     onChange={handleInputUsernameChange}
                     placeholder='Nhập tên người dùng'
-                    required />
-            </div>
+                />
 
-            <div className='email-container'>
-                <label>Email:</label>
-                <input
-                    type="text"
+                <TextField
+                    required
+                    id="outlined-required"
+                    label="Email"
                     value={email}
                     onChange={handleInputEmailChange}
                     placeholder='Nhập email của bạn'
-                    required />
-            </div>
+                />
 
-            <div className="password-container">
-                <div className='password'>
-                    <label>Mật khẩu:</label>
-                    <input
-                        type={showPassword ? 'text' : 'password'}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder='Nhập mật khẩu của bạn'
-                        required
+                <TextField
+                    required
+                    id="outlined-password-input"
+                    label="Mật khẩu"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder='Nhập mật khẩu'
+                    type="password"
+                    autoComplete="current-password"
+                />
 
-                    />
-                    <FontAwesomeIcon
-                        icon={showPassword ? faEyeSlash : faEye}
-                        className="toggle-password-icon1"
-                        onClick={() => setShowPassword(!showPassword)}
-                    />
-                </div>
+                <TextField
+                    required
+                    id="outlined-password-input"
+                    label="Xác nhận mật khẩu"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder='Xác thực mật khẩu của bạn'
+                    type="password"
+                    autoComplete="current-password"
+                />
 
-
-                <div className='confirm-password' style={{ marginBottom: '.5rem' }}>
-                    <label>Xác nhận mật khẩu:</label>
-                    <input
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder='Xác thực mật khẩu của bạn'
-                        required
-                    />
-                    <FontAwesomeIcon
-                        icon={showConfirmPassword ? faEyeSlash : faEye}
-                        className="toggle-password-icon2"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    />
-                </div>
-
-            </div>
-
-            <div className='error-box'>
                 {error && <ErrorMessage message={error} />}
-            </div>
+                <Button variant="contained" onClick={handleSignUp} style={{ width: '100%', marginBottom: '1rem', padding: '1rem' }}>Đăng ký</Button>
 
-            <div className='button'>
-                <button type="button" onClick={handleSignUp}>Đăng ký quản trị viên</button>
-            </div>
-
-            <button className='switch-status-btn' type='button' onClick={() => navigate('/admin-login')}>
-                <span>Đã có tài khoản? Đăng nhập ngay!</span>
-            </button>
+                <Button className='switch-status-btn' type='button' onClick={() => navigate('/login')} style={{ width: '100%', border: '1px solid #1976d2', padding: '1rem' }}>
+                    <span>Đã có tài khoản? Đăng nhập ngay!</span>
+                </Button>
+            </Box>
         </div>
     );
 };

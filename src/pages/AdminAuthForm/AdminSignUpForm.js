@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminAuth.scss';
-import AdminLogIn from './AdminLogIn.js';
+import Login from '../AuthForm/LogIn.js';
 import AdminSignUp from './AdminSignUp.js';
 
 const AuthPage = () => {
@@ -26,11 +26,10 @@ const AuthPage = () => {
         <div className='form-box'>
           <div className="auth-tabs">
             <button className={currentForm === '/admin-register' ? 'active' : ''} onClick={() => navigate('/admin-register')}>Đăng ký quản trị viên</button>
-            <button className={currentForm === 'admin-login' ? 'active' : ''} onClick={() => navigate('/admin-login')}>Đăng nhập quản trị viên</button>
           </div>
 
           {currentForm === 'admin-login' ? (
-            <AdminLogIn switchForm={switchForm} />
+            <Login switchForm={switchForm} />
           ) : (
             <AdminSignUp switchForm={switchForm} />
           )}

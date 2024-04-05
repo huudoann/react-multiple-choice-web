@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { TextField, Box, Button } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
-const LoginForm = () => {
+const AdminLogIn = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -32,12 +32,10 @@ const LoginForm = () => {
       console.log('Đăng nhập thành công:', response.data);
       const token = response.data.token;
       const userId = response.data.userId;
-      const username = response.data.username;
-      console.log(token);
       localStorage.setItem('token', token);
       localStorage.setItem('userId', userId);
-      localStorage.setItem('user_name', username);
-      navigate('/home');
+      // Gọi hàm lấy thông tin người dùng sau khi đăng nhập
+      await getUserInfo(username);
 
       return response.data;
     } catch (error) {
@@ -46,13 +44,34 @@ const LoginForm = () => {
     }
   };
 
+  const getUserInfo = async (username) => {
+    const apiUrl = `http://localhost:8080/api/user/${username}`;
+
+    try {
+      const response = await axios.get(apiUrl);
+      console.log('Thông tin người dùng:', response.data);
+
+      const userRole = response.data.role;
+      console.log(userRole);
+      if (userRole === 'ADMIN') {
+        // Chuyển hướng đến trang ADMIN
+        navigate('/dashboard_admin');
+      } else {
+        // Chuyển hướng đến trang USER
+        navigate('/home');
+      }
+    } catch (error) {
+      console.error('Lỗi khi lấy thông tin người dùng:', error.message);
+      setError("Lỗi khi lấy thông tin người dùng!");
+    }
+  };
+
   const handleInputUsernameChange = (e) => {
     setUsername(e.target.value);
   };
 
-
   return (
-    <div className="auth-form">
+    <div className='auth-form'>
       <Box
         component="form"
         sx={{
@@ -89,12 +108,9 @@ const LoginForm = () => {
         </Button>
       </Box>
 
-      {/* Switch between Login and SignUp Form */}
-
-
-    </div>
+    </div >
   );
 };
 
-export default LoginForm;
+export default AdminLogIn;
 
