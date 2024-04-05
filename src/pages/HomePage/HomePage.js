@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './HomePage.scss';
 import NavBar from '../../components/NavBar/NavBar';
-import { Search } from '@mui/icons-material';
+import { Search, AccountCircle } from '@mui/icons-material';
+import { Button, Box, ButtonGroup, TextField, FormControl, InputLabel, Input, InputAdornment } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,13 +31,13 @@ const ExamTable = ({ exams, startExam, goToSubmit }) => {
                         <td>{exam.status}</td>
                         <td className='note-class'>
                             {exam.status === 'Đã hoàn thành' ? (
-                                <p className='done' onClick={() => goToSubmit(exam.examId)} >
+                                <Button className='done' onClick={() => goToSubmit(exam.examId)} >
                                     Xem kết quả
-                                </p>
+                                </Button>
                             ) : (
-                                <p onClick={() => startExam(exam.examId)}>
+                                <Button onClick={() => startExam(exam.examId)}>
                                     Làm bài
-                                </p>
+                                </Button>
                             )}
                         </td>
                     </tr>
@@ -123,25 +124,14 @@ const MainPage = () => {
         }
     };
 
-    const searchExam = () => {
-        let input, filter, examInfoDiv, examDiv, txtValue;
-        input = document.getElementById('searchInput');
-        filter = input.value.toUpperCase();
-        examInfoDiv = document.getElementById('examInfoList');
-        examDiv = examInfoDiv.getElementsByClassName('exam-name'); // Chỉ lấy các thẻ có class là "exam-name"
-
-        for (let i = 0; i < examDiv.length; i++) {
-            txtValue = examDiv[i].textContent || examDiv[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                examDiv[i].parentNode.style.display = ''; // Hiển thị phần tử cha của thẻ có class là "exam-name"
-            } else {
-                examDiv[i].parentNode.style.display = 'none'; // Ẩn phần tử cha của thẻ có class là "exam-name"
-            }
-        }
+    const searchExam = (event) => {
+        const filter = event.target.value.toUpperCase();
+        const filteredExams = exams.filter(exam => exam.examName.toUpperCase().includes(filter));
+        setFilteredExams(filteredExams);
     };
 
     const handleInputChange = (event) => {
-        searchExam();
+        searchExam(event);
     };
 
     const goToSubmit = (examId) => {
@@ -156,14 +146,28 @@ const MainPage = () => {
                 <h1>Hệ Thống Thi Trắc Nghiệm Trực Tuyến</h1>
             </header>
             <div id="examList">
-                <button className="exam-item" onClick={() => filterExams('Tất cả')}>Tất cả</button>
-                <button className="exam-item" onClick={() => filterExams('Luyện tập')}>Luyện tập</button>
-                <button className="exam-item" onClick={() => filterExams('Giữa kỳ')}>Giữa kỳ</button>
-                <button className="exam-item" onClick={() => filterExams('Cuối kỳ')}>Cuối kỳ</button>
-                <div style={{ position: 'relative', width: '70%' }}>
-                    <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên kỳ thi..." style={{ width: '97%', paddingLeft: '2rem' }} onChange={handleInputChange} />
-                    <Search style={{ position: 'absolute', top: '50%', left: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                </div>
+                <Box
+                    sx={{
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        '& > *': {
+                            m: 1,
+                        },
+                    }}
+                >
+                    <ButtonGroup size="small" aria-label="Small button group">
+                        <Button className="exam-item" onClick={() => filterExams('Tất cả')}>Tất cả</Button>
+                        <Button className="exam-item" onClick={() => filterExams('Luyện tập')}>Luyện tập</Button>
+                        <Button className="exam-item" onClick={() => filterExams('Giữa kỳ')}>Giữa kỳ</Button>
+                        <Button className="exam-item" onClick={() => filterExams('Cuối kỳ')}>Cuối kỳ</Button>
+                    </ButtonGroup>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '120%', marginRight: '2rem' }}>
+                    <TextField id="input-search" label="Tìm kiếm" className='search-box' variant="standard" onChange={handleInputChange} style={{ position: 'relative', border: 'none', }} />
+                </Box>
             </div>
 
             <div id="examInfoList">

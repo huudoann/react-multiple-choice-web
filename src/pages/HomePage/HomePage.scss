@@ -63,10 +63,9 @@
 
     .exam-item {
         background-color: inherit;
-        border: none;
         color: white;
         margin-left: .25rem;
-        padding: 1rem 2rem;
+        padding: 0.5rem 2rem;
         text-align: center;
         text-decoration: none;
         display: inline-block;
@@ -74,21 +73,26 @@
         cursor: pointer;
         border-radius: 1rem;
         white-space: nowrap;
-        /* Ngăn text xuống dòng */
+        border: 1px solid #dc3545;
     }
 
     .exam-item:hover {
         background-color: #005983;
         color: yellow;
+        border: 1px solid #ccc;
+    }
+
+    #input-search label {
+        color: #fff !important;
+    }
+
+    .search-box {
+        flex-grow: 1;
     }
 
     input[type=text] {
-        flex-grow: 1;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 1rem;
+        padding: 1rem;
         box-sizing: border-box;
-        margin: .5rem;
     }
 
     #examInfoList {
@@ -197,24 +201,19 @@
     }
 
     .note-class {
-        p {
-            cursor: pointer;
+        button {
+            padding: 0.5rem 2rem;
             border: 1px solid #dc3545;
             background-color: #dc3545;
             color: #fff;
-            font-size: 1rem;
-            padding: 0.5rem 0;
-            border-radius: .5rem;
         }
 
-        p.done {
-            cursor: pointer;
-            border: 1px solid green;
-            background-color: green;
-            color: #fff;
-            font-size: 1rem;
-            padding: 0.5rem 0;
-            border-radius: .5rem;
+        .done {
+            button {
+                border: 1px solid green;
+                background-color: green;
+                color: #fff;
+            }
         }
     }
 

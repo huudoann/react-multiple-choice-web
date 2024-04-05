@@ -19,10 +19,13 @@ const ExamPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const answerOptions = ['A.', 'B.', 'C.', 'D.'];
+    const [examAttemptId, setExamAttemptId] = useState(null);
+    const [isAttemptSent, setIsAttemptSent] = useState(false);
 
     //lấy thời gian ngay khi vào làm bài
     useEffect(() => {
         setStartTime(new Date().toLocaleString());
+        postExamAttemptData();
     }, []);
 
     //bộ đếm ngược
@@ -188,6 +191,47 @@ const ExamPage = () => {
         return formattedDateTime;
     };
 
+    const postExamAttemptData = async () => {
+        const token = localStorage.getItem("token");
+        const examId = localStorage.getItem("examId");
+        const userId = localStorage.getItem("userId");
+
+        if (!token) {
+            throw new Error("Không tìm thấy token trong Localstorage!");
+        }
+
+        try {
+            if (!isAttemptSent) {
+                const startTime = new Date().toLocaleString(); // Thời gian bắt đầu
+                const postData = {
+                    userId: userId,
+                    examId: examId,
+                    startTime: convertDateTimeFormat(startTime),
+                    endTime: convertDateTimeFormat(startTime),
+                };
+
+                // Gửi dữ liệu ngay khi vào trang
+                const response = await axios.post('http://localhost:8080/api/exam-attempt/create-exam-attempt', postData, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                // Lưu ID của exam attempt vào state và localStorage
+                const examAttemptId = response.data.examAttemptId;
+                setExamAttemptId(examAttemptId);
+                localStorage.setItem("examAttemptId", examAttemptId);
+
+                console.log('Gửi exam attempt thành công:', response);
+                setIsAttemptSent(true); // Đánh dấu là exam attempt đã được gửi
+            } else {
+                console.log('Exam attempt đã được gửi, không gửi lại.');
+            }
+        } catch (error) {
+            console.error('Lỗi khi gửi exam attempt:', error.message);
+        }
+    };
+
     const handleConfirmSubmit = async () => {
         setOpenDialog(false);
         setSubmitted(true);
@@ -196,6 +240,7 @@ const ExamPage = () => {
         const token = localStorage.getItem("token");
         const examId = localStorage.getItem("examId");
         const userId = localStorage.getItem("userId");
+        const examAttemptId = localStorage.getItem("examAttemptId");
 
         if (!token) {
             throw new Error("Không có token trong Localstorage!");
@@ -227,25 +272,19 @@ const ExamPage = () => {
             console.error('Lỗi khi gửi dữ liệu:', error.message);
         }
 
+        const endTime = new Date().toLocaleString();
         try {
-            const endTime = new Date().toLocaleString(); // Thời gian kết thúc
-            let formattedStartTime = convertDateTimeFormat(startTime)
-            let formattedEndTime = convertDateTimeFormat(endTime)
-
-            const postData = {
-                userId: userId,
-                examId: examId,
-                startTime: formattedStartTime,
-                endTime: formattedEndTime,
+            const putData = {
+                endTime: convertDateTimeFormat(endTime),
             };
-            const response = await axios.post('http://localhost:8080/api/exam-attempt/create-exam-attempt', postData, {
+            const response = await axios.put(`http://localhost:8080/api/exam-attempt/${examAttemptId}`, putData, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log('Gửi exam attempt thành công:', response);
+            console.log('Cập nhật endTime của exam attempt thành công:', response);
         } catch (error) {
-            console.error('Lỗi khi gửi exam attempt:', error.message);
+            console.error('Lỗi khi cập nhật endTime của exam attempt:', error.message);
         }
     };
 
