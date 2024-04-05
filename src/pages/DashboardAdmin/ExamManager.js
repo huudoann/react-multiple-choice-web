@@ -54,14 +54,6 @@ const ExamManager = () => {
             const endTime = document.getElementById('endTime').value
 
             if (examName.trim() !== '') {
-                // if (examMode === 'Luyện tập') {
-                //     examDate = ''
-                // } else {
-                //     if (examDate.trim() === '') {
-                //         alert('Vui lòng chọn ngày/tháng cho kỳ thi.')
-                //         return
-                //     }
-                // }
                 // sao api này có 5 trường dữ liệu mà web a thấy có 3 thôi v 
                 // tùy vào backend nếu be mà validate thì gửi lên sẽ lỗi 
                 // thế thì mấy cái ko có thì a tạm truyền data giống postman nhé

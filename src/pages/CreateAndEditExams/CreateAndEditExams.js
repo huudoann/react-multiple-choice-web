@@ -4,6 +4,7 @@ import './CreateAndEditExams.scss';
 import { useParams } from 'react-router-dom';
 import AdminNavBar from '../../components/NavBar/AdminNavBar';
 import { endPoint } from '../../util/api/endPoint';
+import { Request } from '../../util/axios';
 
 const CreateAndEditExams = () => {
     const [examData, setExamData] = useState({
@@ -12,6 +13,24 @@ const CreateAndEditExams = () => {
     });
 
     const { examId } = useParams();
+
+    useEffect(() => {
+        const fetchData = async (examId) => {
+            try {
+                const response = await Request.Server.get(endPoint.getAllQuestionByExamId(examId));
+                setExamData({
+                    questions: response,
+                    excelFile: null
+                })
+                // Set examData with the response data
+            } catch (error) {
+                console.error('Error fetching exam data:', error);
+            }
+        };
+        if (examId) {
+            fetchData(examId);
+        }
+    }, [examId])
 
     const handleInputChange = (event, index) => {
         const { name, value } = event.target;
@@ -57,13 +76,51 @@ const CreateAndEditExams = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await Request.Server.put(endPoint.createNewExam(), examData);
-            console.log(response);
-            // Xử lý response từ API (nếu cần)
+            console.log(examData, examId);
+            for (let i = 0; i < examData.questions.length; i++) {
+                const response = await Request.Server.post(endPoint.createNewExamQuestions(examId), {
+                    ...examData.questions[i],
+                })
+                console.log(response);
+            }
+            // const createQuestionPromises = examData.questions.map(async (question) => {
+            //     const response = await Request.Server.post(endPoint.createQuestion(), {
+            //         ...question,
+            //         examId: examId // Add examId to each question object
+            //     });
+            //     console.log(response);
+            //     return response;
+            // });
+            // Wait for all requests to complete
+            // const responses = await Promise.all(createQuestionPromises);
+            // console.log(responses);
         } catch (error) {
-            console.error('Error creating exam:', error);
+            console.error('Error creating questions:', error);
         }
     };
+
+    const submitExam = async () => {
+        try {
+            const questionText = document.getElementById('questionText').value;
+            const answerOptionA = document.getElementById('answerOptionA').value;
+            const answerOptionB = document.getElementById('answerOptionB').value;
+            const answerOptionC = document.getElementById('answerOptionC').value;
+            const answerOptionD = document.getElementById('answerOptionD').value;
+            const correctAnswer = document.getElementById('correctAnswer').value;
+            const response = await Request.Server.post(endPoint.createQuestion(examId), {
+                questionText,
+                answerOptionA,
+                answerOptionB,
+                answerOptionC,
+                answerOptionD,
+                correctAnswer,
+                examId
+            });
+            console.log(response);
+        } catch (error) {
+
+        }
+    }
 
     return (
         <div className="content-container">
