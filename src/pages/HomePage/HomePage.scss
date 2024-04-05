@@ -93,6 +93,7 @@
     input[type=text] {
         padding: 1rem;
         box-sizing: border-box;
+        color: white;
     }
 
     #examInfoList {
@@ -206,14 +207,6 @@
             border: 1px solid #dc3545;
             background-color: #dc3545;
             color: #fff;
-        }
-
-        .done {
-            button {
-                border: 1px solid green;
-                background-color: green;
-                color: #fff;
-            }
         }
     }
 

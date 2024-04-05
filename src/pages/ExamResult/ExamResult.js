@@ -87,6 +87,7 @@ const ExamResult = () => {
 
     const handleCloseButtonClick = () => {
         navigate(`/home`);
+        localStorage.removeItem("examId");
     };
 
     return (

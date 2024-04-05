@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './HomePage.scss';
 import NavBar from '../../components/NavBar/NavBar';
-import { Search, AccountCircle } from '@mui/icons-material';
-import { Button, Box, ButtonGroup, TextField, FormControl, InputLabel, Input, InputAdornment } from '@mui/material';
+import { Button, Box, ButtonGroup, TextField } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,7 +30,7 @@ const ExamTable = ({ exams, startExam, goToSubmit }) => {
                         <td>{exam.status}</td>
                         <td className='note-class'>
                             {exam.status === 'Đã hoàn thành' ? (
-                                <Button className='done' onClick={() => goToSubmit(exam.examId)} >
+                                <Button className='done' onClick={() => goToSubmit(exam.examId)} style={{ backgroundColor: 'green', border: '1px solid green' }}>
                                     Xem kết quả
                                 </Button>
                             ) : (
@@ -49,15 +48,16 @@ const ExamTable = ({ exams, startExam, goToSubmit }) => {
 
 const MainPage = () => {
     const [exams, setExams] = useState([]);
-    const [examResults, setExamResults] = useState([]);
     const [filteredExams, setFilteredExams] = useState([]);
     const [showModal, setShowModal] = useState(false); // State để kiểm soát việc hiển thị modal
     const [examIdToStart, setExamIdToStart] = useState(null); // State để lưu ID của bài thi muốn bắt đầu
+    const [startTime, setStartTime] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         fetchData();
     }, []);
+
 
     const fetchData = async () => {
         let token = localStorage.getItem('token');
@@ -73,6 +73,7 @@ const MainPage = () => {
                             'Authorization': `Bearer ${token}`
                         }
                     }),
+
                     axios.get(`http://localhost:8080/api/exam-result/user/${userId}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`
@@ -109,8 +110,56 @@ const MainPage = () => {
         setShowModal(false);
     };
 
+    const convertDateTimeFormat = (dateTimeInput) => {
+        const dateTime = new Date(dateTimeInput);
+        const day = dateTime.getDate();
+        const month = dateTime.getMonth() + 1;
+        const year = dateTime.getFullYear();
+        const hours = dateTime.getHours();
+        const minutes = dateTime.getMinutes();
+        const seconds = dateTime.getSeconds();
+
+        // Đảm bảo hiển thị 2 chữ số cho ngày, tháng, giờ, phút, giây
+        const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}0`;
+        return formattedDateTime;
+    };
+
+    const postExamAttemptData = async () => {
+        const token = localStorage.getItem("token");
+        const examId = localStorage.getItem("examId");
+        const userId = localStorage.getItem("userId");
+        setStartTime(new Date().toLocaleString());
+
+        if (!token) {
+            throw new Error("Không tìm thấy token trong Localstorage!");
+        }
+        try {
+            const startTime = new Date().toLocaleString(); // Thời gian bắt đầu
+            const postData = {
+                userId: userId,
+                examId: examId,
+                startTime: convertDateTimeFormat(startTime),
+                endTime: convertDateTimeFormat(startTime),
+            };
+            // Gửi dữ liệu ngay khi vào trang
+            const response = await axios.post('http://localhost:8080/api/exam-attempt/create-exam-attempt', postData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            // Lưu ID của exam attempt vào state và localStorage
+            const examAttemptId = response.data.examAttemptId;
+            localStorage.setItem("examAttemptId", examAttemptId);
+            console.log('Gửi exam attempt thành công:', response);
+        } catch (error) {
+            console.error('Lỗi khi gửi exam attempt:', error.message);
+        }
+    };
+
     const onConfirm = () => {
+
         localStorage.setItem('examId', examIdToStart);
+        postExamAttemptData();
         navigate(`/exam`);
         setShowModal(false);
     };
@@ -166,7 +215,16 @@ const MainPage = () => {
                 </Box>
 
                 <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '120%', marginRight: '2rem' }}>
-                    <TextField id="input-search" label="Tìm kiếm" className='search-box' variant="standard" onChange={handleInputChange} style={{ position: 'relative', border: 'none', }} />
+                    <TextField
+                        id="input-search"
+                        label="Tìm kiếm"
+                        className='search-box'
+                        variant="standard"
+                        onChange={handleInputChange}
+                        InputLabelProps={{
+                            style: { color: 'white', fontSize: '1rem' }
+                        }}
+                        style={{ position: 'relative', border: 'none', color: 'white' }} />
                 </Box>
             </div>
 

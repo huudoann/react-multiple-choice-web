@@ -15,18 +15,8 @@ const ExamPage = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(false);
     const [userScore, setUserScore] = useState(0);
-    const [startTime, setStartTime] = useState(null);
     const navigate = useNavigate();
-    const location = useLocation();
     const answerOptions = ['A.', 'B.', 'C.', 'D.'];
-    const [examAttemptId, setExamAttemptId] = useState(null);
-    const [isAttemptSent, setIsAttemptSent] = useState(false);
-
-    //lấy thời gian ngay khi vào làm bài
-    useEffect(() => {
-        setStartTime(new Date().toLocaleString());
-        postExamAttemptData();
-    }, []);
 
     //bộ đếm ngược
     useEffect(() => {
@@ -145,7 +135,6 @@ const ExamPage = () => {
         }
 
         try {
-
             const postData = {
                 userId: userId,
                 examId: examId,
@@ -191,46 +180,7 @@ const ExamPage = () => {
         return formattedDateTime;
     };
 
-    const postExamAttemptData = async () => {
-        const token = localStorage.getItem("token");
-        const examId = localStorage.getItem("examId");
-        const userId = localStorage.getItem("userId");
 
-        if (!token) {
-            throw new Error("Không tìm thấy token trong Localstorage!");
-        }
-
-        try {
-            if (!isAttemptSent) {
-                const startTime = new Date().toLocaleString(); // Thời gian bắt đầu
-                const postData = {
-                    userId: userId,
-                    examId: examId,
-                    startTime: convertDateTimeFormat(startTime),
-                    endTime: convertDateTimeFormat(startTime),
-                };
-
-                // Gửi dữ liệu ngay khi vào trang
-                const response = await axios.post('http://localhost:8080/api/exam-attempt/create-exam-attempt', postData, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                // Lưu ID của exam attempt vào state và localStorage
-                const examAttemptId = response.data.examAttemptId;
-                setExamAttemptId(examAttemptId);
-                localStorage.setItem("examAttemptId", examAttemptId);
-
-                console.log('Gửi exam attempt thành công:', response);
-                setIsAttemptSent(true); // Đánh dấu là exam attempt đã được gửi
-            } else {
-                console.log('Exam attempt đã được gửi, không gửi lại.');
-            }
-        } catch (error) {
-            console.error('Lỗi khi gửi exam attempt:', error.message);
-        }
-    };
 
     const handleConfirmSubmit = async () => {
         setOpenDialog(false);
@@ -286,6 +236,8 @@ const ExamPage = () => {
         } catch (error) {
             console.error('Lỗi khi cập nhật endTime của exam attempt:', error.message);
         }
+
+        localStorage.removeItem("examAttemptId");
     };
 
     const handleDialogClose = () => {

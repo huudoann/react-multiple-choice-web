@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import './LogIn.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { TextField, Box, Button } from '@mui/material';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
-const LoginForm = ({ switchForm }) => {
+const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -53,56 +50,47 @@ const LoginForm = ({ switchForm }) => {
     setUsername(e.target.value);
   };
 
-  const handleForgotPassword = () => {
-    // console.log('Forgot Password:', email);
-  };
 
   return (
     <div className="auth-form">
-      <div className='username-container'>
-        <label>Tên đăng nhập:</label>
-        <input
-          type="text"
+      <Box
+        component="form"
+        sx={{
+          '& .MuiTextField-root': { marginBottom: '1rem', width: '100%' },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField
+          required
+          id="outlined-required"
+          label="Tên đăng nhập"
           value={username}
           onChange={handleInputUsernameChange}
           placeholder='Nhập tên người dùng'
-          required />
-      </div>
+        />
 
-      <div className="password-container">
-        <div className="header-of-password">
-          <label>Mật khẩu:</label>
-        </div>
-
-
-        <input
-          type={showPassword ? 'text' : 'password'}
+        <TextField
+          required
+          id="outlined-password-input"
+          label="Mật khẩu"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder='Nhập mật khẩu'
-          required
+          type="password"
+          autoComplete="current-password"
         />
-        <FontAwesomeIcon
-          icon={showPassword ? faEyeSlash : faEye}
-          className="toggle-password-icon"
-          onClick={() => setShowPassword(!showPassword)}
-        />
-      </div>
 
-      <div className='noti-terms'>
-        <p></p>
-      </div>
+        {error && <ErrorMessage message={error} />}
+        <Button variant="contained" onClick={handleLogin} style={{ width: '100%', marginBottom: '1rem', padding: '1rem' }}>Đăng nhập</Button>
 
-      {error && <ErrorMessage message={error} />}
-
-      <div className='button'>
-        <button type="button" onClick={handleLogin}>Đăng nhập</button>
-      </div>
+        <Button className='switch-status-btn' type='button' onClick={() => navigate('/')} style={{ width: '100%', border: '1px solid #1976d2', padding: '1rem' }}>
+          <span>Chưa có tài khoản? Đăng ký ngay!</span>
+        </Button>
+      </Box>
 
       {/* Switch between Login and SignUp Form */}
-      <button className='switch-status-btn' type='button' onClick={() => navigate('/')}>
-        <span>Chưa có tài khoản? Đăng ký ngay!</span>
-      </button>
+
 
     </div>
   );
