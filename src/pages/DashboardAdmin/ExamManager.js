@@ -233,14 +233,15 @@ const ExamManager = () => {
                         <MenuItem value="giua ki">Giữa kỳ</MenuItem>
                         <MenuItem value="cuoi ki">Cuối kỳ</MenuItem>
                     </TextField>
-                    <label htmlFor="startTime">Ngày bắt đầu:</label>
-                    <input type="datetime-local" id="startTime" />
-                    {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateTimeField id="startTime" label="Basic date field" />
-                    </LocalizationProvider> */}
-                    <label htmlFor="endTime">Ngày kết thúc:</label>
-                    <input type="datetime-local" id="endTime" />
                 </div>
+                <div className="input-group">
+                        <label htmlFor="startTime">Ngày bắt đầu:</label>
+                        <input type="datetime-local" id="startTime" />
+                    </div>
+                    <div className="input-group">
+                        <label htmlFor="endTime">Ngày kết thúc:</label>
+                        <input type="datetime-local" id="endTime" />
+                    </div>
                 <div className="button-container">
                     {/* <button onClick={addExam}>Tạo kỳ thi</button> */}
                     <Button onClick={addExam} variant="contained" color='success'>Tạo kỳ thi</Button>

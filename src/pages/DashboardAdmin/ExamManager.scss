@@ -13,23 +13,30 @@
     justify-content: space-between;
     flex: 1;
     align-items: center;
-    /* Căn giữa các phần tử con theo chiều dọc */
 
     label {
         margin-right: 1rem;
     }
 }
 
-.create-container input,
-.create-container select {
-    flex-grow: 1;
-    /* Phần tử input và select chiếm toàn bộ không gian có sẵn trong input-container */
-    margin-right: 10px;
-    padding: .5rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.input-container{
+    display: flex;
+    margin-right: 10px; 
+    margin-left: 10px; 
+    
 }
 
+.input-group {
+    margin-bottom: 10px; 
+    display: flex;
+    flex-direction: column;
+
+    label{
+        display: inline;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+}
 .create-container button {
     padding: 8px 16px;
     background-color: #4caf50;
