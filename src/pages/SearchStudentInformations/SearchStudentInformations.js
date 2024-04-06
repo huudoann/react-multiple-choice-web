@@ -27,7 +27,7 @@ const SearchSection = () => {
     // }
   };
 
-  const NavigateToStudentExamResult = (examId,) => {
+  const NavigateToStudentExamResult = (examId) => {
     localStorage.setItem("examId", examId);
     localStorage.setItem("userId", foundStudent.userId);
     // Navigate to StudentExamResult page
