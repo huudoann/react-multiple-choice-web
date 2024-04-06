@@ -32,6 +32,7 @@ export const endPoint = {
     createNewExamQuestions: (examId) => `${baseUrl}/question/create-question/${examId}`,
     getQuestionById: (id) => `${baseUrl}/question/${id}`,
     getAllQuestionByExamId: (examId) => `${baseUrl}/question/get-all-questions/${examId}`,
+    getAllStatistic: () => `${baseUrl}/exam-statistic/get-all-statistic`,
     // ví dụ cái api get exam by id
     // baseUrl là cái khai báo bên trên chỉ thêm đoạn sau chữ api thôi
     // truyền id vào đây
