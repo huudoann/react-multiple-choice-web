@@ -34,23 +34,9 @@ const AdminLogIn = () => {
       const userId = response.data.userId;
       localStorage.setItem('token', token);
       localStorage.setItem('userId', userId);
+      localStorage.setItem('user_name', username);
       // Gọi hàm lấy thông tin người dùng sau khi đăng nhập
-      await getUserInfo(username);
-
-      return response.data;
-    } catch (error) {
-      console.error('Lỗi khi đăng nhập:', error.message);
-      setError("Thông tin đăng nhập không chính xác! Hãy thử lại!");
-    }
-  };
-
-  const getUserInfo = async (username) => {
-    const apiUrl = `http://localhost:8080/api/user/${username}`;
-
-    try {
-      const response = await axios.get(apiUrl);
-      console.log('Thông tin người dùng:', response.data);
-
+      // await getUserInfo(username);
       const userRole = response.data.role;
       console.log(userRole);
       if (userRole === 'ADMIN') {
@@ -60,11 +46,35 @@ const AdminLogIn = () => {
         // Chuyển hướng đến trang USER
         navigate('/home');
       }
+
+      return response.data;
     } catch (error) {
-      console.error('Lỗi khi lấy thông tin người dùng:', error.message);
-      setError("Lỗi khi lấy thông tin người dùng!");
+      console.error('Lỗi khi đăng nhập:', error.message);
+      setError("Thông tin đăng nhập không chính xác! Hãy thử lại!");
     }
   };
+
+  // const getUserInfo = async (username) => {
+  //   const apiUrl = `http://localhost:8080/api/user/${username}`;
+
+  //   try {
+  //     const response = await axios.get(apiUrl);
+  //     console.log('Thông tin người dùng:', response.data);
+
+  //     const userRole = response.data.role;
+  //     console.log(userRole);
+  //     if (userRole === 'ADMIN') {
+  //       // Chuyển hướng đến trang ADMIN
+  //       navigate('/dashboard_admin');
+  //     } else {
+  //       // Chuyển hướng đến trang USER
+  //       navigate('/home');
+  //     }
+  //   } catch (error) {
+  //     console.error('Lỗi khi lấy thông tin người dùng:', error.message);
+  //     setError("Lỗi khi lấy thông tin người dùng!");
+  //   }
+  // };
 
   const handleInputUsernameChange = (e) => {
     setUsername(e.target.value);

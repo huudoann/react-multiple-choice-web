@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import AdminNavBar from '../../components/NavBar/AdminNavBar';
 import { endPoint } from '../../util/api/endPoint';
 import { Request } from '../../util/axios';
+import { Box, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 
 const CreateAndEditExams = () => {
     const [examData, setExamData] = useState({
@@ -36,6 +37,7 @@ const CreateAndEditExams = () => {
         const { name, value } = event.target;
         const updatedQuestions = [...examData.questions];
         updatedQuestions[index][name] = value;
+        console.log(updatedQuestions)
         setExamData({
             ...examData,
             questions: updatedQuestions
@@ -140,13 +142,25 @@ const CreateAndEditExams = () => {
                         <input type="text" name="answerOptionC" id={`answerOptionC${index}`} value={question.answerOptionC} onChange={(event) => handleInputChange(event, index)} />
                         <label htmlFor={`answerOptionD${index}`}>Đáp án D:</label>
                         <input type="text" name="answerOptionD" id={`answerOptionD${index}`} value={question.answerOptionD} onChange={(event) => handleInputChange(event, index)} />
-                        <label htmlFor={`correctAnswer${index}`}>Đáp án đúng:</label>
-                        <select name="correctAnswer" id={`correctAnswer${index}`} value={question.correctAnswer} onChange={(event) => handleInputChange(event, index)}>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
-                        </select>
+
+                        <Box sx={{ minWidth: 120 }}>
+                            <FormControl fullWidth>
+                                <InputLabel id={`correctAnswer${index}`}>Đáp án đúng</InputLabel>
+                                <Select
+                                    labelId={`correctAnswer${index}`}
+                                    name="correctAnswer"
+                                    value={question.correctAnswer}
+                                    label="Đáp án đúng:"
+                                    onChange={(event) => handleInputChange(event, index)}
+                                >
+                                    <MenuItem value="A">A</MenuItem>
+                                    <MenuItem value="B">B</MenuItem>
+                                    <MenuItem value="C">C</MenuItem>
+                                    <MenuItem value="D">D</MenuItem>
+
+                                </Select>
+                            </FormControl>
+                        </Box>
                         <button type="button" onClick={() => handleRemoveQuestionClick(index)}>Xóa câu hỏi</button>
                     </div>
                 ))}
