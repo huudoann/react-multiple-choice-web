@@ -4,7 +4,6 @@ import AdminNavBar from '../../components/NavBar/AdminNavBar';
 import { endPoint } from '../../util/api/endPoint';
 import { Request } from '../../util/axios';
 import axios from 'axios'
-import SimpleCharts from './BarChart';
 
 const StudentTable = () => {
   const [users, setUsers] = useState([]);
@@ -135,8 +134,6 @@ const StudentTable = () => {
             ))}
           </tbody>
         </table>
-        <h1>Biểu đồ phân phối điểm trung bình</h1>
-        <SimpleCharts/>
         <div className="getPDF">
           <button onClick={handleDownloadPDF}>Xuất PDF</button>
         </div>
