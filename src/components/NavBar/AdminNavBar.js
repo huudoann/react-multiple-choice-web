@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, ButtonGroup } from '@mui/material';
-import { Add, Home, Leaderboard, Person, PersonSearch } from '@mui/icons-material';
+import { Add, Home, Leaderboard, Person, PersonSearch, TableChart } from '@mui/icons-material';
 import AdminProfileMenu from './AdminProfileMenu';
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +18,10 @@ const NavBar = () => {
 
     const handleStudentTable = () => {
         navigate('/student_table');
+    }
+
+    const handleExamstatistic = () => {
+        navigate('/exam_statistic');
     }
 
     const handleStudentInfo = () => {
@@ -43,6 +47,15 @@ const NavBar = () => {
                 >
                     <Leaderboard style={{ marginRight: '.25rem' }} />
                     Thống kê điểm sinh viên
+                </Button>
+
+                <Button
+                    className="nav-btn"
+                    onClick={handleExamstatistic}
+                    style={{ backgroundColor: 'inherit', color: '#fff', margin: '0 .25rem', borderRadius: '1rem', border: 'none', padding: '.25rem .5rem' }}
+                >
+                    <TableChart style={{ marginRight: '.25rem' }} />
+                    Thống kê theo kỳ thi
                 </Button>
 
                 <Button

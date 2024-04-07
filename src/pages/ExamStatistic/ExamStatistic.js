@@ -68,8 +68,10 @@ export default function ExamStatistic() {
   };
 
   return (
-    <>
-      <AdminNavBar />
+    <div className="exam-statistic-container">
+      <div className="navigation">
+        <AdminNavBar />
+      </div>
       <h1>Biều đồ phân phối điểm</h1>
       <BarChart
         xAxis={[
@@ -103,6 +105,6 @@ export default function ExamStatistic() {
       <div className="getPDF">
         <button onClick={handleDownloadPDF}>Xuất PDF</button>
       </div>
-    </>
+    </div>
   );
 }
