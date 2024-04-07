@@ -68,42 +68,44 @@ export default function ExamStatistic() {
   };
 
   return (
-    <div className="exam-statistic-container">
+    <div className="exam-statistic">
       <div className="navigation">
         <AdminNavBar />
       </div>
-      <h1>Biều đồ phân phối điểm</h1>
-      <BarChart
-        xAxis={[
-          {
-            id: "barCategories",
-            data: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-            scaleType: "band",
-          },
-        ]}
-        series={[
-          {
-            data: dataset,
-            color: "#cf443a",
-          },
-        ]}
-        width={1000}
-        height={500}
-      />
-      <div>
-        <select
-          value={optionsExamId}
-          onChange={(event) => setOptionsExamId(event.target.value)}
-        >
-          {listOptionsExamId.map((option) => (
-            <option key={option.examId} value={option.examId}>
-              {option.examName}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="getPDF">
-        <button onClick={handleDownloadPDF}>Xuất PDF</button>
+      <div className="container">
+        <h1>Biều đồ phân phối điểm</h1>
+        <BarChart
+          xAxis={[
+            {
+              id: "barCategories",
+              data: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+              scaleType: "band",
+            },
+          ]}
+          series={[
+            {
+              data: dataset,
+              color: "#cf443a",
+            },
+          ]}
+          width={1000}
+          height={500}
+        />
+        <div>
+          <select
+            value={optionsExamId}
+            onChange={(event) => setOptionsExamId(event.target.value)}
+          >
+            {listOptionsExamId.map((option) => (
+              <option key={option.examId} value={option.examId}>
+                {option.examName}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="getPDF">
+          <button onClick={handleDownloadPDF}>Xuất PDF</button>
+        </div>
       </div>
     </div>
   );

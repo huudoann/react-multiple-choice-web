@@ -1,5 +1,53 @@
-.exam-statistic-container {
+.exam-statistic {
     .navigation {
         min-height: 2.5rem;
     }
+    .getPDF {
+        background-color: #cf443a;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-left: 73%;
+    }
+    
+    button {
+        font-weight: 600;
+        background-color: #cf443a;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        font-size: small;
+    }
+
+    .css-1jhfw0t-MuiResponsiveChart-container {
+        margin: 0 auto;
+        width: 80%;
+    }
+
+    h1 {
+        text-align: center;
+        color: black;
+        margin: 30px;
+    }
+
+    select {
+        padding: 10px;
+        border-radius: 5px;
+        border: 2px solid black;
+        margin-left: 250px ;
+    }
+
+    .container {
+        max-width: calc(100vw - 48px);
+        width: 1170px;
+        margin: 50px auto;
+        padding: 100px;
+        background-color: #ffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
 }
