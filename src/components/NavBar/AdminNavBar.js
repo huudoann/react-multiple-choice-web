@@ -42,7 +42,7 @@ const NavBar = () => {
                     style={{ backgroundColor: '#dc3545', color: '#fff', margin: '0 .25rem', borderRadius: '1rem', border: 'none', padding: '.25rem .5rem' }}
                 >
                     <Leaderboard style={{ marginRight: '.25rem' }} />
-                    Thống kê kỳ thi
+                    Thống kê điểm sinh viên
                 </Button>
 
                 <Button
