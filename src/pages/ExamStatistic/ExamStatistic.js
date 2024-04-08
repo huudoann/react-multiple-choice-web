@@ -96,6 +96,7 @@ export default function ExamStatistic() {
             value={optionsExamId}
             onChange={(event) => setOptionsExamId(event.target.value)}
           >
+            <option value="">-- Chọn một kỳ thi --</option>
             {listOptionsExamId.map((option) => (
               <option key={option.examId} value={option.examId}>
                 {option.examName}
