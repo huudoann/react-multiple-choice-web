@@ -62,7 +62,7 @@ export default function CustomizedMenus() {
     // Xóa dữ liệu và điều hướng về trang đăng nhập/ đăng ký khi click logout
     const handleLogout = () => {
         localStorage.clear();
-        navigate('/');
+        navigate('/login');
     };
 
     return (

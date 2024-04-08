@@ -31,6 +31,8 @@ export const endPoint = {
     //question
     createNewExamQuestions: (examId) => `${baseUrl}/question/create-question/${examId}`,
     getQuestionById: (id) => `${baseUrl}/question/${id}`,
+    editQuestionByQuestionId: (questionId) => `${baseUrl}/question/edit/${questionId}`,
+    deleteQuestionbyQuestionId: (questionId) => `${baseUrl}/question/delete/${questionId}`,
     getAllQuestionByExamId: (examId) => `${baseUrl}/question/get-all-questions/${examId}`,
     getAllStatistic: () => `${baseUrl}/exam-statistic/get-all-statistic`,
     // ví dụ cái api get exam by id

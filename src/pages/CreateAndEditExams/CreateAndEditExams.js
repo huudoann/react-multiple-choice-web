@@ -5,13 +5,16 @@ import { useParams } from 'react-router-dom';
 import AdminNavBar from '../../components/NavBar/AdminNavBar';
 import { endPoint } from '../../util/api/endPoint';
 import { Request } from '../../util/axios';
-import { Box, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { Box, MenuItem, Select, InputLabel, FormControl, Dialog, DialogActions, DialogTitle, Button } from '@mui/material';
 
 const CreateAndEditExams = () => {
     const [examData, setExamData] = useState({
         questions: [],
         excelFile: null
     });
+
+    const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
+    const [questionToDeleteIndex, setQuestionToDeleteIndex] = useState(null);
 
     const { examId } = useParams();
 
@@ -37,7 +40,7 @@ const CreateAndEditExams = () => {
         const { name, value } = event.target;
         const updatedQuestions = [...examData.questions];
         updatedQuestions[index][name] = value;
-        console.log(updatedQuestions)
+        updatedQuestions[index].changed = true; // Đánh dấu câu hỏi đã thay đổi
         setExamData({
             ...examData,
             questions: updatedQuestions
@@ -67,13 +70,39 @@ const CreateAndEditExams = () => {
     };
 
     const handleRemoveQuestionClick = (index) => {
+        setQuestionToDeleteIndex(index);
+        setConfirmDeleteDialogOpen(true);
+    };
+
+    const confirmDeleteQuestion = async () => {
+        // Xác nhận xóa câu hỏi
+        const index = questionToDeleteIndex;
+        const questionToRemove = examData.questions[index];
+        if (questionToRemove.questionId) {
+            try {
+                // Gửi yêu cầu xóa câu hỏi đến máy chủ
+                const response = await Request.Server.delete(endPoint.deleteQuestionbyQuestionId(questionToRemove.questionId));
+                console.log("Xóa câu hỏi thành công", response);
+            } catch (error) {
+                console.error('Lỗi xóa câu hỏi:', error);
+            }
+        }
+        // Xóa câu hỏi khỏi danh sách câu hỏi hiện tại
         const updatedQuestions = [...examData.questions];
         updatedQuestions.splice(index, 1);
         setExamData({
             ...examData,
             questions: updatedQuestions
         });
+        // Đóng dialog xác nhận xóa
+        setConfirmDeleteDialogOpen(false);
     };
+
+    const handleCloseConfirmDeleteDialog = () => {
+        setConfirmDeleteDialogOpen(false);
+        setQuestionToDeleteIndex(null);
+    };
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -98,6 +127,42 @@ const CreateAndEditExams = () => {
             // console.log(responses);
         } catch (error) {
             console.error('Error creating questions:', error);
+        }
+    };
+
+    const handleChangeSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const updatedQuestions = []; // Danh sách câu hỏi cũ đã thay đổi
+            const newQuestions = []; // Danh sách câu hỏi mới
+
+            examData.questions.forEach(question => {
+                if (question.changed) {
+                    updatedQuestions.push(question);
+                } else {
+                    newQuestions.push(question);
+                }
+            });
+
+            // Thực hiện các yêu cầu PUT cho các câu hỏi cũ đã thay đổi
+            for (let i = 0; i < updatedQuestions.length; i++) {
+                const question = updatedQuestions[i];
+                if (question.questionId) { // Kiểm tra xem câu hỏi có questionId hay không
+                    const response = await Request.Server.put(endPoint.editQuestionByQuestionId(question.questionId), {
+                        ...question,
+                    });
+                    console.log("Sửa thành công", response);
+                } else { // Nếu không có questionId, thực hiện yêu cầu POST để tạo câu hỏi mới
+                    const response = await Request.Server.post(endPoint.createNewExamQuestions(examId), {
+                        ...question,
+                    });
+                    console.log("Thêm mới thành công", response);
+                }
+            }
+
+            console.log("Tất cả các thay đổi đã được lưu.");
+        } catch (error) {
+            console.error('Lỗi sửa câu hỏi:', error);
         }
     };
 
@@ -129,7 +194,7 @@ const CreateAndEditExams = () => {
             <div className="navigation">
                 <AdminNavBar />
             </div>
-            <form id="examForm" onSubmit={handleSubmit}>
+            <form id="examForm">
                 {examData.questions.map((question, index) => (
                     <div key={index} className="question-container">
                         <label htmlFor={`questionText${index}`}>Câu hỏi {index + 1}:</label>
@@ -194,8 +259,20 @@ const CreateAndEditExams = () => {
                     }
                 })
                 */}
-                <button type="submit">Lưu kỳ thi</button>
+                {examData.questions.length === 0 ? (
+                    <button type="button" onClick={handleSubmit}>Tạo kỳ thi</button>
+                ) : (
+                    <button type="submit" onClick={handleChangeSubmit}>Lưu thay đổi</button>
+                )}
             </form>
+
+            <Dialog open={confirmDeleteDialogOpen} onClose={handleCloseConfirmDeleteDialog}>
+                <DialogTitle>Bạn có chắc chắn muốn xóa câu hỏi này?</DialogTitle>
+                <DialogActions>
+                    <Button onClick={handleCloseConfirmDeleteDialog} color="primary">Hủy</Button>
+                    <Button onClick={confirmDeleteQuestion} color="secondary">Đồng ý</Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 }
