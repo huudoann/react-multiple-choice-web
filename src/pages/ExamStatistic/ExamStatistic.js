@@ -5,7 +5,7 @@ import AdminNavBar from "../../components/NavBar/AdminNavBar";
 import "./ExamStatistic.scss";
 
 export default function ExamStatistic() {
-  const [optionsExamId, setOptionsExamId] = useState("1");
+  const [optionsExamId, setOptionsExamId] = useState("");
   const [dataset, setDataset] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [listOptionsExamId, setListOptionsExamId] = useState([]);
 
