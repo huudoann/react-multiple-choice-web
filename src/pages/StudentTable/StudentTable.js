@@ -86,16 +86,18 @@ const StudentTable = () => {
   };
 
   const getAvgScore = (student) => {
-    if (student.examResults) {
+    if (student.examResults && student.examResults.length > 0) {
       let sum = 0;
       student.examResults.forEach((examResult) => {
         sum += examResult.score;
       });
-      
-      return Number(sum / student.examResults.length).toFixed(2);
+      const avgScore = sum / student.examResults.length;
+      return avgScore.toFixed(2); // Trả về điểm trung bình làm tròn đến 2 chữ số thập phân
+    } else {
+      return "Sinh viên chưa hoàn thành bài thi nào"; // Trường hợp không có dữ liệu kết quả bài kiểm tra
     }
-    return 0;
   };
+  
 
   const filteredStudents = users.filter((student) =>
     student.username.toLowerCase().includes(filter.toLowerCase())
