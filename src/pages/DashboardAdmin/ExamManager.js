@@ -16,6 +16,13 @@ const ExamManager = () => {
     const [editExamId, setEditExamId] = useState(null)
     console.log(exams)
 
+    const [selectedValue, setSelectedValue] = useState('luyen tap');
+
+    // Event handler to handle changes in the TextField
+    const handleChange = (event) => {
+        setSelectedValue(event.target.value);
+    };
+
 
     useEffect(() => {
         const getListExam = async () => {
@@ -48,7 +55,7 @@ const ExamManager = () => {
         // mấy cái api này nên try catch nhé tránh lỗi
         try {
             const examName = document.getElementById('exam_name').value
-            const examType = document.getElementById('exam_mode').value
+            const examType = selectedValue
             const description = document.getElementById('description').value
             const startTime = document.getElementById('startTime').value
             const endTime = document.getElementById('endTime').value
@@ -228,20 +235,26 @@ const ExamManager = () => {
                         <option value="cuoi ki">Cuối kỳ</option>
                     </select> */}
                     {/* <InputLabel id="examTypeId">Loại kì thi</InputLabel> */}
-                    <TextField id='exam_mode' label="Chọn kì thi" select style={{ minWidth: '150px' }}>
-                        <MenuItem selected="true" value="luyen tap">Luyện tập</MenuItem>
-                        <MenuItem value="giua ki">Giữa kỳ</MenuItem>
-                        <MenuItem value="cuoi ki">Cuối kỳ</MenuItem>
+                    <TextField
+                        id='exam_mode'
+                        label="Chọn kì thi"
+                        select style={{ minWidth: '150px' }}
+                        value={selectedValue} // Set the selected value
+                        onChange={handleChange} // Handle changes
+                    >
+                        <MenuItem selected="true" value="Luyện tập">Luyện tập</MenuItem>
+                        <MenuItem value="Giữa kỳ">Giữa kỳ</MenuItem>
+                        <MenuItem value="Cuối kỳ">Cuối kỳ</MenuItem>
                     </TextField>
                 </div>
                 <div className="input-group">
-                        <label htmlFor="startTime">Ngày bắt đầu:</label>
-                        <input type="datetime-local" id="startTime" />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="endTime">Ngày kết thúc:</label>
-                        <input type="datetime-local" id="endTime" />
-                    </div>
+                    <label htmlFor="startTime">Ngày bắt đầu:</label>
+                    <input type="datetime-local" id="startTime" />
+                </div>
+                <div className="input-group">
+                    <label htmlFor="endTime">Ngày kết thúc:</label>
+                    <input type="datetime-local" id="endTime" />
+                </div>
                 <div className="button-container">
                     {/* <button onClick={addExam}>Tạo kỳ thi</button> */}
                     <Button onClick={addExam} variant="contained" color='success'>Tạo kỳ thi</Button>
