@@ -4,8 +4,17 @@ import NavBar from '../../components/NavBar/NavBar';
 import { Button, Box, ButtonGroup, TextField } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 const ExamTable = ({ exams, startExam, goToSubmit }) => {
+    const isExamDisabled = (startTime, endTime) => {
+        const currentDate = moment();
+        const start = moment(startTime, 'DD/MM/YYYY HH:mm:ss');
+        const end = moment(endTime, 'DD/MM/YYYY HH:mm:ss');
+        console.log('currentDate', currentDate, 'start', start, 'end', end);
+        return currentDate.isBefore(start) || currentDate.isAfter(end);
+    };
+
     return (
         <table>
             <thead>
@@ -34,8 +43,12 @@ const ExamTable = ({ exams, startExam, goToSubmit }) => {
                                     Xem kết quả
                                 </Button>
                             ) : (
-                                <Button onClick={() => startExam(exam.examId)}>
-                                    Làm bài
+                                <Button
+                                    disabled={isExamDisabled(exam.startTime, exam.endTime)}
+                                    onClick={() => startExam(exam.examId)}
+                                    style={{ backgroundColor: isExamDisabled(exam.startTime, exam.endTime) ? 'gray' : '', color: isExamDisabled(exam.startTime, exam.endTime) ? 'white' : '', border: isExamDisabled(exam.startTime, exam.endTime) ? 'gray 1px solid' : '' }}
+                                >
+                                    {isExamDisabled(exam.startTime, exam.endTime) ? 'Ngoài thời gian' : 'Làm bài'}
                                 </Button>
                             )}
                         </td>
