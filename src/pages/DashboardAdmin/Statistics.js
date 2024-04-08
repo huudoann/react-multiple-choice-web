@@ -28,7 +28,7 @@ const Statistics = () => {
                         <div key={index}>
                             <p id="examStatisticId">Kỳ thi: {exam.examId}</p>
                             <p id='examName'>Tên kỳ thi: {exam.examName}</p>
-                            <p id='totalParticipants'>Số lượng người dùng tham gia: {exam.participants}</p>
+                            <p id='totalParticipants'>Số lượt người dùng tham gia: {exam.totalParticipants}</p>
                             <p id='completionRate'>Tỉ lệ hoàn thành: {exam.completionRate}%</p>
                             <p id='averageScore'>Điểm trung bình: {exam.averageScore}</p>
                             <hr />

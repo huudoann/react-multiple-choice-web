@@ -135,6 +135,8 @@ const ExamManager = () => {
         const updatedExams = [...exams]
         const exam = updatedExams[index]
         console.log(exam)
+        console.log(exam.examId)
+        setEditExamId(exam.examId)
         const examName = prompt('Nhập tên mới cho kỳ thi:', exam.examName)
         if (examName !== null) {
             let examType = prompt('Nhập loại kì thi mới cho kỳ thi:', exam.examType)
@@ -142,33 +144,31 @@ const ExamManager = () => {
             let endTime = exam.endTime
             let description = exam.description
 
-            if (examType !== 'Luyện tập') {
-                startTime = prompt('Nhập ngày bắt đầu mới cho kỳ thi (dd/mm/yyyy hh:mm:ss):', exam.startTime)
-                if (startTime !== null) {
-                    const regex = /^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}:\d{2}$/
-                    if (!regex.test(startTime)) {
-                        alert('Ngày không hợp lệ! Vui lòng nhập theo định dạng (dd/mm/yyyy hh:mm:ss).')
-                        return
-                    }
-                } else {
-                    startTime = exam.startTime
+            startTime = prompt('Nhập ngày bắt đầu mới cho kỳ thi (dd/mm/yyyy hh:mm:ss):', exam.startTime)
+            if (startTime !== null) {
+                const regex = /^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}:\d{2}$/
+                if (!regex.test(startTime)) {
+                    alert('Ngày không hợp lệ! Vui lòng nhập theo định dạng (dd/mm/yyyy hh:mm:ss).')
+                    return
                 }
+            } else {
+                startTime = exam.startTime
+            }
 
-                endTime = prompt('Nhập ngày kết thúc mới cho kỳ thi (dd/mm/yyyy hh:mm:ss):', exam.endTime)
-                if (endTime !== null) {
-                    const regex = /^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}:\d{2}$/
-                    if (!regex.test(endTime)) {
-                        alert('Ngày không hợp lệ! Vui lòng nhập theo định dạng (dd/mm/yyyy hh:mm:ss).')
-                        return
-                    }
-                } else {
-                    endTime = exam.endTime
+            endTime = prompt('Nhập ngày kết thúc mới cho kỳ thi (dd/mm/yyyy hh:mm:ss):', exam.endTime)
+            if (endTime !== null) {
+                const regex = /^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}:\d{2}$/
+                if (!regex.test(endTime)) {
+                    alert('Ngày không hợp lệ! Vui lòng nhập theo định dạng (dd/mm/yyyy hh:mm:ss).')
+                    return
                 }
+            } else {
+                endTime = exam.endTime
+            }
 
-                description = prompt('Nhập ngày mô tả mới cho kỳ thi:', exam.description)
-                if (description === null) {
-                    description = exam.description
-                }
+            description = prompt('Nhập ngày mô tả mới cho kỳ thi:', exam.description)
+            if (description === null) {
+                description = exam.description
             }
 
             updatedExams[index] = {
@@ -180,8 +180,8 @@ const ExamManager = () => {
             }
             // Gọi API edit exam với examId
             try {
-                console.log(editExamId)
-                await Request.Server.put(endPoint.editExamById(editExamId), updatedExams[index])
+                console.log(exam.examId)
+                await Request.Server.put(endPoint.editExamById(exam.examId), updatedExams[index])
                 setExams(prevExams => prevExams.filter(exam => exam.deleteExamId !== deleteExamId))
             } catch (error) {
                 console.error('Error edit exam:', error)
