@@ -1,7 +1,13 @@
 .exam-statistic {
     .navigation {
         min-height: 2.5rem;
+        max-height: 2.5rem;
+
+        button {
+            justify-content: center;
+        }
     }
+
     .getPDF {
         background-color: #cf443a;
         color: white;
@@ -10,18 +16,20 @@
         text-decoration: none;
         display: inline-block;
         margin-left: 73%;
+
+        button {
+            font-weight: 600;
+            background-color: #cf443a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: small;
+        }
     }
-    
-    button {
-        font-weight: 600;
-        background-color: #cf443a;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-        font-size: small;
-    }
+
+
 
     .css-1jhfw0t-MuiResponsiveChart-container {
         margin: 0 auto;
@@ -38,7 +46,7 @@
         padding: 10px;
         border-radius: 5px;
         border: 2px solid black;
-        margin-left: 250px ;
+        margin-left: 250px;
     }
 
     .container {
@@ -49,5 +57,5 @@
         background-color: #ffff;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
+    }
 }

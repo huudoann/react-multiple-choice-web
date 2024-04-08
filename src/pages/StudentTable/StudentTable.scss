@@ -3,6 +3,11 @@
 
   .navigation {
     min-height: 2.5rem;
+    max-height: 2.5rem;
+
+    button {
+      justify-content: center;
+    }
   }
 
   body {
